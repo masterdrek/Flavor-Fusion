@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import { IngredientSchema } from "./ingredient.schema.js";
+import { CookwareSchema } from "./cookware-schema.js";
 
 const RecipeSchema = new mongoose.Schema(
   {
@@ -12,6 +14,25 @@ const RecipeSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    tags: {
+      type: [String],
+      required: true,
+    },
+    ingredients: {
+      type: [IngredientSchema],
+      default: undefined,
+      required: true,
+    },
+    cookware: {
+      type: [CookwareSchema],
+      default: undefined,
+      required: true,
+    },
+    creator: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User"
+    }
   },
   { collection: "recipe_list" }
 );

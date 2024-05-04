@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import recipeModel from "../models/recipe.js";
+import inventoryModel from "../models/inventory.js";
 
 mongoose.set("debug", true);
 
@@ -10,10 +10,16 @@ mongoose
   })
   .catch((error) => console.log(error));
 
-function getRecipes() {
-  return recipeModel.find();
+function addInventory(inventory) {
+  const InventoryToAdd = new inventoryModel(inventory);
+  const promise = InventoryToAdd.save();
+  return promise;
 }
 
+function getInventorys() {
+  return inventoryModel.find();
+}
 export default {
-  getRecipes
+  addInventory,
+  getInventorys
 };
