@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import Inventory from "./inventory.js";
 
 const UserSchema = new mongoose.Schema(
   {
