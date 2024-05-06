@@ -28,6 +28,7 @@ async function addUserByNameAndUsername(newName, newUsername) {
   return promise;
 }
 
+
 export default {
   getUsers,
   addUserByNameAndUsername

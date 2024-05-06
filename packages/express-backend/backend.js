@@ -22,6 +22,15 @@ app.get("/recipes", async (req, res) => {
   res.send({recipes_list : result})
 });
 
+app.get("/recipes/:userId", async (req, res) => {
+  const id = req.params["userId"]
+  try {
+    const result = await recipeServices.getUserMadeRecipes(id);
+    res.send({recipes_list : result})
+  } catch (error) {
+    res.status(404).send("Resource not found.");
+  }
+});
 
 app.get("/inventory", async (req, res) => {
   const result = await inventoryServices.getInventorys();
@@ -40,6 +49,12 @@ app.post("/users", async (req, res) => {
   res.status(400).send()
 });
 
+app.post("/recipes", async (req, res) => {
+  const recipeToAdd = req.body;
+  const result = await recipeServices.createRecipe(recipeToAdd);
+  res.status(201).send(result)
+
+});
 
 app.listen(port, () => {
   console.log(
