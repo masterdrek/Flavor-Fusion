@@ -1,14 +1,7 @@
-import mongoose from "mongoose";
 import inventoryModel from "../models/inventory.js";
+import connect from "../mongoSetup.js";
 
-mongoose.set("debug", true);
-
-mongoose
-  .connect("mongodb+srv://dereklee1124:ZyamlvIALHi9dh5F@flavorfusiondb.3dxynzp.mongodb.net/?retryWrites=true&w=majority&appName=FlavorFusionDB", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .catch((error) => console.log(error));
+connect()
 
 function addInventory(inventory) {
   const InventoryToAdd = new inventoryModel(inventory);

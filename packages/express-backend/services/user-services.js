@@ -1,14 +1,8 @@
-import mongoose from "mongoose";
 import userModel from "../models/user.js";
 import inventoryServices from "./inventory-services.js";
-mongoose.set("debug", true);
+import connect from "../mongoSetup.js";
 
-mongoose
-  .connect("mongodb+srv://dereklee1124:ZyamlvIALHi9dh5F@flavorfusiondb.3dxynzp.mongodb.net/?retryWrites=true&w=majority&appName=FlavorFusionDB", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .catch((error) => console.log(error));
+connect()
 
 function getUsers() {
   return userModel.find();
