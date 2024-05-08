@@ -4,9 +4,27 @@ import connect from "../mongoSetup.js";
 connect()
 
 function addInventory(inventory) {
-  const InventoryToAdd = new inventoryModel(inventory);
-  const promise = InventoryToAdd.save();
+  const inventoryToAdd = new inventoryModel(inventory);
+  const promise = inventoryToAdd.save();
   return promise;
+}
+
+function addCookware(newCookware, id) {
+   return inventoryModel.findById(id).then(
+    (oldInventory)=> {
+      return inventoryModel.updateOne(
+        {_id: id}, 
+        {$set: {"cookware" : [...oldInventory.cookware, newCookware]}});
+    });  
+}
+
+function addIngredient(newIngredient, id) {
+  return inventoryModel.findById(id).then(
+   (oldInventory)=> {
+     return inventoryModel.updateOne(
+       {_id: id}, 
+       {$set: {"ingredients" : [...oldInventory.ingredients, newIngredient]}});
+   });  
 }
 
 function getInventorys() {
@@ -14,5 +32,7 @@ function getInventorys() {
 }
 export default {
   addInventory,
-  getInventorys
+  getInventorys,
+  addCookware,
+  addIngredient
 };
