@@ -1,30 +1,31 @@
 import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-      trim: true
+    {
+        name: {
+            type: String,
+            required: true,
+            trim: true
+        },
+        username: {
+            type: String,
+            trim: true,
+            required: true
+        },
+        inventory: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            ref: "Inventory"
+        },
+        saved_recipes: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                required: true,
+                ref: "Recipe"
+            }
+        ]
     },
-    username: {
-      type: String,
-      trim: true,
-      required: true
-    },
-    inventory: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: "Inventory"
-    },
-    saved_recipes: [{
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: "Recipe"
-    }]
-
-  },
-  { collection: "user_list" }
+    { collection: "user_list" }
 );
 
 const User = mongoose.model("User", UserSchema);
