@@ -1,0 +1,76 @@
+body {
+    margin: 0;
+    /* reset default margin and padding it to zero */
+    padding: 0;
+}
+
+.navbar {
+    background-color: #0d74f5;
+    /* Dark blue background for the navbar */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    height: 100vh;
+    /* Full height */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    /* Subtle shadow for depth */
+}
+
+.navbuttons {
+    width: 100%;
+    /* Full width of the sidebar */
+}
+
+.logo {
+    margin-bottom: 20px;
+    /* Space below the logo */
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    
+}
+
+.logo img {
+    width: 50px;
+    /* Size of the logo */
+    height: 100px;
+    /* Maintain aspect ratio */
+    margin-right: 10px;
+    /* Space between logo image and text */
+}
+
+.navbuttons a {
+    display: flex;
+    align-items: center;
+    padding: 40px 20px;
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    width: 100%;
+    border-radius: 8px;
+    /* Rounded corners for buttons */
+    margin: 10px 0;
+    /* Margin for spacing between buttons */
+    margin-top : 70px;
+  
+}
+
+.navbuttons a:hover {
+    background-color: #1a8cff;
+    /* Lighter blue on hover */
+    transition: background-color 0.3s;
+    /* Smooth transition on hover */
+}
+
+.navbuttons svg {
+    margin-right: 15px;
+    /* Space between icon and text */
+}
+
+.navbuttons a {
+    box-sizing: border-box;
+    /* Includes padding and border in the element's width and height */
+}
