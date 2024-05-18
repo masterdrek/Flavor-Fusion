@@ -8,6 +8,7 @@
     background-color: white;
     /* subtle bottom border */
     border-bottom: 2px solid #ccc;
+    z-index: 1;
 }
 
 .logo {
