@@ -273,7 +273,9 @@ function AddRecipe() {
             <Link to="/">
                 <button className="back-button">Back</button>
             </Link>
-            <Textbox />
+            <div className="recipe-name-tb">
+                <Textbox placeholder={"Enter Recipe Name"} showButton={true} />
+            </div>
 
             <div className="table-container">
                 <h3>Add Your Ingredients</h3>

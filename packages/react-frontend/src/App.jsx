@@ -4,6 +4,7 @@ import NavBar from "./components/NavBar";
 import Header from "./components/Header";
 import Home from "./pages/Home";
 import Recipe from "./pages/addRecipe";
+import CreateAccount from "./pages/createAccount";
 import {
     BrowserRouter as Router,
     Routes,
@@ -14,25 +15,34 @@ import {
 function App() {
     return (
         <div className="App">
-            {/* Router component allows you to define routes for your application */}
             <Router>
-                <Header />
-                <ConditionalNavBar />
-                {/* Routes component is used to define routes */}
-                {/* Use to change the page */}
+                <ConditionalComponents />
                 <Routes>
-                    {/* Route for the homepage, denoted by "/" */}
                     <Route path="/" element={<Home />} />
                     <Route path="/add_recipe" element={<Recipe />} />
+                    <Route path="/create_account" element={<CreateAccount />} />
                 </Routes>
             </Router>
         </div>
     );
 }
 
+function ConditionalComponents() {
+    const location = useLocation();
+    if (location.pathname === "/create_account") {
+        return null; // Render nothing if the route is /create_account
+    }
+
+    return (
+        <>
+            <Header />
+            <ConditionalNavBar />
+        </>
+    );
+}
+
 function ConditionalNavBar() {
     const location = useLocation();
-    // Check if the current path is not "/add_recipe"
     if (location.pathname !== "/add_recipe") {
         return <NavBar />;
     }
