@@ -30,7 +30,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: start;
-    
+
 }
 
 .logo img {
@@ -54,8 +54,8 @@ body {
     /* Rounded corners for buttons */
     margin: 10px 0;
     /* Margin for spacing between buttons */
-    margin-top : 70px;
-  
+    margin-top: 70px;
+
 }
 
 .navbuttons a:hover {

@@ -1,0 +1,39 @@
+/* src/styles/textbox.css */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 125px;
+    /* Full viewport height for vertical centering */
+}
+
+.form-inline {
+    display: flex;
+    align-items: center;
+}
+
+.textbox {
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 100%;
+    max-width: 300px;
+    margin-right: 10px;
+}
+
+.submit-button {
+    margin-left: 350px;
+
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #28a745;
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background-color: #11c939;
+}

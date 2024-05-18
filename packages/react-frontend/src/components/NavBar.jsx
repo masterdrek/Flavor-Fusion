@@ -23,6 +23,7 @@ function NavBar() {
                 <Link to="/search">
                     <IoSearch /> Search
                 </Link>
+                <div className="active"></div>
             </div>
         </div>
     );

@@ -6,56 +6,55 @@
     justify-content: space-between;
     padding: 20px;
     background-color: white;
-    /* subtle bottom border */
     border-bottom: 2px solid #ccc;
 }
 
 .logo {
     height: 50px;
-    /* Adjust size as needed */
     margin-right: 20px;
+}
+
+.logout-icon {
+    font-size: 35px;
+    vertical-align: middle;
+    position: relative;
+    top: 0px;
 }
 
 .header h1 {
     flex-grow: 1;
-    text-align: center;
+    text-align: left;
+    margin-left: 250px;
     color: black;
-    /* Adjust color as needed */
     font-size: 24px;
-    /* Adjust size as needed */
 }
 
-.header-controls button {
-    background: none;
-    border: none;
+.logout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 25px;
     font-size: 24px;
-    /* Adjust size as needed */
+    text-align: center;
     cursor: pointer;
-}
-
-.header .logout {
-    margin-left: auto;
-    /* Pushes the button to the far right */
-    padding: 10px 20px;
-    /* Adequate padding for button size */
-    background-color: #f44336;
-    /* Red background for visibility */
-    color: white;
-    /* White text */
+    outline: none;
+    color: #fff;
+    background-color: #04AA6D;
     border: none;
-    /* No border */
-    cursor: pointer;
-    /* Pointer on hover */
-    font-size: 16px;
-    /* Appropriate font size */
-    border-radius: 5px;
-    /* Rounded corners for a nicer look */
-    
-    
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
 }
 
-/* Adding hover effect for better user interaction */
+.logout-link {
+    text-decoration: none;
+}
+
+.logout:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
 .header .logout:hover {
     background-color: #e53935;
-    /* Slightly darker shade on hover */
 }
