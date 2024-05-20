@@ -25,9 +25,8 @@ const RecipeSchema = new mongoose.Schema(
             required: true
         },
         creator: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: String,
             required: true,
-            ref: "User"
         }
     },
     { collection: "recipe_list" }
