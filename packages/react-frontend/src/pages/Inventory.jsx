@@ -44,6 +44,7 @@ function Inventory() {
     // Delete selected rows
     const handleDelete = () => {
         const updatedData = data.filter((item) => !selectedRows.includes(item)); // Filter out selected rows
+        console.log(selectedRows);
         setData(updatedData); // Update the data state
         setSelectedRows([]); // Clear selected rows
     };
