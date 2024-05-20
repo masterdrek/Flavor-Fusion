@@ -19,7 +19,7 @@
 }
 
 
-.table-container {
+.table-container-two {
     width: 100%;
     max-width: 800px;
     margin: 100px auto;
@@ -29,17 +29,17 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.toolbar {
+.toolbar-two {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
 }
 
-.search-bar {
+.search-bar-two {
     display: flex;
 }
 
-.search-bar input {
+.search-bar-two input {
     width: 300px;
     padding: 10px;
     font-size: 16px;
@@ -49,11 +49,11 @@
     transition: border-color 0.3s;
 }
 
-.search-bar input:focus {
+.search-bar-two input:focus {
     border-color: #007bff;
 }
 
-.search-bar button {
+.search-bar-two button {
     padding: 10px 15px;
     font-size: 16px;
     color: #fff;
@@ -64,17 +64,17 @@
     transition: background-color 0.3s;
 }
 
-.search-bar button:hover {
+.search-bar-two button:hover {
     background-color: #0056b3;
 }
 
-.actions-bar {
+.actions-bar-two {
     display: flex;
     align-items: center;
 }
 
 /* Styling for the delete button */
-.actions-bar button {
+.actions-bar-two button {
     padding: 10px 20px;
     font-size: 16px;
     color: #fff;
@@ -87,23 +87,23 @@
 }
 
 /* Styling for the delete button when it is disabled */
-.actions-bar button:disabled {
+.actions-bar-two button:disabled {
     background: linear-gradient(45deg, #9e9e9e, #757575);
     cursor: not-allowed;
 }
 
 /* Styling for the delete button when it is hovered over and not disabled */
-.actions-bar button:hover:not(:disabled) {
+.actions-bar-two button:hover:not(:disabled) {
     background: linear-gradient(45deg, #9e1a1a, #aa0b0b);
     transform: translateY(-2px);
 }
 
-.add-bar {
+.add-bar-two {
     display: flex;
     align-items: center;
 }
 
-.add-bar button {
+.add-bar-two button {
     padding: 10px 20px;
     font-size: 16px;
     color: #fff;
@@ -115,7 +115,7 @@
     transition: background 0.3s, transform 0.3s;
 }
 
-.add-bar button:hover {
+.add-bar-two button:hover {
     background: linear-gradient(45deg, #3dc6d5, #28c697);
     transform: translateY(-2px);
 }

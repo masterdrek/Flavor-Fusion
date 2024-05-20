@@ -277,10 +277,10 @@ function AddRecipe() {
                 <Textbox placeholder={"Enter Recipe Name"} showButton={true} />
             </div>
 
-            <div className="table-container">
+            <div className="table-container-two">
                 <h3>Add Your Ingredients</h3>
-                <div className="toolbar">
-                    <div className="search-bar">
+                <div className="toolbar-two">
+                    <div className="search-bar-two">
                         <input
                             type="text"
                             placeholder="Search..."
@@ -295,7 +295,7 @@ function AddRecipe() {
                             </button>
                         )}
                     </div>
-                    <div className="actions-bar">
+                    <div className="actions-bar-two">
                         <button
                             onClick={handleIngredientDelete}
                             disabled={ingredientSelectedRows.length === 0}
@@ -303,7 +303,7 @@ function AddRecipe() {
                             Delete Selected
                         </button>
                     </div>
-                    <div className="add-bar">
+                    <div className="add-bar-two">
                         <button onClick={() => setIngredientModalOpen(true)}>
                             Add Ingredient{" "}
                         </button>
@@ -341,10 +341,10 @@ function AddRecipe() {
                 )}
             </div>
 
-            <div className="table-container">
+            <div className="table-container-two">
                 <h3>Add Your Cookware</h3>
-                <div className="toolbar">
-                    <div className="search-bar">
+                <div className="toolbar-two">
+                    <div className="search-bar-two">
                         <input
                             type="text"
                             placeholder="Search..."
@@ -359,7 +359,7 @@ function AddRecipe() {
                             </button>
                         )}
                     </div>
-                    <div className="actions-bar">
+                    <div className="actions-bar-two">
                         <button
                             onClick={handleCookwareDelete}
                             disabled={cookwareSelectedRows.length === 0}
@@ -367,7 +367,7 @@ function AddRecipe() {
                             Delete Selected
                         </button>
                     </div>
-                    <div className="add-bar">
+                    <div className="add-bar-two">
                         <button onClick={() => setCookwareModalOpen(true)}>
                             Add Cookware{" "}
                         </button>
@@ -405,10 +405,10 @@ function AddRecipe() {
                 )}
             </div>
 
-            <div className="table-container">
+            <div className="table-container-two">
                 <h3>Add Your Recipe Steps</h3>
-                <div className="toolbar">
-                    <div className="search-bar">
+                <div className="toolbar-two">
+                    <div className="search-bar-two">
                         <input
                             type="text"
                             placeholder="Search..."
@@ -421,7 +421,7 @@ function AddRecipe() {
                             </button>
                         )}
                     </div>
-                    <div className="actions-bar">
+                    <div className="actions-bar-two">
                         <button
                             onClick={handleStepDelete}
                             disabled={stepSelectedRows.length === 0}
@@ -429,7 +429,7 @@ function AddRecipe() {
                             Delete Selected
                         </button>
                     </div>
-                    <div className="add-bar">
+                    <div className="add-bar-two">
                         <button onClick={() => setStepModalOpen(true)}>
                             Add Recipe Step{" "}
                         </button>
