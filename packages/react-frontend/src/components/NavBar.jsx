@@ -1,28 +1,42 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { BiFoodMenu } from "react-icons/bi";
-import { MdOutlineInventory } from "react-icons/md";
-import { IoSearch } from "react-icons/io5";
-import Logo from "../assets/react.svg";
-
+import Logo from "../assets/logo.png";
 import "../styles/Navbar.css";
+import { RiLogoutBoxRFill } from "react-icons/ri";
 
-function NavBar() {
+function NavBar({ NavbarData, isSelected, setIsSelected }) {
     return (
-        <div className="navbar">
-            <div className="navbuttons">
-                <div className="logo">
-                    <img src={Logo} alt="Flavor Fusion Logo" /> Flavor Fusion
+        <div className="Navbar">
+            {/* Logo */}
+            <div className="logo">
+                <img src={Logo} alt="" />
+                <span>
+                    Flavor<span> Fusion</span>
+                </span>
+            </div>
+            {/* Menu */}
+            <div className="menu">
+                {NavbarData.map((item, index) => {
+                    return (
+                        <div
+                            className={
+                                isSelected === index
+                                    ? "menuItem active"
+                                    : "menuItem"
+                            }
+                            key={index}
+                            onClick={() => setIsSelected(index)}
+                        >
+                            <item.icon />
+                            <span>{item.heading}</span>
+                        </div>
+                    );
+                })}
+
+                <div className="menuItem">
+                    <RiLogoutBoxRFill />
                 </div>
-                <Link to="/">
-                    <BiFoodMenu /> Recipes
-                </Link>
-                <Link to="/inventory">
-                    <MdOutlineInventory /> Inventory
-                </Link>
-                <Link to="/search">
-                    <IoSearch /> Search
-                </Link>
             </div>
         </div>
     );

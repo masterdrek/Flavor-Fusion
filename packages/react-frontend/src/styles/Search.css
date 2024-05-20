@@ -1,10 +1,12 @@
+@import url('./Navbar.css');
+
 .recipes-container {
-    width: 100%;
+    width: calc(100% - var(--nav-width));
     padding: 20px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    margin-left: 325px;
+    margin-left: var(--nav-width);
 }
 
 h2 {
@@ -44,4 +46,8 @@ h2 {
 
 .add-recipe-btn:hover {
     background-color: #0056b3;
+}
+
+.search-container {
+    padding-left: var(--nav-width);
 }

@@ -1,76 +1,73 @@
-body {
-    margin: 0;
-    /* reset default margin and padding it to zero */
-    padding: 0;
-}
-
-.navbar {
-    background-color: #0d74f5;
-    /* Dark blue background for the navbar */
-    color: white;
+.Navbar{
     display: flex;
     flex-direction: column;
+    position: relative;
+    padding-top: 2rem;
+    transition: all 300ms ease;
+}
+
+.logo{
+    display: flex;
+    height: 5rem;
+    font-weight: bold;
+    font-size: 20px;
     align-items: center;
-    padding: 20px;
-    height: 100vh;
-    /* Full height */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    justify-content: center;
+    top: 4%;
+}
+
+.logo>img{
+    width: 3rem;
+    height: 3rem;
+}
+
+.logo>span>span{
+    color: var(--pink)
+}
+
+/* menu */
+
+.menu{
+    margin-top: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.menuItem{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    height: 2.5em;
+    margin-left: 2rem;
+    position: relative;
+    transition: all 300ms ease;
+    font-size: 20px;
+    border-radius: 0.7rem;
+}
+
+.menuItem:hover{
+    cursor: pointer;
+}
+
+.active{
+    background: var(--activeItem);
+    margin-left: 0;
+}
+
+.active::before{
+    content: '';
+    width: 8px;
+    height: 100%;
+    background: var(--pink);
+    margin-right: calc(1rem - 8px);
+
+}
+
+.menu .menuItem:last-child{
     position: fixed;
-    /* Subtle shadow for depth */
-}
-
-.navbuttons {
+    bottom: 5rem;
     width: 100%;
-    /* Full width of the sidebar */
-}
-
-.logo {
-    margin-bottom: 20px;
-    /* Space below the logo */
-    display: flex;
-    align-items: center;
-    justify-content: start;
+    font-size: 25px;
     
-}
-
-.logo img {
-    width: 50px;
-    /* Size of the logo */
-    height: 100px;
-    /* Maintain aspect ratio */
-    margin-right: 10px;
-    /* Space between logo image and text */
-}
-
-.navbuttons a {
-    display: flex;
-    align-items: center;
-    padding: 40px 20px;
-    text-decoration: none;
-    color: white;
-    font-size: 16px;
-    width: 100%;
-    border-radius: 8px;
-    /* Rounded corners for buttons */
-    margin: 10px 0;
-    /* Margin for spacing between buttons */
-    margin-top : 70px;
-  
-}
-
-.navbuttons a:hover {
-    background-color: #1a8cff;
-    /* Lighter blue on hover */
-    transition: background-color 0.3s;
-    /* Smooth transition on hover */
-}
-
-.navbuttons svg {
-    margin-right: 15px;
-    /* Space between icon and text */
-}
-
-.navbuttons a {
-    box-sizing: border-box;
-    /* Includes padding and border in the element's width and height */
 }
