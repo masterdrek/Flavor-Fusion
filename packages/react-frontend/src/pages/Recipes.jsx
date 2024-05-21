@@ -21,6 +21,7 @@ function Recipes() {
         { id: 6, name: "Vegetarian Pizza" }
     ];
 
+
     return (
         <div className="recipes-container">
             <section>
