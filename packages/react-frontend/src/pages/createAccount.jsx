@@ -27,7 +27,7 @@ function createAccount() {
             <div className="have-account-txt">
                 <h4>
                     Have an account?{" "}
-                    <Link to="/signin" 
+                    <Link to="/login" 
                     /* change /signin to the login page */>
                         <button className="sign-in-btn">Sign in</button>
                     </Link>

@@ -1,0 +1,57 @@
+.login-page{
+    z-index: 1;
+    margin-right: 750px;
+}
+
+.login-title {
+    margin-left: 50px;
+    padding: 10px;
+}
+
+.Textboxes {
+    margin-left: 100px;
+    padding-bottom: 20px;
+}
+
+.create-account-txt {
+    margin-top: 10px;
+    margin-left: 100px;
+}
+
+.create-account-btn {
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: underline;
+    padding: 0;
+    /* Remove padding */
+    margin-top: 40px;
+    /* Remove margin */
+}
+
+.create-account-btn:hover {
+    color: #0056b3;
+    text-decoration: none;
+    /* Remove underline on hover */
+}
+
+.sign-in-btn {
+    margin-left: 100px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background: linear-gradient(45deg, #ec645d, #724cdc);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    /* Remove underline from link */
+    display: inline-block;
+    /* Ensure the button has the correct display */
+}
+
+.sign-in-btn:hover {
+    background: linear-gradient(45deg, #ec5dbc, #4cdc6b);
+}
