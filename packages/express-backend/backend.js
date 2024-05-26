@@ -1,25 +1,49 @@
 // backend.js
 import express from "express";
 import cors from "cors";
-import recipeServices from "./services/recipe-services.js";
-import inventoryServices from "./services/inventory-services.js";
-import userServices from "./services/user-services.js";
+import {
+    getRecipes, 
+    getUserMadeRecipes, 
+    createRecipe 
+} from "./services/recipe-services.js";
+import {
+    addInventory,
+    getInventorys,
+    addCookware,
+    addIngredient
+} from "./services/inventory-services.js";
+import {
+    getUsers,
+    addUser
+} from "./services/user-services.js";
+import {
+    registerUser,
+    loginUser,
+    authenticateUser 
+} from './auth/auth.js'
+
+import dotenv from 'dotenv'
+dotenv.config() 
 
 const app = express();
-const port = 8000;
+const port = process.env.PORT;
+
 
 app.use(cors());
 app.use(express.json());
 
+// Login a user
+app.post("/users", registerUser)
+
 // get list of all users
 app.get("/users", async (req, res) => {
-    const result = await userServices.getUsers();
+    const result = await getUsers();
     res.send({ users_list: result });
 });
 
 // get list of all recipes
 app.get("/recipes", async (req, res) => {
-    const result = await recipeServices.getRecipes();
+    const result = await getRecipes();
     res.send({ recipes_list: result });
 });
 
@@ -27,7 +51,7 @@ app.get("/recipes", async (req, res) => {
 app.get("/recipes/:userId", async (req, res) => {
     const id = req.params["userId"];
     try {
-        const result = await recipeServices.getUserMadeRecipes(id);
+        const result = await getUserMadeRecipes(id);
         res.send({ recipes_list: result });
     } catch (error) {
         res.status(404).send("Resource not found.");
@@ -41,13 +65,11 @@ app.get("/inventory", async (req, res) => {
 });
 
 // add user with name and username
-app.post("/users", async (req, res) => {
-    const userToAdd = req.body;
-    const name = userToAdd.name;
-    const username = userToAdd.username;
+app.post("/users", authenticateUser, async (req, res) => {
+    const { name, username } = req.body
 
     if (name != undefined && username != undefined) {
-        const result = await userServices.addUserByNameAndUsername(
+        const result = await addUserByNameAndUsername(
             name,
             username
         );
@@ -59,7 +81,7 @@ app.post("/users", async (req, res) => {
 // add recipe
 app.post("/recipes", async (req, res) => {
     const recipeToAdd = req.body;
-    const result = await recipeServices.createRecipe(recipeToAdd);
+    const result = await createRecipe(recipeToAdd);
     res.status(201).send(result);
 });
 
@@ -67,7 +89,7 @@ app.post("/recipes", async (req, res) => {
 app.post("/inventory/cookware/:id", async (req, res) => {
     const id = req.params["id"];
     const cookwareToAdd = req.body;
-    const result = await inventoryServices.addCookware(cookwareToAdd, id);
+    const result = await addCookware(cookwareToAdd, id);
     res.status(201).send(result);
 });
 
@@ -75,7 +97,7 @@ app.post("/inventory/cookware/:id", async (req, res) => {
 app.post("/inventory/ingredient/:id", async (req, res) => {
     const id = req.params["id"];
     const ingredientToAdd = req.body;
-    const result = await inventoryServices.addIngredient(ingredientToAdd, id);
+    const result = await addIngredient(ingredientToAdd, id);
     res.status(201).send(result);
 });
 

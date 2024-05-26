@@ -13,6 +13,11 @@ const UserSchema = new mongoose.Schema(
             required: true,
             unique: true,
         },
+        hashedPassword: {
+            type: String,
+            required: true,
+        }
+        ,
         inventory: {
             type: mongoose.Schema.Types.ObjectId,
             required: true,
@@ -26,7 +31,9 @@ const UserSchema = new mongoose.Schema(
             }
         ]
     },
-    { collection: "user_list" }
+    { 
+        collection: "user_list" 
+    }
 );
 
 const User = mongoose.model("User", UserSchema);

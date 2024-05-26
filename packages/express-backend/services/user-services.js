@@ -1,21 +1,28 @@
-import userModel from "../models/user.js";
-import inventoryServices from "./inventory-services.js";
+import userModel from "../models/user-schema.js";
+import { addInventory } from "./inventory-services.js";
 import connect from "../mongoSetup.js";
 
 connect();
 
 function getUsers() {
-    return userModel.find();
+    const users = userModel.find().lean().exec()
 }
 
-async function addUserByNameAndUsername(newName, newUsername) {
-    const newInventory = await inventoryServices.addInventory({
+function getUserByUsername(user) {
+    return userModel.find({ username: user }).lean().exec()
+}
+
+
+async function addUser(newName, newUsername, newHashedPwd) {
+
+    const newInventory = await addInventory({
         ingredients: [],
         cookware: []
     });
     const UserToAdd = new userModel({
         name: newName,
         username: newUsername,
+        hashedPassword: newHashedPwd,
         inventory: newInventory._id,
         saved_recipes: []
     });
@@ -24,7 +31,8 @@ async function addUserByNameAndUsername(newName, newUsername) {
     return promise;
 }
 
-export default {
+export {
     getUsers,
-    addUserByNameAndUsername
+    getUserByUsername,
+    addUser
 };

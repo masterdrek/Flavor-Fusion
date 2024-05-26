@@ -12,5 +12,7 @@ export const IngredientSchema = new mongoose.Schema(
             required: true
         }
     },
-    { collection: "ingredient_list" }
+    { 
+        collection: "ingredient_list" 
+    }
 );

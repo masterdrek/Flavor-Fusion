@@ -1,10 +1,13 @@
 import mongoose from "mongoose";
+import dotenv from 'dotenv'
+dotenv.config()
 
 export default function connect() {
     mongoose.set("debug", true);
+    console.log(process.env.DB_CONNECTION)
     mongoose
         .connect(
-            "mongodb+srv://dereklee1124:ZyamlvIALHi9dh5F@flavorfusiondb.3dxynzp.mongodb.net/?retryWrites=true&w=majority&appName=FlavorFusionDB",
+            process.env.DB_CONNECTION,
             {
                 useNewUrlParser: true,
                 useUnifiedTopology: true

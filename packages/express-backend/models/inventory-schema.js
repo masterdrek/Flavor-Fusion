@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { CookwareSchema } from "./cookware-schema.js";
-import { IngredientSchema } from "./ingredient.schema.js";
+import { IngredientSchema } from "./ingredient-schema.js";
 
 const InventorySchema = new mongoose.Schema(
     {
@@ -15,7 +15,9 @@ const InventorySchema = new mongoose.Schema(
             required: true
         }
     },
-    { collection: "inventory_list" }
+    { 
+        collection: "inventory_list" 
+    }
 );
 
 const Inventory = mongoose.model("Inventory", InventorySchema);

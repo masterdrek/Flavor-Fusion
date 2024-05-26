@@ -1,4 +1,4 @@
-import inventoryModel from "../models/inventory.js";
+import inventoryModel from "../models/inventory-schema.js";
 import connect from "../mongoSetup.js";
 
 connect();
@@ -34,7 +34,7 @@ function addIngredient(newIngredient, id) {
 function getInventorys() {
     return inventoryModel.find();
 }
-export default {
+export {
     addInventory,
     getInventorys,
     addCookware,

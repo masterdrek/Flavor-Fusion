@@ -1,4 +1,4 @@
-import recipeModel from "../models/recipe.js";
+import recipeModel from "../models/recipe-schema.js";
 import connect from "../mongoSetup.js";
 
 connect();
@@ -17,7 +17,7 @@ function createRecipe(newRecipe) {
     return promise;
 }
 
-export default {
+export {
     getRecipes,
     getUserMadeRecipes,
     createRecipe
