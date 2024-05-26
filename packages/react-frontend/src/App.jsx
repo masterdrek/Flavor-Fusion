@@ -36,20 +36,15 @@ function App() {
         location.pathname !== "/create_account" &&
         location.pathname !== "/add_recipe";
 
-
     return (
         <div className="App">
             <div className="AppGlass">
-                {isHomePage && (
-                    <>
-                        <MaybeShowNavBar
-                            NavbarData={NavbarData}
-                            isSelected={isSelected}
-                            setIsSelected={setIsSelected}
-                        />
-                        <RenderComponent index={isSelected} />
-                    </>
-                )}
+                <MaybeShowNavBar
+                    NavbarData={NavbarData}
+                    isSelected={isSelected}
+                    setIsSelected={setIsSelected}
+                />
+                {isHomePage && <RenderComponent index={isSelected} />}
             </div>
 
             <Routes>

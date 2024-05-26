@@ -14,8 +14,8 @@ function Modal({ onClose, onSubmit, initialName = "", initialQuantity = "" }) {
 
     // Handle form submission
     const handleSubmit = (e) => {
-        e.preventDefault(); // Prevent default form submission
-        onSubmit({ name: itemName, quantity: itemQuantity }); // Call onSubmit with the current values
+        e.preventDefault(); // Prevent default form submission, keeps user on the same page after submitting data
+        onSubmit({ item: itemName, quantity: itemQuantity }); // Call onSubmit with the current values
         onClose(); // Close the modal after submission
     };
 

@@ -1,35 +1,116 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import Modal from "../components/Modal";
 import { BsFillPencilFill } from "react-icons/bs";
 import "../styles/Inventory.css";
 
 function Inventory() {
-    // State variables
     const [filterText, setFilterText] = useState(""); // For filtering items in the table
     const [selectedRows, setSelectedRows] = useState([]); // For keeping track of selected rows
     const [editItem, setEditItem] = useState(null); // Item being edited
     const [modalOpen, setModalOpen] = useState(false); // Controls the visibility of the modal
     const [isEditing, setIsEditing] = useState(false); // Indicates if we are editing an existing item
-    const [data, setData] = useState([
-        // Initial inventory data
-        { id: 1, name: "Apple", quantity: "5" },
-        { id: 2, name: "Ribeye Steak", quantity: "2" },
-        { id: 3, name: "Eggs", quantity: "12" },
-        { id: 4, name: "Chicken Wings", quantity: "16" }
-    ]);
+    const [data, setData] = useState([]); // Initial empty data array
 
-    // Column definitions for the DataTable component
+    useEffect(() => {
+        fetchInventory()
+            .then((json) => {
+                console.log("Fetched Data:", json);
+                setData(
+                    Array.isArray(json.inventory_list)
+                        ? json.inventory_list
+                        : []
+                );
+            })
+            .catch((error) => {
+                console.error("Error fetching data:", error);
+            });
+    }, []);
+
+    async function fetchInventory() {
+        const response = await fetch("http://localhost:8000/inventory");
+        if (!response.ok) {
+            throw new Error(`Error fetching data: ${response.statusText}`);
+        }
+        const data = await response.json();
+        return data;
+    }
+
+    async function postInventory(item) {
+        console.log("Posting item:", item);
+        try {
+            const response = await fetch("http://localhost:8000/inventory", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(item)
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error posting data: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            console.log("Posted data:", data);
+            return data;
+        } catch (error) {
+            console.error("Error in postInventory:", error);
+        }
+    }
+
+    async function patchInventory(item) {
+        try {
+            const response = await fetch(
+                `http://localhost:8000/inventory/${item._id}`,
+                {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(item)
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error(`Error updating data: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            console.log("Patched data:", data);
+            return data;
+        } catch (error) {
+            console.error("Error in patchInventory:", error);
+        }
+    }
+
+    function addToInventory(item) {
+        postInventory(item)
+            .then((newItem) => {
+                if (newItem) {
+                    setData((prevData) =>
+                        Array.isArray(prevData)
+                            ? [...prevData, newItem]
+                            : [newItem]
+                    );
+                    setModalOpen(false);
+                }
+            })
+            .catch((error) => {
+                console.error("Error updating list:", error);
+            });
+    }
+
     const columns = [
         {
             name: "The Inventory Item",
-            selector: (row) => row.name, // Access the 'name' property of each row
-            sortable: true // Enable sorting for this column
+            selector: (row) => row.item,
+            sortable: true
         },
         {
             name: "Unit Amount Size",
-            selector: (row) => row.quantity, // Access the 'quantity' property of each row
-            sortable: true // Enable sorting for this column
+            selector: (row) => row.quantity,
+            sortable: true
         },
         {
             name: "Actions",
@@ -43,8 +124,15 @@ function Inventory() {
 
     // Delete selected rows
     const handleDelete = () => {
-        const updatedData = data.filter((item) => !selectedRows.includes(item)); // Filter out selected rows
-        console.log(selectedRows);
+        const updatedData = Array.isArray(data)
+            ? data.filter((item) => !selectedRows.includes(item))
+            : []; // Filter out selected rows
+        selectedRows.forEach((row) => {
+            console.log(row._id);
+            fetch(`http://localhost:8000/inventory/${row._id}`, {
+                method: "DELETE"
+            }).catch((error) => console.error("Error deleting item:", error));
+        });
         setData(updatedData); // Update the data state
         setSelectedRows([]); // Clear selected rows
     };
@@ -55,9 +143,13 @@ function Inventory() {
     };
 
     // Filter data based on the filter text
-    const filteredData = data.filter((item) =>
-        item.name.toLowerCase().includes(filterText.toLowerCase())
-    );
+    const filteredData = Array.isArray(data)
+        ? data.filter(
+              (item) =>
+                  typeof item.item === "string" &&
+                  item.item.toLowerCase().includes(filterText.toLowerCase())
+          )
+        : data;
 
     // Handle editing an item
     const handleEdit = (row) => {
@@ -66,28 +158,27 @@ function Inventory() {
         setModalOpen(true); // Open the modal
     };
 
-    // Handle adding a new item
-    const handleAddItem = (newItem) => {
-        const newItemWithId = {
-            ...newItem,
-            id: data.length ? data[data.length - 1].id + 1 : 1 // Assign a new id
-        };
-        setData([...data, newItemWithId]); // Add the new item to the data state
-    };
-
     // Handle submitting an edited item
-    const handleEditSubmit = (editedItem) => {
-        const updatedData = data.map((item) =>
-            item.id === editItem.id
-                ? {
-                      ...item,
-                      name: editedItem.name,
-                      quantity: editedItem.quantity
-                  }
-                : item
-        );
-        setData(updatedData); // Update the data state with the edited item
-        setEditItem(null); // Clear the edit item state
+    const editInventory = (editedItem) => {
+        // copying all properties from one object to another and adding an id property
+        const itemToUpdate = { ...editedItem, _id: editItem._id };
+        patchInventory(itemToUpdate)
+            .then((updatedItem) => {
+                if (updatedItem) {
+                    const updatedData = Array.isArray(data)
+                        ? data.map((item) =>
+                              item._id === updatedItem._id ? updatedItem : item
+                          )
+                        : [];
+                    setData(updatedData); // Update the data state with the edited item
+                    setModalOpen(false); // Close the modal
+                    setEditItem(null); // Clear the edit item state
+                    setIsEditing(false); // Reset editing mode
+                }
+            })
+            .catch((error) => {
+                console.error("Error updating item:", error);
+            });
     };
 
     // Handle closing the modal
@@ -126,7 +217,7 @@ function Inventory() {
 
             <DataTable
                 columns={columns} // Define table columns
-                data={filteredData} // Use filtered data for the table
+                data={filteredData || data} // Use filtered data or original data if filteredData is undefined
                 selectableRows // Enable row selection
                 onSelectedRowsChange={handleRowSelected} // Handle row selection changes
                 pagination // Enable pagination
@@ -135,8 +226,8 @@ function Inventory() {
             {modalOpen && ( // Render the modal conditionally based on modalOpen state
                 <Modal
                     onClose={handleModalClose} // Function to call when modal closes
-                    onSubmit={isEditing ? handleEditSubmit : handleAddItem} // Function to call when form is submitted
-                    initialName={isEditing && editItem ? editItem.name : ""} // Initial value for the name input field
+                    onSubmit={isEditing ? editInventory : addToInventory} // Function to call when form is submitted
+                    initialName={isEditing && editItem ? editItem.item : ""} // Initial value for the name input field
                     initialQuantity={
                         isEditing && editItem ? editItem.quantity : ""
                     } // Initial value for the quantity input field
