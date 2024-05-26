@@ -5,6 +5,9 @@ import "../styles/login.css";
 function login(){
     return (
         <div className="login-page">
+            <div>
+                <h1> Flavor Fusion</h1>
+            </div>
             <div className="login-title">
                 <h2> Login to your Flavor Fusion Account</h2>
             </div>
@@ -18,13 +21,13 @@ function login(){
 
             <div className="login-txt">
                 <Link to="/home">
-                    <button className="sign-in-btn">Sign In</button>
+                    <button className="sign-in-btn-login">Sign In</button>
                 </Link>
             </div>
 
             <div className="">
                 <Link to="/create_account">
-                    <button className="create-account-btn">Create Account</button>
+                    <button className="create-account-btn-login">Create Account</button>
                 </Link>
             </div>
         </div>

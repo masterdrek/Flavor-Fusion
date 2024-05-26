@@ -4,7 +4,7 @@
 }
 
 .login-title {
-    margin-left: 50px;
+    margin-left: 0px;
     padding: 10px;
 }
 
@@ -18,7 +18,7 @@
     margin-left: 100px;
 }
 
-.create-account-btn {
+.create-account-btn-login {
     background: none;
     border: none;
     color: #007bff;
@@ -31,13 +31,13 @@
     /* Remove margin */
 }
 
-.create-account-btn:hover {
+.create-account-btn-login:hover {
     color: #0056b3;
     text-decoration: none;
     /* Remove underline on hover */
 }
 
-.sign-in-btn {
+.sign-in-btn-login {
     margin-left: 100px;
     padding: 10px 20px;
     border: none;
@@ -52,6 +52,6 @@
     /* Ensure the button has the correct display */
 }
 
-.sign-in-btn:hover {
+.sign-in-btn-login:hover {
     background: linear-gradient(45deg, #ec5dbc, #4cdc6b);
 }
