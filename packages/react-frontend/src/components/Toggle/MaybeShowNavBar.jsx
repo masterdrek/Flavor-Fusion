@@ -5,9 +5,19 @@ import Header from "../Header";
 
 const MaybeShowNavBar = ({ NavbarData, isSelected, setIsSelected }) => {
     const location = useLocation();
-    const hideNavBarPaths = ["/add_recipe", "/create_account", "/login"];
-
-    return !hideNavBarPaths.includes(location.pathname) ? (
+    const hideNavBarPaths = [
+        "/add_recipe",
+        "/create_account",
+        "/login",
+        "/recipe"
+    ];
+    const determineIfHidden = (pathname) => {
+        return (
+            hideNavBarPaths.filter((path) => pathname.includes(path)).length !==
+            0
+        );
+    };
+    return !determineIfHidden(location.pathname) ? (
         <>
             <NavBar
                 NavbarData={NavbarData}

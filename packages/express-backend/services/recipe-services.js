@@ -17,8 +17,12 @@ function createRecipe(newRecipe) {
     return promise;
 }
 
+function getRecipeById(id) {
+    return recipeModel.find({ _id: id });
+}
 export default {
     getRecipes,
     getUserMadeRecipes,
-    createRecipe
+    createRecipe,
+    getRecipeById
 };
