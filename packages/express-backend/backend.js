@@ -101,6 +101,55 @@ app.patch("/inventory/:id", async (req, res) => {
     }
 });
 
+// get recipe by id
+app.get("/recipe/:recipeId", async (req, res) => {
+    const id = req.params["recipeId"];
+    console.log("trying to get recipe: " + id)
+    try {
+        const result = await recipeServices.getRecipeById(id);
+        res.send({ recipe: result });
+    } catch (error) {
+        res.status(404).send("Resource not found.");
+    }
+});
+
+// check if recipe is saved
+app.get("/recipe/saved/:username/:recipeId", async (req, res) => {
+    const {username, recipeId} = req.params
+    try {
+        const result = await userServices.isRecipeSaved(username, recipeId);
+        res.send(result);
+    } catch (error) {
+        res.status(404).send("Resource not found.");
+    }
+});
+// add saved recipe to user by id
+app.patch("/recipe/add/:username/:recipeId", async (req, res) => {
+    const {username, recipeId} = req.params
+
+    console.log(username, recipeId)
+    try {
+        const result = await userServices.addSavedRecipe(username, recipeId);
+        res.send({ user: result });
+    } catch (error) {
+        console.log(error)
+        res.status(404).send("Resource not found.");
+    }
+});
+
+// add saved recipe to user by id
+app.patch("/recipe/remove/:username/:recipeId", async (req, res) => {
+    const {username, recipeId} = req.params
+    console.log(username, recipeId)
+    try {
+        const result = await userServices.removeSavedRecipe(username, recipeId);
+        res.send({ user: result });
+    } catch (error) {
+        console.log(error)
+        res.status(404).send("Resource not found.");
+    }
+});
+
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
