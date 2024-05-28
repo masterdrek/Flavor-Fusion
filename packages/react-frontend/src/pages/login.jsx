@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import TextBox from "../components/Textbox";
 import "../styles/login.css";
-function login(){
+function Login(){
     return (
         <div className="login-page">
             <div className="login-title">
@@ -31,4 +31,4 @@ function login(){
     );
 }
 
-export default login;
+export default Login;

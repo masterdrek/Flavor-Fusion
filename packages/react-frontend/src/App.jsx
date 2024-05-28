@@ -51,7 +51,7 @@ function App() {
 
             <Routes>
                 <Route path="/add_recipe" element={<AddRecipe />} />
-                <Route path="/create_account" element={<CreateAccount />} />
+                <Route path="/signup" element={<CreateAccount />} />
                 <Route path="/login" element={<Login />} />
             </Routes>
         </div>

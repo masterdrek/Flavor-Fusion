@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import API_URL from '..api/api.js'
+import { API_URL } from './../api/api.js'
 import "../styles/createAccount.css";
 
 function createAccount() {
 
     const navigate = useNavigate()
 
+    const [firstName, setFirstName] = useState('')
     const [username, setUsername] = useState('')
-    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [rePassword, setRePassword] = useState('')
-    const user = { username, email, password, rePassword }
+    const userObj = { firstName, username, password }
 
     const [validUsername, setValidUsername] = useState(false)
     const [validPassword, setValidPassword] = useState(false)
@@ -27,8 +27,8 @@ function createAccount() {
     // sends user to home page on success
     useEffect(() => {
         if (success) {
+            setFirstName('')
             setUsername('')
-            setEmail('')
             setPassword('')
             setRePassword('')
             navigate('/')
@@ -51,14 +51,18 @@ function createAccount() {
     // submits data
     const handleSubmit = async (e) => {
         e.preventDefault()
+        // checks constraints on inputs
         if (validUsername && validPassword && matchPassword && !isLoading) {
-            const token = await createUser(user)
+            // creates new user and recieves new token
+            const token = await createUser(userObj)
             if (token) {
+                // successfully created, triggers useEffect surrounding navigate to go to Home 
                 setSuccess(() => true)
                 setMessage("User created")
             } else {
                 setMessage("Token not recieved")
             }
+        // sets messages to display if inputs are invalid
         } else if (!validUsername) {
             setMessage("Username is invalid")
         } else if (!validPassword) {
@@ -71,10 +75,10 @@ function createAccount() {
     async function createUser(user) {
         console.log("Posting user:", user);
         try {
-            const response = await fetch(API_URL+"/users", {
+            const response = await fetch(API_URL+"/signup", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify(user)
             });
@@ -94,6 +98,18 @@ function createAccount() {
     return (
         <form onSubmit={handleSubmit}>
             <div>
+                <label htmlFor="firstName">
+                    First Name
+                </label>
+                <input 
+                    type="text" 
+                    id="firstName"
+                    placeholder="Enter Your First Name" 
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                />
+            </div>
+            <div>
                 <label htmlFor="username">
                     Username
                 </label>
@@ -103,18 +119,6 @@ function createAccount() {
                     placeholder="Enter an Unique Username" 
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                />
-            </div>
-            <div>
-                <label htmlFor="email">
-                    E-Mail
-                </label>
-                <input 
-                    type="email" 
-                    id="email"
-                    placeholder="Enter a Valid Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
                 />
             </div>
             <div>

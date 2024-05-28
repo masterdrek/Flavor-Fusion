@@ -24,13 +24,13 @@ const generateAccessToken = (username) => {
     })
 }
 
-export const registerUser = (req, res) => {
+export const registerUser = async (req, res) => {
     const { name, username, password } = req.body
-
+    const usernameTaken = await getUserByUsername(username)
 
     if ( !name || !username || !password ) {
         res.status(400).send("Bad request: Invalid input data.")
-    } else if (getUserByUsername(username)) { 
+    } else if (usernameTaken) { 
         res.status(409).send("Username already taken.")
     } else {
         bcrypt // encryption
@@ -38,21 +38,21 @@ export const registerUser = (req, res) => {
             .then((salt) => bcrypt.hash(password, salt)) // hashes pwd
             .then((hashedPwd) => {
                 generateAccessToken(username).then((token) => {
-                    res.status(201).send({ token: token }) // creates/sends token
                     const newUser = [
                         name.toUpperCase(),
                         username,
                         hashedPwd
                     ]
                     addUser(...newUser) // add new user
+                    res.status(201).send({ token: token }) // creates/sends token
                 })
             })
     }
 }
 
-export const loginUser = (req, res) => {
+export const loginUser = async (req, res) => {
     const { username, password } = req.body
-    const user = getUserByUsername(username)
+    const user = await getUserByUsername(username)
 
     if (!user) {
         // invalid username
@@ -63,7 +63,6 @@ export const loginUser = (req, res) => {
             .then((matched) => {
                 if (matched) {
                     generateAccessToken(username).then((token) => {
-                        console.log(`New token created: ${token}`)
                         res.status(200).send({ token: token })
                     })
                 } else {
@@ -87,13 +86,15 @@ export const authenticateUser = (req, res, next ) => {
         jwt.verify(
             token,
             `${process.env.JWT_KEY}`,
-            (error, decoded) => {
-                if (decoded) {
+            async (error, decoded) => {
+                const { username } = decoded
+                const user = await getUserByUsername(username)
+                if (user) {
                     console.log('Decoded!')
                     next()
                 } else {
-                    console.log('JWT error: ', error)
-                    res.status(401).end()
+                    console.log('User not found')
+                    res.status(400).end()
                 }
             }
         )

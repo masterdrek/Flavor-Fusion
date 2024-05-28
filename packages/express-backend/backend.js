@@ -8,9 +8,8 @@ import {
 } from "./services/recipe-services.js";
 import {
     addInventory,
-    getInventorys,
-    addCookware,
-    addIngredient
+    getInventories,
+    updateInventoryItem
 } from "./services/inventory-services.js";
 import {
     getUsers,
@@ -36,19 +35,20 @@ app.get("/", async (req, res) => {
     res.json({ message: "Server is Running" });
 });
 
+
+
 // get list of all users
 app.get("/users", async (req, res) => {
     const result = await getUsers();
     res.send({ users_list: result });
 });
 
-app.post("/users", async (req, res) => {
-    const token = registerUser(req, res)
-    if (!token) {
-        return res.json({ message: "JWT not recieved" })
-    } else {
-        return res.json(token)
-    }
+app.post("/login", async (req, res) => {
+    await loginUser(req, res)
+})
+
+app.post("/signup", async (req, res) => {
+    await registerUser(req, res)
 })
 
 // get list of all recipes
@@ -86,20 +86,6 @@ app.delete("/inventory/:id", async (req, res) => {
     const id = req.params.id;
     const result = await inventoryServices.deleteUserById(id);
     res.send({ inventory_list: result });
-});
-
-// add user with name and username
-app.post("/users", authenticateUser, async (req, res) => {
-    const { name, username } = req.body
-
-    if (name != undefined && username != undefined) {
-        const result = await addUserByNameAndUsername(
-            name,
-            username
-        );
-        res.status(201).send(result);
-    }
-    res.status(400).send();
 });
 
 // add recipe

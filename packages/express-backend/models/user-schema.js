@@ -18,18 +18,14 @@ const UserSchema = new mongoose.Schema(
             required: true,
         }
         ,
-        inventory: {
+        inventory: [{
             type: mongoose.Schema.Types.ObjectId,
-            required: true,
             ref: "Inventory"
-        },
-        saved_recipes: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                required: true,
-                ref: "Recipe"
-            }
-        ]
+        }],
+        saved_recipes: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Recipe"
+        }]
     },
     { 
         collection: "user_list" 
