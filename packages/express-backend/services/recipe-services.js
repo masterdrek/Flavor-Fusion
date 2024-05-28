@@ -25,10 +25,6 @@ function deleteRecipeById(id) {
     return recipeModel.findOneAndDelete({ _id: id }).exec();
 }
 
-// New function to delete multiple recipes by ids
-function deleteRecipesByIds(ids) {
-    return recipeModel.deleteMany({ _id: { $in: ids } }).exec();
-}
 
 export default {
     getRecipes,
@@ -36,5 +32,4 @@ export default {
     createRecipe,
     getRecipeById,
     deleteRecipeById,
-    deleteRecipesByIds // Export the new function
 };

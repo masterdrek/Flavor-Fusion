@@ -33,10 +33,19 @@ function AddRecipe() {
     const [isStepEditing, setIsStepEditing] = useState(false);
     const [stepData, setStepData] = useState([]);
 
-    // State for validation warnings
-    const [warningMessage, setWarningMessage] = useState("");
-
     const navigate = useNavigate();
+
+    const handleRefresh = () => {
+        navigate("/", { replace: true }); // Navigate to the target path
+        navigate(0); // Refresh the page
+    };
+
+    const handleButtonClick = () => {
+        handleSaveRecipe(); // Save the recipe
+        setTimeout(() => {
+            handleRefresh(); // Refresh the page after saving
+        }, 0);
+    };
 
     // Ingredient columns for DataTable
     const ingredientColumns = [
@@ -107,7 +116,6 @@ function AddRecipe() {
 
     // UseEffect to log state changes
     useEffect(() => {
-        // This effect runs every time recipeName changes
         console.log("Recipe Name:", recipeName);
     }, [recipeName]);
 
@@ -125,18 +133,6 @@ function AddRecipe() {
 
     // Handle saving the entire recipe
     const handleSaveRecipe = async () => {
-        if (
-            !recipeName ||
-            ingredientData.length === 0 ||
-            cookwareData.length === 0 ||
-            stepData.length === 0
-        ) {
-            setWarningMessage(
-                "All fields must be filled out before submitting the recipe."
-            );
-            return;
-        }
-
         const recipeData = {
             name: recipeName,
             ingredients: ingredientData,
@@ -162,9 +158,6 @@ function AddRecipe() {
             if (!response.ok) {
                 throw new Error(`Error posting data: ${response.statusText}`);
             }
-
-            // Navigate back to home if the recipe is successfully saved
-            navigate("/");
         } catch (error) {
             console.error("Error in postIngredients:", error);
         }
@@ -183,15 +176,19 @@ function AddRecipe() {
         setIngredientSelectedRows(state.selectedRows);
     };
 
+    // When an ingredient edit icon is clicked, set the current item to be edited
     const handleIngredientEdit = (row) => {
         setIngredientEditItem(row);
         setIsIngredientEditing(true);
         setIngredientModalOpen(true);
     };
 
+    // Submit the edit for the ingredient
     const handleIngredientEditSubmit = (editedItem) => {
+        /* map through the data array and update the specific item by its ID. 
+        This ensures only the edited item is updated without affecting the others. */
         const updatedData = ingredientData.map((item) =>
-            item.id === ingredientEditItem.id
+            item === ingredientEditItem
                 ? {
                       ...item,
                       name: editedItem.name,
@@ -204,8 +201,8 @@ function AddRecipe() {
         setIsIngredientEditing(false);
     };
 
+    // Handle the submission of the ingredient modal
     const handleIngredientModalSubmit = (newItem) => {
-        console.log("New ingredient item:", newItem);
         if (isIngredientEditing) {
             handleIngredientEditSubmit(newItem);
         } else {
@@ -241,7 +238,7 @@ function AddRecipe() {
 
     const handleCookwareEditSubmit = (editedItem) => {
         const updatedData = cookwareData.map((item) =>
-            item.id === cookwareEditItem.id
+            item === cookwareEditItem
                 ? {
                       ...item,
                       name: editedItem.name,
@@ -255,7 +252,6 @@ function AddRecipe() {
     };
 
     const handleCookwareModalSubmit = (newItem) => {
-        console.log("New cookware item:", newItem);
         if (isCookwareEditing) {
             handleCookwareEditSubmit(newItem);
         } else {
@@ -291,7 +287,7 @@ function AddRecipe() {
 
     const handleStepEditSubmit = (editedItem) => {
         const updatedData = stepData.map((item) =>
-            item.id === stepEditItem.id
+            item === stepEditItem
                 ? {
                       ...item,
                       name: editedItem.name
@@ -304,7 +300,6 @@ function AddRecipe() {
     };
 
     const handleStepModalSubmit = (newItem) => {
-        console.log("New step item:", newItem);
         if (isStepEditing) {
             handleStepEditSubmit(newItem);
         } else {
@@ -330,11 +325,6 @@ function AddRecipe() {
                     onChange={(e) => setRecipeName(e.target.value)}
                 />
             </div>
-
-            {/* Warning Message */}
-            {warningMessage && (
-                <div className="warning-message">{warningMessage}</div>
-            )}
 
             {/* Ingredients Section */}
             <div className="table-container-two">
@@ -514,9 +504,11 @@ function AddRecipe() {
             </div>
 
             <div className="save-recipe-button">
-                <button className="save-button" onClick={handleSaveRecipe}>
-                    Save Recipe
-                </button>
+                <Link to="/">
+                    <button className="save-button" onClick={handleButtonClick}>
+                        Save Recipe
+                    </button>
+                </Link>
             </div>
         </div>
     );

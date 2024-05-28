@@ -4,7 +4,6 @@
     padding: 20px;
     box-sizing: border-box;
     overflow-y: auto;
-    /* Enable vertical scrolling for the entire container */
     margin-top: 5rem;
 }
 
@@ -14,7 +13,6 @@ h2 {
 }
 
 .scrollable-container {
-    /* Adjust this height as needed */
     overflow-y: auto;
     margin-top: 20px;
 }
@@ -26,6 +24,7 @@ h2 {
 }
 
 .recipe-card {
+    position: relative;
     background-color: #f4f4f4;
     display: flex;
     align-items: center;
@@ -42,6 +41,40 @@ h2 {
 
 .recipe-card.selected {
     background-color: lightblue;
+}
+
+.dropdown-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.dropdown-icon {
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 25px;
+    right: 10px;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    z-index: 10;
+}
+
+.dropdown-menu button {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    font-size: 14px;
+}
+
+.dropdown-menu button:hover {
+    background-color: #f4f4f4;
 }
 
 .add-recipe-btn {
@@ -76,7 +109,5 @@ h2 {
     margin-left: 45rem;
     display: flex;
     justify-content: flex-end;
-    /* Aligns buttons to the right */
     gap: 10px;
-    /* Adds space between the buttons */
 }

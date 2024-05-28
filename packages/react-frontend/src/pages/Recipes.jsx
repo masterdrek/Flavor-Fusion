@@ -1,20 +1,16 @@
 import React, { useState, useEffect } from "react";
 import "../styles/Recipes.css";
 import { Link } from "react-router-dom";
+import { FaEllipsisV } from "react-icons/fa"; // Importing the three-dots icon from react-icons
 
 function Recipes() {
-    const savedRecipes = [
-        { id: 1, name: "Spaghetti Carbonara" },
-        { id: 2, name: "Chicken Parmesan" },
-        { id: 3, name: "Caesar Salad" },
-        { id: 4, name: "Lasagna" },
-        { id: 5, name: "Pizza" },
-        { id: 6, name: "Burger" }
-    ];
+    const savedRecipes = [];
 
-    const [personalRecipes, setPersonalRecipes] = useState([]); // Initial empty data
+    const [personalRecipes, setPersonalRecipes] = useState([]); // State to store personal recipes
     const [selectedRecipes, setSelectedRecipes] = useState([]); // State for selected recipes
+    const [showDropdown, setShowDropdown] = useState(null); // State for showing dropdown menu
 
+    // Fetch recipes when the component mounts
     useEffect(() => {
         fetchRecipes()
             .then((json) => {
@@ -28,6 +24,7 @@ function Recipes() {
             });
     }, []);
 
+    // Function to fetch recipes from the server
     async function fetchRecipes() {
         const response = await fetch("http://localhost:8000/recipes");
         if (!response.ok) {
@@ -37,6 +34,7 @@ function Recipes() {
         return data;
     }
 
+    // Function to handle recipe selection (for visual feedback)
     const handleSelectRecipe = (recipeId) => {
         setSelectedRecipes((prevSelected) => {
             if (prevSelected.includes(recipeId)) {
@@ -47,28 +45,38 @@ function Recipes() {
         });
     };
 
-    const handleDeleteRecipes = async () => {
-        const updatedRecipes = personalRecipes.filter(
-            (recipe) => !selectedRecipes.includes(recipe._id)
-        );
-        setPersonalRecipes(updatedRecipes);
+    // Function to toggle the dropdown menu for each recipe card
+    const handleDropdownToggle = (recipeId) => {
+        // Toggle the dropdown menu for the specific recipe
+        setShowDropdown((prev) => (prev === recipeId ? null : recipeId));
+    };
 
+    // Function to handle the deletion of a single recipe
+    const handleDeleteSingleRecipe = async (recipeId) => {
         try {
-            const response = await fetch("http://localhost:8000/recipes", {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ ids: selectedRecipes })
-            });
+            const response = await fetch(
+                `http://localhost:8000/recipes/${recipeId}`,
+                {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }
+            );
 
             if (!response.ok) {
                 throw new Error(`Error deleting data: ${response.statusText}`);
             }
 
-            setSelectedRecipes([]);
+            // Update the state to remove the deleted recipe
+            const updatedRecipes = personalRecipes.filter(
+                (recipe) => recipe._id !== recipeId
+            );
+            setPersonalRecipes(updatedRecipes);
+
+            console.log(`Recipe with ID ${recipeId} deleted successfully.`);
         } catch (error) {
-            console.error("Error deleting recipes:", error);
+            console.error("Error deleting recipe:", error);
         }
     };
 
@@ -81,13 +89,6 @@ function Recipes() {
                             + Add Recipes
                         </button>
                     </Link>
-                    <button
-                        className="delete-recipe-btn"
-                        onClick={handleDeleteRecipes}
-                        disabled={selectedRecipes.length === 0}
-                    >
-                        - Delete Recipe
-                    </button>
                 </div>
                 <h2>Personal Recipes ({personalRecipes.length})</h2>
                 <div className="scrollable-container">
@@ -103,6 +104,40 @@ function Recipes() {
                                 onClick={() => handleSelectRecipe(recipe._id)}
                             >
                                 {recipe.name}
+                                <div
+                                    className="dropdown-container"
+                                    onClick={(e) => {
+                                        // Prevent the click event from propagating to the parent elements
+                                        e.stopPropagation();
+                                        handleDropdownToggle(recipe._id); // Toggle dropdown menu
+                                    }}
+                                >
+                                    {/* Three-dots icon */}
+                                    <FaEllipsisV className="dropdown-icon" />{" "}
+                                    {/* showDropdown is a state variable that keeps track of 
+                                    which recipe card's dropdown menu should be displayed.
+                                    If showDropdown matches recipe._id, it means the dropdown menu 
+                                    for this specific recipe card should be visible.*/}
+                                    {showDropdown === recipe._id && ( // Conditionally render dropdown menu
+                                        <div className="dropdown-menu">
+                                            <button
+                                                onClick={(e) => {
+                                                    // Prevent the click event from propagating to the parent elements
+                                                    /* clicking on the delete button inside the dropdown could trigger 
+                                                       other click handlers attached to parent elements, leading to unintended behavior. 
+                                                       like accidently going into the individual recipe page*/
+                                                    e.stopPropagation();
+                                                    handleDeleteSingleRecipe(
+                                                        recipe._id
+                                                    ); // Handle recipe deletion
+                                                    setShowDropdown(null); // Hide dropdown menu after deletion
+                                                }}
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         ))}
                     </div>

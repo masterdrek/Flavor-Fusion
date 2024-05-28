@@ -4,7 +4,7 @@ import cors from "cors";
 import recipeServices from "./services/recipe-services.js";
 import inventoryServices from "./services/inventory-services.js";
 import userServices from "./services/user-services.js";
-import Recipe from "./models/recipe.js";
+import Recipe from "./models/recipe.js"
 
 const app = express();
 const port = 8000;
@@ -22,23 +22,22 @@ app.get("/users", async (req, res) => {
     res.send({ users_list: result });
 });
 
-// add user with name and username
-app.post("/users", async (req, res) => {
-    const userToAdd = req.body;
-    const name = userToAdd.name;
-    const username = userToAdd.username;
-
-    if (name != undefined && username != undefined) {
-        const result = await userServices.addUserByNameAndUsername(
-            name,
-            username
-        );
-        res.status(201).send(result);
-    }
-    res.status(400).send();
+// get list of all recipes
+app.get("/recipes", async (req, res) => {
+    const result = await recipeServices.getRecipes();
+    res.send({ recipes_list: result });
 });
 
-// ------------------ INVENTORY ------------------------------
+// get recipes made by specific user
+app.get("/recipes/:userId", async (req, res) => {
+    const id = req.params["userId"];
+    try {
+        const result = await recipeServices.getUserMadeRecipes(id);
+        res.send({ recipes_list: result });
+    } catch (error) {
+        res.status(404).send("Resource not found.");
+    }
+});
 
 // get list of all inventories
 app.get("/inventory", async (req, res) => {
@@ -60,6 +59,23 @@ app.delete("/inventory/:id", async (req, res) => {
     res.send({ inventory_list: result });
 });
 
+// add user with name and username
+app.post("/users", async (req, res) => {
+    const userToAdd = req.body;
+    const name = userToAdd.name;
+    const username = userToAdd.username;
+
+    if (name != undefined && username != undefined) {
+        const result = await userServices.addUserByNameAndUsername(
+            name,
+            username
+        );
+        res.status(201).send(result);
+    }
+    res.status(400).send();
+});
+
+
 app.patch("/inventory/:id", async (req, res) => {
     // get the item id from the URL path
     const itemId = req.params.id;
@@ -80,10 +96,56 @@ app.patch("/inventory/:id", async (req, res) => {
     }
 });
 
-// ---------------ADD RECIPE ----------------------------------
+// get recipe by id
+app.get("/recipe/:recipeId", async (req, res) => {
+    const id = req.params["recipeId"];
+    console.log("trying to get recipe: " + id);
+    try {
+        const result = await recipeServices.getRecipeById(id);
+        res.send({ recipe: result });
+    } catch (error) {
+        res.status(404).send("Resource not found.");
+    }
+});
 
-// add recipe
-// Route to handle recipe creation
+// check if recipe is saved
+app.get("/recipe/saved/:username/:recipeId", async (req, res) => {
+    const { username, recipeId } = req.params;
+    try {
+        const result = await userServices.isRecipeSaved(username, recipeId);
+        res.send(result);
+    } catch (error) {
+        res.status(404).send("Resource not found.");
+    }
+});
+// add saved recipe to user by id
+app.patch("/recipe/add/:username/:recipeId", async (req, res) => {
+    const { username, recipeId } = req.params;
+
+    console.log(username, recipeId);
+    try {
+        const result = await userServices.addSavedRecipe(username, recipeId);
+        res.send({ user: result });
+    } catch (error) {
+        console.log(error);
+        res.status(404).send("Resource not found.");
+    }
+});
+
+// add saved recipe to user by id
+app.patch("/recipe/remove/:username/:recipeId", async (req, res) => {
+    const { username, recipeId } = req.params;
+    console.log(username, recipeId);
+    try {
+        const result = await userServices.removeSavedRecipe(username, recipeId);
+        res.send({ user: result });
+    } catch (error) {
+        console.log(error);
+        res.status(404).send("Resource not found.");
+    }
+});
+
+
 app.post("/recipes", async (req, res) => {
     const { name, ingredients, cookware, instructions, creator } = req.body;
 
@@ -105,41 +167,16 @@ app.post("/recipes", async (req, res) => {
     }
 });
 
-// get list of all recipes
-app.get("/recipes", async (req, res) => {
-    const result = await recipeServices.getRecipes();
-    res.send({ recipes_list: result });
-});
-
-// get recipes made by specific user
-app.get("/recipes/:userId", async (req, res) => {
-    const id = req.params["userId"];
+// delete recipe by id
+app.delete("/recipes/:recipeId", async (req, res) => {
+    const id = req.params["recipeId"];
     try {
-        const result = await recipeServices.getUserMadeRecipes(id);
+        const result = await recipeServices.deleteRecipeById(id);
         res.send({ recipes_list: result });
     } catch (error) {
         res.status(404).send("Resource not found.");
     }
 });
-
-
-// delete item in inventory by id
-app.delete("/recipes", async (req, res) => {
-    const { ids } = req.body; // Get the ids from the request body
-    if (!Array.isArray(ids)) {
-        return res.status(400).json({ message: "ids must be an array" });
-    }
-    try {
-        const result = await recipeServices.deleteRecipesByIds(ids);
-        res.status(200).json({
-            message: "Recipes deleted successfully",
-            result
-        });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-
 
 
 app.listen(port, () => {
