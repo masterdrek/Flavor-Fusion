@@ -67,7 +67,6 @@
 .menu .menuItem:last-child{
     position: fixed;
     bottom: 5rem;
-    width: 100%;
     font-size: 25px;
     
 }

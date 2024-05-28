@@ -36,6 +36,12 @@ h2 {
     border-radius: 8px;
     padding: 20px;
     box-sizing: border-box;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.recipe-card.selected {
+    background-color: lightblue;
 }
 
 .add-recipe-btn {
@@ -48,10 +54,29 @@ h2 {
     border-radius: 5px;
 }
 
+.delete-recipe-btn:hover {
+    background-color: #ba0707;
+}
+
+.delete-recipe-btn {
+    padding: 10px 20px;
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
 .add-recipe-btn:hover {
     background-color: #0056b3;
 }
 
-.add-recipe{
+.button-options {
     margin-left: 45rem;
+    display: flex;
+    justify-content: flex-end;
+    /* Aligns buttons to the right */
+    gap: 10px;
+    /* Adds space between the buttons */
 }

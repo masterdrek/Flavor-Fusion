@@ -11,13 +11,13 @@ function createAccount() {
 
             <div className="Textboxes">
                 <h3>Name</h3>
-                <TextBox showButton={false} />
+                <TextBox  />
                 <h3>Username</h3>
-                <TextBox showButton={false} />
+                <TextBox />
                 <h3>Password</h3>
-                <TextBox showButton={false} type="password" />
+                <TextBox type="password" />
                 <h3>Confirm Password</h3>
-                <TextBox showButton={false} type="password" />
+                <TextBox type="password" />
             </div>
 
             <Link to="/">

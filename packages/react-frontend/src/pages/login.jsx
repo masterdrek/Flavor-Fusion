@@ -14,9 +14,9 @@ function login(){
 
             <div className="Textboxes">
                 <h3>Username</h3>
-                <TextBox showButton={false} />
+                <TextBox />
                 <h3>Password</h3>
-                <TextBox showButton={false} type="password" />
+                <TextBox type="password" />
             </div>
 
             <div className="login-txt">

@@ -1,61 +1,52 @@
 import "../styles/addRecipe.css";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import Textbox from "../components/Textbox";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import DataTable from "react-data-table-component";
 import Modal from "../components/Modal";
 import { BsFillPencilFill } from "react-icons/bs";
 
-/* Need to add the backspace button and make sure that the NavBar is not present*/
-
 function AddRecipe() {
-    // State for ingredients table
+    // State for recipe name
+    const [recipeName, setRecipeName] = useState("");
+
+    // State for ingredients
     const [ingredientFilterText, setIngredientFilterText] = useState("");
     const [ingredientSelectedRows, setIngredientSelectedRows] = useState([]);
     const [ingredientEditItem, setIngredientEditItem] = useState(null);
     const [ingredientModalOpen, setIngredientModalOpen] = useState(false);
     const [isIngredientEditing, setIsIngredientEditing] = useState(false);
-    const [ingredientData, setIngredientData] = useState([
-        { id: 1, name: "Apple", quantity: "5" },
-        { id: 2, name: "Ribeye Steak", quantity: "2" },
-        { id: 3, name: "Eggs", quantity: "12" },
-        { id: 4, name: "Chicken Wings", quantity: "16" }
-    ]);
+    const [ingredientData, setIngredientData] = useState([]);
 
-    // State for cookware table
+    // State for cookware
     const [cookwareFilterText, setCookwareFilterText] = useState("");
     const [cookwareSelectedRows, setCookwareSelectedRows] = useState([]);
     const [cookwareEditItem, setCookwareEditItem] = useState(null);
     const [cookwareModalOpen, setCookwareModalOpen] = useState(false);
     const [isCookwareEditing, setIsCookwareEditing] = useState(false);
-    const [cookwareData, setCookwareData] = useState([
-        { id: 1, name: "Frying Pan", quantity: "1" },
-        { id: 2, name: "Saucepan", quantity: "2" },
-        { id: 3, name: "Spatula", quantity: "3" },
-        { id: 4, name: "Whisk", quantity: "1" }
-    ]);
+    const [cookwareData, setCookwareData] = useState([]);
 
-    // State for steps table
+    // State for steps
     const [stepFilterText, setStepFilterText] = useState("");
     const [stepSelectedRows, setStepSelectedRows] = useState([]);
     const [stepEditItem, setStepEditItem] = useState(null);
     const [stepModalOpen, setStepModalOpen] = useState(false);
     const [isStepEditing, setIsStepEditing] = useState(false);
-    const [stepData, setStepData] = useState([
-        { id: 1, name: "Pour 1 half cup of water." },
-        { id: 2, name: "Whisk the eggs" },
-        { id: 3, name: "Make the flour" },
-        { id: 4, name: "Eat the cake" }
-    ]);
+    const [stepData, setStepData] = useState([]);
 
+    // State for validation warnings
+    const [warningMessage, setWarningMessage] = useState("");
+
+    const navigate = useNavigate();
+
+    // Ingredient columns for DataTable
     const ingredientColumns = [
         {
-            name: "The Inventory Item",
+            name: "Ingredient",
             selector: (row) => row.name,
             sortable: true
         },
         {
-            name: "Unit Amount Size",
+            name: "Quantity",
             selector: (row) => row.quantity,
             sortable: true
         },
@@ -72,14 +63,15 @@ function AddRecipe() {
         }
     ];
 
+    // Cookware columns for DataTable
     const cookwareColumns = [
         {
-            name: "The Inventory Item",
+            name: "Cookware",
             selector: (row) => row.name,
             sortable: true
         },
         {
-            name: "Unit Amount Size",
+            name: "Quantity",
             selector: (row) => row.quantity,
             sortable: true
         },
@@ -96,9 +88,10 @@ function AddRecipe() {
         }
     ];
 
+    // Step columns for DataTable
     const stepColumns = [
         {
-            name: "The Recipe Steps",
+            name: "Step",
             selector: (row) => row.name,
             sortable: true
         },
@@ -112,7 +105,72 @@ function AddRecipe() {
         }
     ];
 
-    // Ingredients handlers
+    // UseEffect to log state changes
+    useEffect(() => {
+        // This effect runs every time recipeName changes
+        console.log("Recipe Name:", recipeName);
+    }, [recipeName]);
+
+    useEffect(() => {
+        console.log("Updated ingredient data:", ingredientData);
+    }, [ingredientData]);
+
+    useEffect(() => {
+        console.log("Updated cookware data:", cookwareData);
+    }, [cookwareData]);
+
+    useEffect(() => {
+        console.log("Updated step data:", stepData);
+    }, [stepData]);
+
+    // Handle saving the entire recipe
+    const handleSaveRecipe = async () => {
+        if (
+            !recipeName ||
+            ingredientData.length === 0 ||
+            cookwareData.length === 0 ||
+            stepData.length === 0
+        ) {
+            setWarningMessage(
+                "All fields must be filled out before submitting the recipe."
+            );
+            return;
+        }
+
+        const recipeData = {
+            name: recipeName,
+            ingredients: ingredientData,
+            cookware: cookwareData,
+            instructions: stepData.map((step) => step.name),
+            creator: "Andrew"
+        };
+
+        // Log state data before POST request
+        console.log("Recipe data to be posted:", recipeData);
+
+        try {
+            const response = await fetch("http://localhost:8000/recipes", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(recipeData)
+            });
+
+            console.log(JSON.stringify(recipeData));
+
+            if (!response.ok) {
+                throw new Error(`Error posting data: ${response.statusText}`);
+            }
+
+            // Navigate back to home if the recipe is successfully saved
+            navigate("/");
+        } catch (error) {
+            console.error("Error in postIngredients:", error);
+        }
+    };
+
+    // Ingredient handlers
     const handleIngredientDelete = () => {
         const updatedData = ingredientData.filter(
             (item) => !ingredientSelectedRows.includes(item)
@@ -131,16 +189,6 @@ function AddRecipe() {
         setIngredientModalOpen(true);
     };
 
-    const handleIngredientAddItem = (newItem) => {
-        const newItemWithId = {
-            ...newItem,
-            id: ingredientData.length
-                ? ingredientData[ingredientData.length - 1].id + 1
-                : 1
-        };
-        setIngredientData([...ingredientData, newItemWithId]);
-    };
-
     const handleIngredientEditSubmit = (editedItem) => {
         const updatedData = ingredientData.map((item) =>
             item.id === ingredientEditItem.id
@@ -153,6 +201,17 @@ function AddRecipe() {
         );
         setIngredientData(updatedData);
         setIngredientEditItem(null);
+        setIsIngredientEditing(false);
+    };
+
+    const handleIngredientModalSubmit = (newItem) => {
+        console.log("New ingredient item:", newItem);
+        if (isIngredientEditing) {
+            handleIngredientEditSubmit(newItem);
+        } else {
+            setIngredientData([...ingredientData, newItem]);
+        }
+        setIngredientModalOpen(false);
     };
 
     const handleIngredientModalClose = () => {
@@ -160,10 +219,6 @@ function AddRecipe() {
         setIngredientEditItem(null);
         setIsIngredientEditing(false);
     };
-
-    const filteredIngredientData = ingredientData.filter((item) =>
-        item.name.toLowerCase().includes(ingredientFilterText.toLowerCase())
-    );
 
     // Cookware handlers
     const handleCookwareDelete = () => {
@@ -184,16 +239,6 @@ function AddRecipe() {
         setCookwareModalOpen(true);
     };
 
-    const handleCookwareAddItem = (newItem) => {
-        const newItemWithId = {
-            ...newItem,
-            id: cookwareData.length
-                ? cookwareData[cookwareData.length - 1].id + 1
-                : 1
-        };
-        setCookwareData([...cookwareData, newItemWithId]);
-    };
-
     const handleCookwareEditSubmit = (editedItem) => {
         const updatedData = cookwareData.map((item) =>
             item.id === cookwareEditItem.id
@@ -206,6 +251,17 @@ function AddRecipe() {
         );
         setCookwareData(updatedData);
         setCookwareEditItem(null);
+        setIsCookwareEditing(false);
+    };
+
+    const handleCookwareModalSubmit = (newItem) => {
+        console.log("New cookware item:", newItem);
+        if (isCookwareEditing) {
+            handleCookwareEditSubmit(newItem);
+        } else {
+            setCookwareData([...cookwareData, newItem]);
+        }
+        setCookwareModalOpen(false);
     };
 
     const handleCookwareModalClose = () => {
@@ -214,11 +270,7 @@ function AddRecipe() {
         setIsCookwareEditing(false);
     };
 
-    const filteredCookwareData = cookwareData.filter((item) =>
-        item.name.toLowerCase().includes(cookwareFilterText.toLowerCase())
-    );
-
-    // Steps handlers
+    // Step handlers
     const handleStepDelete = () => {
         const updatedData = stepData.filter(
             (item) => !stepSelectedRows.includes(item)
@@ -237,14 +289,6 @@ function AddRecipe() {
         setStepModalOpen(true);
     };
 
-    const handleStepAddItem = (newItem) => {
-        const newItemWithId = {
-            ...newItem,
-            id: stepData.length ? stepData[stepData.length - 1].id + 1 : 1
-        };
-        setStepData([...stepData, newItemWithId]);
-    };
-
     const handleStepEditSubmit = (editedItem) => {
         const updatedData = stepData.map((item) =>
             item.id === stepEditItem.id
@@ -256,6 +300,17 @@ function AddRecipe() {
         );
         setStepData(updatedData);
         setStepEditItem(null);
+        setIsStepEditing(false);
+    };
+
+    const handleStepModalSubmit = (newItem) => {
+        console.log("New step item:", newItem);
+        if (isStepEditing) {
+            handleStepEditSubmit(newItem);
+        } else {
+            setStepData([...stepData, newItem]);
+        }
+        setStepModalOpen(false);
     };
 
     const handleStepModalClose = () => {
@@ -264,19 +319,24 @@ function AddRecipe() {
         setIsStepEditing(false);
     };
 
-    const filteredStepData = stepData.filter((item) =>
-        item.name.toLowerCase().includes(stepFilterText.toLowerCase())
-    );
-
     return (
         <div className="add-recipe-scrollable-container">
             <Link to="/">
                 <button className="back-button">Back</button>
             </Link>
             <div className="recipe-name-tb">
-                <Textbox placeholder={"Enter Recipe Name"} showButton={true} />
+                <input
+                    placeholder="Enter Recipe Name"
+                    onChange={(e) => setRecipeName(e.target.value)}
+                />
             </div>
 
+            {/* Warning Message */}
+            {warningMessage && (
+                <div className="warning-message">{warningMessage}</div>
+            )}
+
+            {/* Ingredients Section */}
             <div className="table-container-two">
                 <h3>Add Your Ingredients</h3>
                 <div className="toolbar-two">
@@ -305,14 +365,14 @@ function AddRecipe() {
                     </div>
                     <div className="add-bar-two">
                         <button onClick={() => setIngredientModalOpen(true)}>
-                            Add Ingredient{" "}
+                            Add Ingredient
                         </button>
                     </div>
                 </div>
 
                 <DataTable
                     columns={ingredientColumns}
-                    data={filteredIngredientData}
+                    data={ingredientData}
                     selectableRows
                     onSelectedRowsChange={handleIngredientRowSelected}
                     pagination
@@ -321,11 +381,7 @@ function AddRecipe() {
                 {ingredientModalOpen && (
                     <Modal
                         onClose={handleIngredientModalClose}
-                        onSubmit={
-                            isIngredientEditing
-                                ? handleIngredientEditSubmit
-                                : handleIngredientAddItem
-                        }
+                        onSubmit={handleIngredientModalSubmit}
                         initialName={
                             isIngredientEditing && ingredientEditItem
                                 ? ingredientEditItem.name
@@ -341,6 +397,7 @@ function AddRecipe() {
                 )}
             </div>
 
+            {/* Cookware Section */}
             <div className="table-container-two">
                 <h3>Add Your Cookware</h3>
                 <div className="toolbar-two">
@@ -369,14 +426,14 @@ function AddRecipe() {
                     </div>
                     <div className="add-bar-two">
                         <button onClick={() => setCookwareModalOpen(true)}>
-                            Add Cookware{" "}
+                            Add Cookware
                         </button>
                     </div>
                 </div>
 
                 <DataTable
                     columns={cookwareColumns}
-                    data={filteredCookwareData}
+                    data={cookwareData}
                     selectableRows
                     onSelectedRowsChange={handleCookwareRowSelected}
                     pagination
@@ -385,11 +442,7 @@ function AddRecipe() {
                 {cookwareModalOpen && (
                     <Modal
                         onClose={handleCookwareModalClose}
-                        onSubmit={
-                            isCookwareEditing
-                                ? handleCookwareEditSubmit
-                                : handleCookwareAddItem
-                        }
+                        onSubmit={handleCookwareModalSubmit}
                         initialName={
                             isCookwareEditing && cookwareEditItem
                                 ? cookwareEditItem.name
@@ -405,8 +458,9 @@ function AddRecipe() {
                 )}
             </div>
 
+            {/* Steps Section */}
             <div className="table-container-two">
-                <h3>Add Your Recipe Steps</h3>
+                <h3>Add Your Steps</h3>
                 <div className="toolbar-two">
                     <div className="search-bar-two">
                         <input
@@ -431,14 +485,14 @@ function AddRecipe() {
                     </div>
                     <div className="add-bar-two">
                         <button onClick={() => setStepModalOpen(true)}>
-                            Add Recipe Step{" "}
+                            Add Recipe Step
                         </button>
                     </div>
                 </div>
 
                 <DataTable
                     columns={stepColumns}
-                    data={filteredStepData}
+                    data={stepData}
                     selectableRows
                     onSelectedRowsChange={handleStepRowSelected}
                     pagination
@@ -447,11 +501,7 @@ function AddRecipe() {
                 {stepModalOpen && (
                     <Modal
                         onClose={handleStepModalClose}
-                        onSubmit={
-                            isStepEditing
-                                ? handleStepEditSubmit
-                                : handleStepAddItem
-                        }
+                        onSubmit={handleStepModalSubmit}
                         initialName={
                             isStepEditing && stepEditItem
                                 ? stepEditItem.name
@@ -462,10 +512,11 @@ function AddRecipe() {
                     />
                 )}
             </div>
+
             <div className="save-recipe-button">
-                <Link to="/">
-                    <button className="save-button">Save Recipe</button>
-                </Link>
+                <button className="save-button" onClick={handleSaveRecipe}>
+                    Save Recipe
+                </button>
             </div>
         </div>
     );
