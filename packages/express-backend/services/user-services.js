@@ -34,8 +34,47 @@ async function addUser(newName, newUsername, newHashedPwd) {
     return promise;
 }
 
-export {
+function isRecipeSaved(username, recipeId) {
+    return userModel.findOne({ username: username}).then((user) => {
+        return user.saved_recipes.includes(recipeId);
+    });
+}
+function addSavedRecipe(username, recipeId) {
+    return userModel.findOne({ username: username}).then((user) => {
+        if (!user.saved_recipes.includes(recipeId)) {
+            return userModel.updateOne(
+                { username: username},
+                {
+                    $set: {
+                        saved_recipes: [...user.saved_recipes, recipeId]
+                    }
+                }
+            );
+        }
+
+    });
+}
+
+function removeSavedRecipe(username, recipeId) {
+    return userModel.findOne({ username: username}).then((user) => {
+        if (user.saved_recipes.includes(recipeId)) {
+            let newRecipes = user.saved_recipes.filter((recipe) => recipe != recipeId)
+            return userModel.updateOne(
+                { username: username},
+                {
+                    $set: {
+                        saved_recipes: newRecipes
+                    }
+                }
+            );
+        }
+
+    });
+}
+export default {
     getUsers,
-    getUserByUsername,
-    addUser
+    addUserByNameAndUsername,
+    addSavedRecipe,
+    removeSavedRecipe,
+    isRecipeSaved
 };

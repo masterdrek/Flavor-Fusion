@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import "../styles/Textbox.css";
 
-const TextBoxComponent = ({ placeholder, showButton, type = "text" }) => {
+const TextBoxComponent = ({ placeholder, type = "text" }) => {
     const [inputValue, setInputValue] = useState("");
     const [showPassword, setShowPassword] = useState(false);
 
@@ -29,11 +29,6 @@ const TextBoxComponent = ({ placeholder, showButton, type = "text" }) => {
                     onChange={handleChange}
                     placeholder={placeholder}
                 />
-                {showButton && (
-                    <button type="submit" className="save-button">
-                        Save
-                    </button>
-                )}
             </form>
             {type === "password" && (
                 <div className="show-password-container">

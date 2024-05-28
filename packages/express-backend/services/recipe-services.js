@@ -17,8 +17,19 @@ function createRecipe(newRecipe) {
     return promise;
 }
 
-export {
+function getRecipeById(id) {
+    return recipeModel.find({ _id: id });
+}
+
+function deleteRecipeById(id) {
+    return recipeModel.findOneAndDelete({ _id: id }).exec();
+}
+
+
+export default {
     getRecipes,
     getUserMadeRecipes,
-    createRecipe
+    createRecipe,
+    getRecipeById,
+    deleteRecipeById,
 };

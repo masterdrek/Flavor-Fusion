@@ -1,28 +1,10 @@
 // backend.js
 import express from "express";
 import cors from "cors";
-import {
-    getRecipes, 
-    getUserMadeRecipes, 
-    createRecipe 
-} from "./services/recipe-services.js";
-import {
-    addInventory,
-    getInventories,
-    updateInventoryItem
-} from "./services/inventory-services.js";
-import {
-    getUsers,
-    addUser
-} from "./services/user-services.js";
-import {
-    registerUser,
-    loginUser,
-    authenticateUser 
-} from './auth/auth.js'
-
-import dotenv from 'dotenv'
-dotenv.config() 
+import recipeServices from "./services/recipe-services.js";
+import inventoryServices from "./services/inventory-services.js";
+import userServices from "./services/user-services.js";
+import Recipe from "./models/recipe.js"
 
 const app = express();
 const port = process.env.PORT;
@@ -88,16 +70,6 @@ app.delete("/inventory/:id", async (req, res) => {
     res.send({ inventory_list: result });
 });
 
-// add recipe
-app.post("/recipes", async (req, res) => {
-    const recipeToAdd = req.body;
-    const result = await createRecipe(recipeToAdd);
-    if (!result) {
-        res.status(400).json({ message: "error creating new recipe" })
-    } else {
-        res.status(201).send(result);
-    }
-});
 
 app.patch("/inventory/:id", async (req, res) => {
     // get the item id from the URL path
@@ -118,6 +90,89 @@ app.patch("/inventory/:id", async (req, res) => {
         res.status(500).send("Internal Server Error.");
     }
 });
+
+// get recipe by id
+app.get("/recipe/:recipeId", async (req, res) => {
+    const id = req.params["recipeId"];
+    console.log("trying to get recipe: " + id);
+    try {
+        const result = await recipeServices.getRecipeById(id);
+        res.send({ recipe: result });
+    } catch (error) {
+        res.status(404).send("Resource not found.");
+    }
+});
+
+// check if recipe is saved
+app.get("/recipe/saved/:username/:recipeId", async (req, res) => {
+    const { username, recipeId } = req.params;
+    try {
+        const result = await userServices.isRecipeSaved(username, recipeId);
+        res.send(result);
+    } catch (error) {
+        res.status(404).send("Resource not found.");
+    }
+});
+// add saved recipe to user by id
+app.patch("/recipe/add/:username/:recipeId", async (req, res) => {
+    const { username, recipeId } = req.params;
+
+    console.log(username, recipeId);
+    try {
+        const result = await userServices.addSavedRecipe(username, recipeId);
+        res.send({ user: result });
+    } catch (error) {
+        console.log(error);
+        res.status(404).send("Resource not found.");
+    }
+});
+
+// add saved recipe to user by id
+app.patch("/recipe/remove/:username/:recipeId", async (req, res) => {
+    const { username, recipeId } = req.params;
+    console.log(username, recipeId);
+    try {
+        const result = await userServices.removeSavedRecipe(username, recipeId);
+        res.send({ user: result });
+    } catch (error) {
+        console.log(error);
+        res.status(404).send("Resource not found.");
+    }
+});
+
+
+app.post("/recipes", async (req, res) => {
+    const { name, ingredients, cookware, instructions, creator } = req.body;
+
+    // creating a Recipe object
+    const newRecipe = new Recipe({
+        name,
+        ingredients,
+        cookware,
+        instructions,
+        creator
+    });
+
+    try {
+        // saving recipe to database
+        const savedRecipe = await newRecipe.save();
+        res.status(201).json(savedRecipe);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
+
+// delete recipe by id
+app.delete("/recipes/:recipeId", async (req, res) => {
+    const id = req.params["recipeId"];
+    try {
+        const result = await recipeServices.deleteRecipeById(id);
+        res.send({ recipes_list: result });
+    } catch (error) {
+        res.status(404).send("Resource not found.");
+    }
+});
+
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
