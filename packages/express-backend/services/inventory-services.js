@@ -3,40 +3,36 @@ import connect from "../mongoSetup.js";
 
 connect();
 
-function addInventory(inventory) {
-    const inventoryToAdd = new inventoryModel(inventory);
-    const promise = inventoryToAdd.save();
+async function addNewInventoryItem(newItem) {
+    const itemToAdd = new inventoryModel(newItem);
+    const promise = itemToAdd.save();
     return promise;
 }
 
-function addCookware(newCookware, id) {
-    return inventoryModel.findById(id).then((oldInventory) => {
-        return inventoryModel.updateOne(
-            { _id: id },
-            { $set: { cookware: [...oldInventory.cookware, newCookware] } }
-        );
-    });
+async function addInventory({ ingredients, cookware }) {
+    const result = await inventoryModel.create({ ingredients, cookware })
+    return result
 }
 
-function addIngredient(newIngredient, id) {
-    return inventoryModel.findById(id).then((oldInventory) => {
-        return inventoryModel.updateOne(
-            { _id: id },
-            {
-                $set: {
-                    ingredients: [...oldInventory.ingredients, newIngredient]
-                }
-            }
-        );
-    });
-}
-
-function getInventorys() {
+function getInventories() {
     return inventoryModel.find();
 }
+
+async function updateInventoryItem(id, updateData) {
+    const result = await inventoryModel
+        .findByIdAndUpdate(id, updateData, { new: true })
+        .exec();
+    return result;
+}
+
+function deleteUserById(id) {
+    return inventoryModel.findOneAndDelete({ _id: id }).exec();
+}
+
 export {
+    addNewInventoryItem,
     addInventory,
-    getInventorys,
-    addCookware,
-    addIngredient
+    getInventories,
+    updateInventoryItem,
+    deleteUserById
 };

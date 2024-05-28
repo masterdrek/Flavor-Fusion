@@ -14,6 +14,7 @@ import Search from "./pages/Search";
 import AddRecipe from "./pages/addRecipe";
 import MaybeShowNavBar from "./components/Toggle/MaybeShowNavBar";
 import CreateAccount from "./pages/createAccount";
+import Login from "./pages/login";
 
 function App() {
     const [isSelected, setIsSelected] = useState(0);
@@ -34,27 +35,24 @@ function App() {
 
     const isHomePage =
         location.pathname !== "/create_account" &&
+        location.pathname !== "/login" &&
         location.pathname !== "/add_recipe";
-
 
     return (
         <div className="App">
             <div className="AppGlass">
-                {isHomePage && (
-                    <>
-                        <MaybeShowNavBar
-                            NavbarData={NavbarData}
-                            isSelected={isSelected}
-                            setIsSelected={setIsSelected}
-                        />
-                        <RenderComponent index={isSelected} />
-                    </>
-                )}
+                <MaybeShowNavBar
+                    NavbarData={NavbarData}
+                    isSelected={isSelected}
+                    setIsSelected={setIsSelected}
+                />
+                {isHomePage && <RenderComponent index={isSelected} />}
             </div>
 
             <Routes>
                 <Route path="/add_recipe" element={<AddRecipe />} />
                 <Route path="/create_account" element={<CreateAccount />} />
+                <Route path="/login" element={<Login />} />
             </Routes>
         </div>
     );

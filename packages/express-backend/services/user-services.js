@@ -1,11 +1,12 @@
-import userModel from "../models/user-schema.js";
+import User from "../models/user-schema.js";
 import { addInventory } from "./inventory-services.js";
+import { createRecipe }
 import connect from "../mongoSetup.js";
 
 connect();
 
 function getUsers() {
-    const users = userModel.find().lean().exec()
+    const users = User.find().lean().exec()
 }
 
 function getUserByUsername(user) {
@@ -15,19 +16,33 @@ function getUserByUsername(user) {
 
 async function addUser(newName, newUsername, newHashedPwd) {
 
+    // addInventory returns the new inventories _id
     const newInventory = await addInventory({
         ingredients: [],
         cookware: []
     });
-    const UserToAdd = new userModel({
-        name: newName,
-        username: newUsername,
-        hashedPassword: newHashedPwd,
-        inventory: newInventory._id,
-        saved_recipes: []
-    });
 
-    const promise = UserToAdd.save();
+    const newRecipes = await createRecipe
+
+    const newUser = {
+            name: newName,
+            username: newUsername,
+            hashedPassword: newHashedPwd,
+            inventory: newInventory
+            saved_recipes: [
+                {
+                    type: mongoose.Schema.Types.ObjectId,
+                    required: true,
+                    ref: "Recipe"
+                }
+            ]
+        },
+        { 
+            collection: "user_list" 
+        }
+    }
+
+    const promise = userModel.save();
     return promise;
 }
 
