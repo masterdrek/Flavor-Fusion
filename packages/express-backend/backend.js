@@ -4,6 +4,7 @@ import cors from "cors";
 import recipeServices from "./services/recipe-services.js";
 import inventoryServices from "./services/inventory-services.js";
 import userServices from "./services/user-services.js";
+import Recipe from "./models/recipe.js";
 
 const app = express();
 const port = 8000;
@@ -21,22 +22,23 @@ app.get("/users", async (req, res) => {
     res.send({ users_list: result });
 });
 
-// get list of all recipes
-app.get("/recipes", async (req, res) => {
-    const result = await recipeServices.getRecipes();
-    res.send({ recipes_list: result });
+// add user with name and username
+app.post("/users", async (req, res) => {
+    const userToAdd = req.body;
+    const name = userToAdd.name;
+    const username = userToAdd.username;
+
+    if (name != undefined && username != undefined) {
+        const result = await userServices.addUserByNameAndUsername(
+            name,
+            username
+        );
+        res.status(201).send(result);
+    }
+    res.status(400).send();
 });
 
-// get recipes made by specific user
-app.get("/recipes/:userId", async (req, res) => {
-    const id = req.params["userId"];
-    try {
-        const result = await recipeServices.getUserMadeRecipes(id);
-        res.send({ recipes_list: result });
-    } catch (error) {
-        res.status(404).send("Resource not found.");
-    }
-});
+// ------------------ INVENTORY ------------------------------
 
 // get list of all inventories
 app.get("/inventory", async (req, res) => {
@@ -58,29 +60,6 @@ app.delete("/inventory/:id", async (req, res) => {
     res.send({ inventory_list: result });
 });
 
-// add user with name and username
-app.post("/users", async (req, res) => {
-    const userToAdd = req.body;
-    const name = userToAdd.name;
-    const username = userToAdd.username;
-
-    if (name != undefined && username != undefined) {
-        const result = await userServices.addUserByNameAndUsername(
-            name,
-            username
-        );
-        res.status(201).send(result);
-    }
-    res.status(400).send();
-});
-
-// add recipe
-app.post("/recipes", async (req, res) => {
-    const recipeToAdd = req.body;
-    const result = await recipeServices.createRecipe(recipeToAdd);
-    res.status(201).send(result);
-});
-
 app.patch("/inventory/:id", async (req, res) => {
     // get the item id from the URL path
     const itemId = req.params.id;
@@ -100,6 +79,68 @@ app.patch("/inventory/:id", async (req, res) => {
         res.status(500).send("Internal Server Error.");
     }
 });
+
+// ---------------ADD RECIPE ----------------------------------
+
+// add recipe
+// Route to handle recipe creation
+app.post("/recipes", async (req, res) => {
+    const { name, ingredients, cookware, instructions, creator } = req.body;
+
+    // creating a Recipe object
+    const newRecipe = new Recipe({
+        name,
+        ingredients,
+        cookware,
+        instructions,
+        creator
+    });
+
+    try {
+        // saving recipe to database
+        const savedRecipe = await newRecipe.save();
+        res.status(201).json(savedRecipe);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
+
+// get list of all recipes
+app.get("/recipes", async (req, res) => {
+    const result = await recipeServices.getRecipes();
+    res.send({ recipes_list: result });
+});
+
+// get recipes made by specific user
+app.get("/recipes/:userId", async (req, res) => {
+    const id = req.params["userId"];
+    try {
+        const result = await recipeServices.getUserMadeRecipes(id);
+        res.send({ recipes_list: result });
+    } catch (error) {
+        res.status(404).send("Resource not found.");
+    }
+});
+
+
+// delete item in inventory by id
+app.delete("/recipes", async (req, res) => {
+    const { ids } = req.body; // Get the ids from the request body
+    if (!Array.isArray(ids)) {
+        return res.status(400).json({ message: "ids must be an array" });
+    }
+    try {
+        const result = await recipeServices.deleteRecipesByIds(ids);
+        res.status(200).json({
+            message: "Recipes deleted successfully",
+            result
+        });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
