@@ -7,17 +7,17 @@ const MaybeShowNavBar = ({ NavbarData, isSelected, setIsSelected }) => {
     const location = useLocation();
     const hideNavBarPaths = [
         "/add_recipe",
-        "/create_account",
+        "/signup",
         "/login",
         "/recipe"
     ];
-    const determineIfHidden = (pathname) => {
-        return (
-            hideNavBarPaths.filter((path) => pathname.includes(path)).length !==
-            0
-        );
+
+    // return true if pathname is in hideNavBarPaths, false otherwise
+    const determineHidden = (pathname) => {
+        return hideNavBarPaths.filter((path) => pathname.includes(path)).length !== 0;
     };
-    return !determineIfHidden(location.pathname) ? (
+
+    return !determineHidden(location.pathname) ? (
         <>
             <NavBar
                 NavbarData={NavbarData}

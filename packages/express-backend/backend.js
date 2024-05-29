@@ -4,7 +4,8 @@ import cors from "cors";
 import recipeServices from "./services/recipe-services.js";
 import inventoryServices from "./services/inventory-services.js";
 import userServices from "./services/user-services.js";
-import Recipe from "./models/recipe.js"
+import { loginUser, registerUser, authenticateUser } from "./auth/auth.js"
+import Recipe from "./models/recipe-schema.js"
 
 const app = express();
 const port = process.env.PORT;
@@ -21,7 +22,7 @@ app.get("/", async (req, res) => {
 
 // get list of all users
 app.get("/users", async (req, res) => {
-    const result = await getUsers();
+    const result = await userServices.getUsers();
     res.send({ users_list: result });
 });
 
@@ -35,7 +36,7 @@ app.post("/signup", async (req, res) => {
 
 // get list of all recipes
 app.get("/recipes", async (req, res) => {
-    const result = await getRecipes();
+    const result = await recipeServices.getRecipes();
     res.send({ recipes_list: result });
 });
 
@@ -43,7 +44,7 @@ app.get("/recipes", async (req, res) => {
 app.get("/recipes/:userId", async (req, res) => {
     const id = req.params["userId"];
     try {
-        const result = await getUserMadeRecipes(id);
+        const result = await recipeServices.getUserMadeRecipes(id);
         res.send({ recipes_list: result });
     } catch (error) {
         res.status(404).send("Resource not found.");

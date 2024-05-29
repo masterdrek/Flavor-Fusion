@@ -29,7 +29,7 @@ function deleteUserById(id) {
     return inventoryModel.findOneAndDelete({ _id: id }).exec();
 }
 
-export {
+export default {
     addNewInventoryItem,
     addInventory,
     getInventories,

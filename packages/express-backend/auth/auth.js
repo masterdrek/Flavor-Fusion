@@ -1,10 +1,8 @@
-import { getUsers, getUserByUsername, addUser } from '../services/user-services.js'
+import userServieces from '../services/user-services.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 dotenv.config()
-
-
 
 
 const generateAccessToken = (username) => {
@@ -26,8 +24,8 @@ const generateAccessToken = (username) => {
 
 export const registerUser = async (req, res) => {
     const { name, username, password } = req.body
-    const usernameTaken = await getUserByUsername(username)
-
+    const usernameTaken = await userServieces.getUserByUsername(username)
+    
     if ( !name || !username || !password ) {
         res.status(400).send("Bad request: Invalid input data.")
     } else if (usernameTaken) { 
@@ -43,7 +41,7 @@ export const registerUser = async (req, res) => {
                         username,
                         hashedPwd
                     ]
-                    addUser(...newUser) // add new user
+                    userServieces.addUser(...newUser) // add new user
                     res.status(201).send({ token: token }) // creates/sends token
                 })
             })
@@ -52,7 +50,7 @@ export const registerUser = async (req, res) => {
 
 export const loginUser = async (req, res) => {
     const { username, password } = req.body
-    const user = await getUserByUsername(username)
+    const user = await userServieces.getUserByUsername(username)
 
     if (!user) {
         // invalid username
@@ -88,7 +86,7 @@ export const authenticateUser = (req, res, next ) => {
             `${process.env.JWT_KEY}`,
             async (error, decoded) => {
                 const { username } = decoded
-                const user = await getUserByUsername(username)
+                const user = await userServieces.getUserByUsername(username)
                 if (user) {
                     console.log('Decoded!')
                     next()

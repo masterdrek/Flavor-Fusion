@@ -1,6 +1,7 @@
 .login-page{
     z-index: 1;
-    margin-right: 750px;
+    position: absolute;
+    left: 10%;
 }
 
 .login-title {

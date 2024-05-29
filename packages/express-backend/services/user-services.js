@@ -1,6 +1,6 @@
 import User from "../models/user-schema.js";
-import { addInventory } from "./inventory-services.js";
-import { createRecipe } from "./recipe-services.js";
+import inventoryServices from "./inventory-services.js";
+import recipeServices from "./recipe-services.js";
 import connect from "../mongoSetup.js";
 
 connect();
@@ -35,14 +35,15 @@ async function addUser(newName, newUsername, newHashedPwd) {
 }
 
 function isRecipeSaved(username, recipeId) {
-    return userModel.findOne({ username: username}).then((user) => {
+    return User.findOne({ username: username}).then((user) => {
         return user.saved_recipes.includes(recipeId);
     });
 }
+
 function addSavedRecipe(username, recipeId) {
-    return userModel.findOne({ username: username}).then((user) => {
+    return User.findOne({ username: username}).then((user) => {
         if (!user.saved_recipes.includes(recipeId)) {
-            return userModel.updateOne(
+            return User.updateOne(
                 { username: username},
                 {
                     $set: {
@@ -56,10 +57,10 @@ function addSavedRecipe(username, recipeId) {
 }
 
 function removeSavedRecipe(username, recipeId) {
-    return userModel.findOne({ username: username}).then((user) => {
+    return User.findOne({ username: username}).then((user) => {
         if (user.saved_recipes.includes(recipeId)) {
             let newRecipes = user.saved_recipes.filter((recipe) => recipe != recipeId)
-            return userModel.updateOne(
+            return User.updateOne(
                 { username: username},
                 {
                     $set: {
@@ -73,7 +74,8 @@ function removeSavedRecipe(username, recipeId) {
 }
 export default {
     getUsers,
-    addUserByNameAndUsername,
+    getUserByUsername,
+    addUser,
     addSavedRecipe,
     removeSavedRecipe,
     isRecipeSaved

@@ -35,7 +35,7 @@ function App() {
     };
 
     const isHomePage =
-        location.pathname !== "/create_account" &&
+        location.pathname !== "/signup" &&
         location.pathname !== "/login" &&
         location.pathname !== "/add_recipe" &&
         !location.pathname.includes("/recipe");

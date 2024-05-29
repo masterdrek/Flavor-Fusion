@@ -1,0 +1,33 @@
+[33m60ced12[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m Merge branch 'main' of https://github.com/masterdrek/Flavor-Fusion
+[33m0581b86[m finished backend, starting to implement frontend
+[33m8c5f5e8[m Merge branch 'main' of https://github.com/masterdrek/Flavor-Fusion
+[33mbb9dc8d[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Merged AddRecipe Backend with One Recipe Backend
+[33mf85bb30[m Added Backend to AddRecipe + Delete
+[33m64e581a[m Implemented the backend for AddRecipe as well a delete for Recipe Page
+[33ma218370[m Merge pull request #7 from masterdrek/new
+[33m82ba612[m[33m ([m[1;31morigin/new[m[33m)[m added recipe page to frontend
+[33mf95dcd8[m Merge pull request #6 from masterdrek/FixedLogin
+[33m75e9f90[m[33m ([m[1;31morigin/FixedLogin[m[33m)[m Fixed Login and Logout button
+[33ma1a4ed6[m middle of auth
+[33ma02658d[m[33m ([m[1;31morigin/LoginPageFixed[m[33m)[m Merge pull request #5 from masterdrek/loginpage
+[33mf60de64[m Merge pull request #4 from masterdrek/InventoryBE
+[33mee00239[m[33m ([m[1;31morigin/InventoryBE[m[33m)[m linked inventory backend and front end
+[33m76012e8[m[33m ([m[1;31morigin/loginpage[m[33m)[m login page
+[33m45f3124[m[33m ([m[1;31morigin/auth[m[33m, [m[1;32mauth[m[33m)[m Fixed Add Recipe Step Table; Added Search Bar that filters
+[33m3a2f3ad[m Added Create Account Page into Main Template
+[33m8ad212d[m Merge pull request #2 from masterdrek/UpdatedFE
+[33m7001939[m changed to use username
+[33mb772d96[m[33m ([m[1;31morigin/UpdatedFE[m[33m, [m[1;31morigin/Inventory[m[33m)[m changed UI and merged pages together
+[33ma48cc88[m added Inventory
+[33m261152f[m[33m ([m[1;31morigin/auth-attempt[m[33m)[m implemented a recipe page
+[33m6621580[m added auto formating upon git commit
+[33mbbf79c9[m added prettier and ESlint
+[33m5cc2611[m inventory requests
+[33m86f2ad8[m changed to array for instructions
+[33macd533a[m moved connection to separate file
+[33m58eee08[m create recipe
+[33mc2d0408[m backend schemas
+[33ma8f2469[m backend schemas
+[33m54c5427[m skeleton using Mongo Atlas
+[33mdd8a347[m updated dependency on backend
+[33m24d9fae[m frontend/backend skeleton
