@@ -1,6 +1,4 @@
 import User from "../models/user-schema.js";
-import inventoryServices from "./inventory-services.js";
-import recipeServices from "./recipe-services.js";
 import connect from "../mongoSetup.js";
 
 connect();
