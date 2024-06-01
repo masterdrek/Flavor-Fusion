@@ -53,7 +53,7 @@ app.get("/recipes/:userId", async (req, res) => {
 
 // get list of all inventories
 app.get("/inventory", async (req, res) => {
-    const result = await inventoryServices.getInventorys();
+    const result = await inventoryServices.getInventories();
     res.send({ inventory_list: result });
 });
 

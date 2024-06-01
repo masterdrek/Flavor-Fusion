@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Ingredient from "./ingredient-schema.js";
+import { IngredientSchema } from "./ingredient-schema.js";
 import { CookwareSchema } from "./cookware-schema.js";
 
 const RecipeSchema = new mongoose.Schema(
@@ -9,30 +9,30 @@ const RecipeSchema = new mongoose.Schema(
             required: true,
             trim: true
         },
-        instructions: [{
-            type: String,
-            required: true,
-            trim: true
-        }],
-        ingredients: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Ingredient',
+        instructions: [
+            {
+                type: String,
+                required: true,
+                trim: true
+            }
+        ],
+        ingredients: {
+            type: [IngredientSchema],
             default: undefined,
             required: true
-        }],
-        cookware: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Cookware',
+        },
+        cookware: {
+            type: [CookwareSchema],
             default: undefined,
             required: true
-        }],
+        },
         creator: {
             type: String,
-            required: true,
+            required: true
         }
     },
-    { 
-        collection: "recipe_list" 
+    {
+        collection: "recipe_list"
     }
 );
 
