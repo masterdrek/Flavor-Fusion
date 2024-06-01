@@ -1,7 +1,7 @@
 import API_URL from './api.js'
 
 async function fetchInventory() {
-    const response = await fetch(API_URL+ "/inventory");
+    const response = await fetch(API_URL+"/inventory");
     if (!response.ok) {
         throw new Error(`Error fetching data: ${response.statusText}`);
     }

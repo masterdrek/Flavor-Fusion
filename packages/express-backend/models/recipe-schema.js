@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
-import Ingredient from "./ingredient-schema.js";
-import { CookwareSchema } from "./cookware-schema.js";
+
 
 const RecipeSchema = new mongoose.Schema(
     {

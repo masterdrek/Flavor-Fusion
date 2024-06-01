@@ -51,7 +51,7 @@ export const registerUser = async (req, res) => {
 export const loginUser = async (req, res) => {
     const { username, password } = req.body
     const user = await userServieces.getUserByUsername(username)
-
+    console.log(user)
     if (!user) {
         // invalid username
         res.status(401).send('Unauthorized')
