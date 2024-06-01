@@ -1,11 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import SignupForm from "./../components/SignupForm.jsx";
-import "./../styles/signup.css";
+import { Link } from "react-router-dom"
+import SignupForm from '../components/SignupForm.jsx'
+import './../styles/Signup.css'
 
-function createAccount() {
+function Signup() {
     return (
-        <div className="singup-page">
+        <div className="signup-page">
             <div>
                 <h1> Flavor Fusion</h1>
             </div>
@@ -22,4 +22,5 @@ function createAccount() {
     );
 }
 
-export default createAccount;
+
+export default Signup;

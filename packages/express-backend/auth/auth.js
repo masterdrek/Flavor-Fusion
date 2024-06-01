@@ -44,8 +44,8 @@ export const registerUser = async (req, res) => {
 };
 
 export const loginUser = async (req, res) => {
-    const { username, password } = req.body;
-    const user = await userServieces.getUserByUsername(username);
+    const { username, password } = req.body
+    const user = await userServieces.getUserByUsername(username)
 
     if (!user) {
         // invalid username

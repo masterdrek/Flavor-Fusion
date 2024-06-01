@@ -8,8 +8,8 @@ import Inventory from "./pages/Inventory";
 import Search from "./pages/Search";
 import AddRecipe from "./pages/addRecipe";
 import MaybeShowNavBar from "./components/Toggle/MaybeShowNavBar";
-import CreateAccount from "./pages/createAccount";
-import Login from "./pages/login";
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
 import Recipe from "./pages/Recipe";
 
 function App() {
@@ -48,7 +48,7 @@ function App() {
 
             <Routes>
                 <Route path="/add_recipe" element={<AddRecipe />} />
-                <Route path="/signup" element={<CreateAccount />} />
+                <Route path="/signup" element={<Signup />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/recipe/:recipeId" element={<Recipe />} />
             </Routes>
