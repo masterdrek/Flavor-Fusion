@@ -104,7 +104,7 @@ function Inventory() {
     const columns = [
         {
             name: "The Inventory Item",
-            selector: (row) => row.item,
+            selector: (row) => row.name,
             sortable: true
         },
         {
@@ -146,8 +146,8 @@ function Inventory() {
     const filteredData = Array.isArray(data)
         ? data.filter(
               (item) =>
-                  typeof item.item === "string" &&
-                  item.item.toLowerCase().includes(filterText.toLowerCase())
+                  typeof item.name === "string" &&
+                  item.name.toLowerCase().includes(filterText.toLowerCase())
           )
         : data;
 
@@ -227,7 +227,7 @@ function Inventory() {
                 <Modal
                     onClose={handleModalClose} // Function to call when modal closes
                     onSubmit={isEditing ? editInventory : addToInventory} // Function to call when form is submitted
-                    initialName={isEditing && editItem ? editItem.item : ""} // Initial value for the name input field
+                    initialName={isEditing && editItem ? editItem.name : ""} // Initial value for the name input field
                     initialQuantity={
                         isEditing && editItem ? editItem.quantity : ""
                     } // Initial value for the quantity input field

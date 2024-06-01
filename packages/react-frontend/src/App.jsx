@@ -14,6 +14,8 @@ import Search from "./pages/Search";
 import AddRecipe from "./pages/addRecipe";
 import MaybeShowNavBar from "./components/Toggle/MaybeShowNavBar";
 import CreateAccount from "./pages/createAccount";
+import Login from "./pages/login";
+import Recipe from "./pages/Recipe";
 
 function App() {
     const [isSelected, setIsSelected] = useState(0);
@@ -34,7 +36,9 @@ function App() {
 
     const isHomePage =
         location.pathname !== "/create_account" &&
-        location.pathname !== "/add_recipe";
+        location.pathname !== "/login" &&
+        location.pathname !== "/add_recipe" &&
+        !location.pathname.includes("/recipe");
 
     return (
         <div className="App">
@@ -50,6 +54,8 @@ function App() {
             <Routes>
                 <Route path="/add_recipe" element={<AddRecipe />} />
                 <Route path="/create_account" element={<CreateAccount />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/recipe/:recipeId" element={<Recipe />} />
             </Routes>
         </div>
     );

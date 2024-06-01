@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const InventorySchema = new mongoose.Schema(
     {
-        item: {
+        name: {
             type: String,
             required: true,
             trim: true

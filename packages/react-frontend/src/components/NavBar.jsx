@@ -1,11 +1,17 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.png";
 import "../styles/Navbar.css";
 import { RiLogoutBoxRFill } from "react-icons/ri";
 
 function NavBar({ NavbarData, isSelected, setIsSelected }) {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        // Perform any logout logic here (e.g., clearing tokens, user data)
+        navigate("/login"); // Redirect to the login page
+    };
     return (
         <div className="Navbar">
             {/* Logo */}
@@ -34,7 +40,7 @@ function NavBar({ NavbarData, isSelected, setIsSelected }) {
                     );
                 })}
 
-                <div className="menuItem">
+                <div className="menuItem" onClick={handleLogout}>
                     <RiLogoutBoxRFill />
                 </div>
             </div>

@@ -8,7 +8,6 @@
 
 .recipe-name-tb {
     margin-left: 500px;
-    z-index: 2;
     /* Ensure this is above other content */
 }
 
@@ -22,7 +21,6 @@
     cursor: pointer;
     border-radius: 4px;
     font-size: 20px;
-    z-index: 2;
     /* Ensure this is above other content */
 }
 
@@ -39,7 +37,6 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     position: relative;
-    z-index: 2;
     /* Ensure this is above other content */
 }
 
@@ -47,7 +44,6 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
-    z-index: 2;
     /* Ensure this is above other content */
 }
 

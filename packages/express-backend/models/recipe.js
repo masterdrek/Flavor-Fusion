@@ -26,10 +26,12 @@ const RecipeSchema = new mongoose.Schema(
         },
         creator: {
             type: String,
-            required: true,
+            required: true
         }
     },
-    { collection: "recipe_list" }
+    {
+        collection: "recipe_list"
+    }
 );
 
 const Recipe = mongoose.model("Recipe", RecipeSchema);

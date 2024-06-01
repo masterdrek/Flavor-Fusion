@@ -12,7 +12,6 @@ const TextBoxComponent = ({ placeholder, showButton, type = "text" }) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        alert(`Input value: ${inputValue}`); /* Can change for backend stuff */
     };
 
     const toggleShowPassword = () => {
