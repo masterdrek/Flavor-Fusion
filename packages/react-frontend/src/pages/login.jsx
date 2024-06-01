@@ -1,7 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom"
-import LoginForm from '../components/LoginForm.jsx'
-import './../styles/Login.css'
+import { Link } from "react-router-dom";
+import LoginForm from "../components/LoginForm.jsx";
+import "./../styles/Login.css";
 
 function Login() {
     return (
@@ -19,8 +19,7 @@ function Login() {
                 <button className="login-btn">Don't have an account?</button>
             </Link>
         </div>
-    )
+    );
 }
-
 
 export default Login;
