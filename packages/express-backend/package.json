@@ -32,10 +32,10 @@
         ]
     },
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "dev": "npx nodemon backend.js",
-        "start": "nodemon backend.js",
+        "test": "echo \"Error: no test specified\"",
+        "dev": "nodemon backend.js",
+        "start": "node backend.js",
         "format": "npx prettier . --write",
-        "lint": "npx eslint ."
+        "lint": "npx eslint . && npx prettier --check ."
     }
 }
