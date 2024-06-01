@@ -9,7 +9,7 @@ import Search from "./pages/Search";
 import AddRecipe from "./pages/addRecipe";
 import MaybeShowNavBar from "./components/Toggle/MaybeShowNavBar";
 import Signup from "./pages/Signup";
-import Login from "./pages/Login";
+import Login from "./pages/login";
 import Recipe from "./pages/Recipe";
 
 function App() {
