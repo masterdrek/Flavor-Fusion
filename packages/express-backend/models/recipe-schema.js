@@ -9,13 +9,11 @@ const RecipeSchema = new mongoose.Schema(
             required: true,
             trim: true
         },
-        instructions: [
-            {
-                type: String,
-                required: true,
-                trim: true
-            }
-        ],
+        instructions: {
+            type: [String],
+            required: true,
+            trim: true
+        },
         ingredients: {
             type: [IngredientSchema],
             default: undefined,

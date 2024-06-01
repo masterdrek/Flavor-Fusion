@@ -12,11 +12,11 @@ function Recipes() {
 
     const dropMenu = useRef(null);
     const closeDropdown = (e) => {
-        if(showDropdown && !dropMenu.current?.contains(e.target)){
-            setShowDropdown(false)
+        if (showDropdown && !dropMenu.current?.contains(e.target)) {
+            setShowDropdown(false);
         }
-    }
-    
+    };
+
     document.addEventListener("mousedown", closeDropdown);
 
     // Fetch recipes when the component mounts
@@ -110,9 +110,19 @@ function Recipes() {
                                         ? "selected"
                                         : ""
                                 }`}
-                                onClick={() => handleSelectRecipe(recipe._id)}
                             >
-                                {recipe.name}
+                                <Link
+                                    to={`/recipe/${recipe._id}`}
+                                    className="recipe-link"
+                                >
+                                    <div
+                                        onClick={() =>
+                                            handleSelectRecipe(recipe._id)
+                                        }
+                                    >
+                                        {recipe.name}
+                                    </div>
+                                </Link>
                                 <div
                                     className="dropdown-container"
                                     onClick={(e) => {
@@ -128,9 +138,10 @@ function Recipes() {
                                     If showDropdown matches recipe._id, it means the dropdown menu 
                                     for this specific recipe card should be visible.*/}
                                     {showDropdown === recipe._id && ( // Conditionally render dropdown menu
-                                        <div 
+                                        <div
                                             className="dropdown-menu"
-                                            ref={dropMenu}>
+                                            ref={dropMenu}
+                                        >
                                             <button
                                                 onClick={(e) => {
                                                     // Prevent the click event from propagating to the parent elements
