@@ -1,5 +1,4 @@
-@import url('./Navbar.css');
-
+@import url("./Navbar.css");
 
 .recipes-container {
     width: calc(100% - var(--nav-width));

@@ -95,7 +95,9 @@
     /* Change the cursor to a pointer */
     margin-left: 10px;
     /* Add some margin for spacing */
-    transition: color 0.3s, transform 0.3s;
+    transition:
+        color 0.3s,
+        transform 0.3s;
     /* Smooth transition for color and transform */
 }
 

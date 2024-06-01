@@ -19,7 +19,7 @@ function Signup() {
                 <button className="login-btn">Already have an account?</button>
             </Link>
         </div>
-    )
+    );
 }
 
 

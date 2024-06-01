@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "../styles/Recipes.css";
 import { Link } from "react-router-dom";
 import { FaEllipsisV } from "react-icons/fa"; // Importing the three-dots icon from react-icons
@@ -9,6 +9,15 @@ function Recipes() {
     const [personalRecipes, setPersonalRecipes] = useState([]); // State to store personal recipes
     const [selectedRecipes, setSelectedRecipes] = useState([]); // State for selected recipes
     const [showDropdown, setShowDropdown] = useState(null); // State for showing dropdown menu
+
+    const dropMenu = useRef(null);
+    const closeDropdown = (e) => {
+        if (showDropdown && !dropMenu.current?.contains(e.target)) {
+            setShowDropdown(false);
+        }
+    };
+
+    document.addEventListener("mousedown", closeDropdown);
 
     // Fetch recipes when the component mounts
     useEffect(() => {
@@ -101,9 +110,19 @@ function Recipes() {
                                         ? "selected"
                                         : ""
                                 }`}
-                                onClick={() => handleSelectRecipe(recipe._id)}
                             >
-                                {recipe.name}
+                                <Link
+                                    to={`/recipe/${recipe._id}`}
+                                    className="recipe-link"
+                                >
+                                    <div
+                                        onClick={() =>
+                                            handleSelectRecipe(recipe._id)
+                                        }
+                                    >
+                                        {recipe.name}
+                                    </div>
+                                </Link>
                                 <div
                                     className="dropdown-container"
                                     onClick={(e) => {
@@ -119,7 +138,10 @@ function Recipes() {
                                     If showDropdown matches recipe._id, it means the dropdown menu 
                                     for this specific recipe card should be visible.*/}
                                     {showDropdown === recipe._id && ( // Conditionally render dropdown menu
-                                        <div className="dropdown-menu">
+                                        <div
+                                            className="dropdown-menu"
+                                            ref={dropMenu}
+                                        >
                                             <button
                                                 onClick={(e) => {
                                                     // Prevent the click event from propagating to the parent elements

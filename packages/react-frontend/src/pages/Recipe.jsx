@@ -17,30 +17,11 @@ function Recipe() {
     });
 
     const { recipeId } = useParams();
-    const ingredients = [
-        { name: "salt", quantity: 2 },
-        { name: "pepper", quantity: 1 }
-    ];
-    const cookware = [
-        { name: "spoon", quantity: 2 },
-        { name: "pan", quantity: 2 },
-        { name: "bowl", quantity: 3 }
-    ];
-    const instructions = [
-        "boil water",
-        "put in noodle",
-        "wait 10 min",
-        "drain",
-        "eat"
-    ];
-    const recipeName = "Noodle";
-    const creatorName = "bob";
 
     useEffect(() => {
         fetchRecipe()
             .then((resp) => resp.json())
             .then((json) => {
-                console.log(json.recipe[0]);
                 setRecipe(json.recipe[0]);
             })
             .catch((error) => {
@@ -62,7 +43,6 @@ function Recipe() {
     };
     return (
         <div className="recipe-page">
-            <p> recipe id: {recipeId}</p>
             <h1 className="recipe-name">{recipe["name"]}</h1>
             <h3 className="recipe-creator">created by: {recipe["creator"]}</h3>
             <button

@@ -12,8 +12,8 @@ export const CookwareSchema = new mongoose.Schema(
             required: true
         }
     },
-    { 
-        collection: "cookware_list" 
+    {
+        collection: "cookware_list"
     }
 );
 

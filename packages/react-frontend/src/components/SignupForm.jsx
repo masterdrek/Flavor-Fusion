@@ -34,43 +34,44 @@ function SignupForm() {
     // sends user to home page on success
     useEffect(() => {
         if (success) {
-            setFirstName('')
-            setUsername('')
-            setPassword('')
-            setRePassword('')
-            navigate('/')
+            setFirstName("");
+            setUsername("");
+            setPassword("");
+            setRePassword("");
+            navigate("/");
         }
-    }, [success, navigate])
+    }, [success, navigate]);
 
     // checks for valid username regex
     useEffect(() => {
-        setValidUsername(USERNAME_RGX.test(username))
-    }, [username])
+        setValidUsername(USERNAME_RGX.test(username));
+    }, [username]);
 
     // checks if inputs follow patterns and passwords are equivalent
     useEffect(() => {
-        setValidPassword(PASSWORD_RGX.test(password) && PASSWORD_RGX.test(rePassword))
-        setMatchPassword(password === rePassword)
-    }, [password, rePassword])
-
+        setValidPassword(
+            PASSWORD_RGX.test(password) && PASSWORD_RGX.test(rePassword)
+        );
+        setMatchPassword(password === rePassword);
+    }, [password, rePassword]);
 
     // function to create user and add token to sessionStorage
     async function createUser(user) {
         console.log("Posting user:", user);
         try {
-            const response = await fetch(API_URL+"/signup", {
+            const response = await fetch(API_URL + "/signup", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify(user)
             });
-            console.log(response)
+            console.log(response);
             if (response.status !== 201) {
                 throw new Error(`Error posting data: ${response.statusText}`);
             }
             if (response.status === 409) {
-                setMessage("Duplicate Username Found")
+                setMessage("Duplicate Username Found");
             }
 
             // get token from response and set value in sessionStorage
@@ -84,28 +85,28 @@ function SignupForm() {
 
     // submits data
     const handleSubmit = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
         // checks constraints on inputs
         if (validUsername && validPassword && matchPassword) {
             // creates new user and recieves new token
-            const tok = await createUser(userObj)
-            console.log(sessionStorage.getItem("token"))
+            const tok = await createUser(userObj);
+            console.log(sessionStorage.getItem("token"));
             if (sessionStorage.getItem("token")) {
-                // successfully created, triggers useEffect surrounding navigate to go to Home 
-                setSuccess(() => true)
-                setMessage("User created")
+                // successfully created, triggers useEffect surrounding navigate to go to Home
+                setSuccess(() => true);
+                setMessage("User created");
             } else {
-                setMessage("Token not recieved")
+                setMessage("Token not recieved");
             }
-        // sets messages to display if inputs are invalid
+            // sets messages to display if inputs are invalid
         } else if (!validUsername) {
-            setMessage("Username is invalid")
+            setMessage("Username is invalid");
         } else if (!validPassword) {
-            setMessage("Password is invalid")
+            setMessage("Password is invalid");
         } else if (!matchPassword) {
-            setMessage("Passwords do not match")
-        } 
-    }
+            setMessage("Passwords do not match");
+        }
+    };
 
     return (
         <form onSubmit={handleSubmit}>
@@ -113,33 +114,33 @@ function SignupForm() {
                 <label htmlFor="firstName">
                     <h3>First Name</h3>
                 </label>
-                <input 
+                <input
                     className="textbox"
-                    type="text" 
+                    type="text"
                     id="firstName"
-                    placeholder="Enter Your First Name" 
+                    placeholder="Enter Your First Name"
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
                 />
                 <label htmlFor="username">
                     <h3>Username</h3>
                 </label>
-                <input 
+                <input
                     className="textbox"
-                    type="text" 
+                    type="text"
                     id="username"
-                    placeholder="Enter an Unique Username" 
+                    placeholder="Enter an Unique Username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                 />
                 <label htmlFor="pass">
                     <h3>Password</h3>
                 </label>
-                <input 
+                <input
                     className="textbox"
-                    type="password" 
+                    type="password"
                     id="pass"
-                    placeholder="Enter Your Password" 
+                    placeholder="Enter Your Password"
                     autoComplete="on"
                     title={PASSWORD_TXT}
                     value={password}
@@ -148,22 +149,23 @@ function SignupForm() {
                 <label htmlFor="rePass">
                     <h3>Re-Enter Password</h3>
                 </label>
-                <input 
+                <input
                     className="textbox"
-                    type="password" 
+                    type="password"
                     id="rePass"
-                    placeholder="Re-Enter Your Password" 
+                    placeholder="Re-Enter Your Password"
                     autoComplete="on"
                     title={PASSWORD_TXT}
                     value={rePassword}
                     onChange={(e) => setRePassword(e.target.value)}
                 />
-                <button type="submit" className="signup-txt signup-btn">Sign Up</button>
+                <button type="submit" className="signup-txt signup-btn">
+                    Sign Up
+                </button>
             </div>
-                <p id="errmsg">{ message }</p>
+            <p id="errmsg">{message}</p>
         </form>
     );
 }
-
 
 export default SignupForm;

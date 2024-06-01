@@ -1,12 +1,7 @@
 import React from "react";
 import "./App.css";
 import { NavbarData } from "./Data/Data";
-import {
-    BrowserRouter as Router,
-    Routes,
-    Route,
-    useLocation
-} from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { useState } from "react";
 import Recipes from "./pages/Recipes";
 import Inventory from "./pages/Inventory";

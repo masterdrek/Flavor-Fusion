@@ -1,7 +1,7 @@
-import API_URL from './api.js'
+import { API_URL } from "./api.js";
 
-async function fetchInventory() {
-    const response = await fetch(API_URL+"/inventory");
+export async function fetchInventory() {
+    const response = await fetch(API_URL + "/inventory");
     if (!response.ok) {
         throw new Error(`Error fetching data: ${response.statusText}`);
     }
@@ -9,10 +9,10 @@ async function fetchInventory() {
     return data;
 }
 
-async function postInventory(item) {
+export async function postInventory(item) {
     console.log("Posting item:", item);
     try {
-        const response = await fetch(API_URL+"/inventory", {
+        const response = await fetch(API_URL + "/inventory", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -32,18 +32,15 @@ async function postInventory(item) {
     }
 }
 
-async function patchInventory(item) {
+export async function patchInventory(item) {
     try {
-        const response = await fetch(
-            API_URL+`/inventory/${item._id}`,
-            {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(item)
-            }
-        );
+        const response = await fetch(API_URL + `/inventory/${item._id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(item)
+        });
 
         if (!response.ok) {
             throw new Error(`Error updating data: ${response.statusText}`);
@@ -57,14 +54,12 @@ async function patchInventory(item) {
     }
 }
 
-async function addToInventory(item) {
+export async function addToInventory(item, setData, setModalOpen) {
     postInventory(item)
         .then((newItem) => {
             if (newItem) {
                 setData((prevData) =>
-                    Array.isArray(prevData)
-                        ? [...prevData, newItem]
-                        : [newItem]
+                    Array.isArray(prevData) ? [...prevData, newItem] : [newItem]
                 );
                 setModalOpen(false);
             }
@@ -72,11 +67,4 @@ async function addToInventory(item) {
         .catch((error) => {
             console.error("Error updating list:", error);
         });
-}
-
-export {
-    fetchInventory,
-    postInventory,
-    patchInventory,
-    addToInventory
 }
