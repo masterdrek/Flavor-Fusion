@@ -4,12 +4,11 @@ import cors from "cors";
 import recipeServices from "./services/recipe-services.js";
 import inventoryServices from "./services/inventory-services.js";
 import userServices from "./services/user-services.js";
-import { loginUser, registerUser, authenticateUser } from "./auth/auth.js"
-import Recipe from "./models/recipe-schema.js"
+import { loginUser, registerUser, authenticateUser } from "./auth/auth.js";
+import Recipe from "./models/recipe-schema.js";
 
 const app = express();
 const port = process.env.PORT;
-
 
 app.use(cors());
 app.use(express.json());
@@ -18,8 +17,6 @@ app.get("/", async (req, res) => {
     res.json({ message: "Server is Running" });
 });
 
-
-
 // get list of all users
 app.get("/users", async (req, res) => {
     const result = await userServices.getUsers();
@@ -27,12 +24,12 @@ app.get("/users", async (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-    await loginUser(req, res)
-})
+    await loginUser(req, res);
+});
 
 app.post("/signup", async (req, res) => {
-    await registerUser(req, res)
-})
+    await registerUser(req, res);
+});
 
 // get list of all recipes
 app.get("/recipes", async (req, res) => {
@@ -53,7 +50,7 @@ app.get("/recipes/:userId", async (req, res) => {
 
 // get list of all inventories
 app.get("/inventory", async (req, res) => {
-    const result = await inventoryServices.getInventorys();
+    const result = await inventoryServices.getInventories();
     res.send({ inventory_list: result });
 });
 
@@ -70,7 +67,6 @@ app.delete("/inventory/:id", async (req, res) => {
     const result = await inventoryServices.deleteUserById(id);
     res.send({ inventory_list: result });
 });
-
 
 app.patch("/inventory/:id", async (req, res) => {
     // get the item id from the URL path
@@ -141,7 +137,6 @@ app.patch("/recipe/remove/:username/:recipeId", async (req, res) => {
     }
 });
 
-
 app.post("/recipes", async (req, res) => {
     const { name, ingredients, cookware, instructions, creator } = req.body;
 
@@ -173,7 +168,6 @@ app.delete("/recipes/:recipeId", async (req, res) => {
         res.status(404).send("Resource not found.");
     }
 });
-
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);

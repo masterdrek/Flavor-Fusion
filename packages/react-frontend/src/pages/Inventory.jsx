@@ -3,6 +3,11 @@ import DataTable from "react-data-table-component";
 import Modal from "../components/Modal";
 import { BsFillPencilFill } from "react-icons/bs";
 import "../styles/Inventory.css";
+import {
+    fetchInventory,
+    patchInventory,
+    addToInventory
+} from "../api/inventoryApi";
 
 function Inventory() {
     const [filterText, setFilterText] = useState(""); // For filtering items in the table
@@ -26,80 +31,6 @@ function Inventory() {
                 console.error("Error fetching data:", error);
             });
     }, []);
-
-    async function fetchInventory() {
-        const response = await fetch("http://localhost:8000/inventory");
-        if (!response.ok) {
-            throw new Error(`Error fetching data: ${response.statusText}`);
-        }
-        const data = await response.json();
-        return data;
-    }
-
-    async function postInventory(item) {
-        console.log("Posting item:", item);
-        try {
-            const response = await fetch("http://localhost:8000/inventory", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(item)
-            });
-
-            if (!response.ok) {
-                throw new Error(`Error posting data: ${response.statusText}`);
-            }
-
-            const data = await response.json();
-            console.log("Posted data:", data);
-            return data;
-        } catch (error) {
-            console.error("Error in postInventory:", error);
-        }
-    }
-
-    async function patchInventory(item) {
-        try {
-            const response = await fetch(
-                `http://localhost:8000/inventory/${item._id}`,
-                {
-                    method: "PATCH",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(item)
-                }
-            );
-
-            if (!response.ok) {
-                throw new Error(`Error updating data: ${response.statusText}`);
-            }
-
-            const data = await response.json();
-            console.log("Patched data:", data);
-            return data;
-        } catch (error) {
-            console.error("Error in patchInventory:", error);
-        }
-    }
-
-    function addToInventory(item) {
-        postInventory(item)
-            .then((newItem) => {
-                if (newItem) {
-                    setData((prevData) =>
-                        Array.isArray(prevData)
-                            ? [...prevData, newItem]
-                            : [newItem]
-                    );
-                    setModalOpen(false);
-                }
-            })
-            .catch((error) => {
-                console.error("Error updating list:", error);
-            });
-    }
 
     const columns = [
         {
@@ -188,6 +119,11 @@ function Inventory() {
         setIsEditing(false); // Reset editing mode
     };
 
+    // Handle adding a new item
+    const handleAdd = (newItem) => {
+        addToInventory(newItem, setData, setModalOpen);
+    };
+
     return (
         <div className="table-container">
             <div className="toolbar">
@@ -226,7 +162,7 @@ function Inventory() {
             {modalOpen && ( // Render the modal conditionally based on modalOpen state
                 <Modal
                     onClose={handleModalClose} // Function to call when modal closes
-                    onSubmit={isEditing ? editInventory : addToInventory} // Function to call when form is submitted
+                    onSubmit={isEditing ? editInventory : handleAdd} // Function to call when form is submitted
                     initialName={isEditing && editItem ? editItem.name : ""} // Initial value for the name input field
                     initialQuantity={
                         isEditing && editItem ? editItem.quantity : ""

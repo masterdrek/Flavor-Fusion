@@ -1,7 +1,6 @@
 import "../styles/Recipe.css";
 
 function RecipeInstructions(props) {
-    console.log(props);
     return (
         <div className="recipe-section">
             <h2>Instructions</h2>
