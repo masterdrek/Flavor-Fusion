@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
-import Cookware from "./cookware-schema.js";
-import Ingredient from "./ingredient-schema.js";
+
 
 const InventorySchema = new mongoose.Schema(
     {

@@ -4,7 +4,7 @@ import cors from "cors";
 import recipeServices from "./services/recipe-services.js";
 import inventoryServices from "./services/inventory-services.js";
 import userServices from "./services/user-services.js";
-import { loginUser, registerUser, authenticateUser } from "./auth/auth.js";
+import { loginUser, registerUser } from "./auth/auth.js";
 import Recipe from "./models/recipe-schema.js";
 
 const app = express();
