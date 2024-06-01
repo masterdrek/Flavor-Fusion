@@ -10,8 +10,8 @@ async function addNewInventoryItem(newItem) {
 }
 
 async function addInventory({ ingredients, cookware }) {
-    const result = await inventoryModel.create({ ingredients, cookware })
-    return result
+    const result = await inventoryModel.create({ ingredients, cookware });
+    return result;
 }
 
 function getInventories() {

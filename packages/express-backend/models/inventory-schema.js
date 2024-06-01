@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-
 const InventorySchema = new mongoose.Schema(
     {
         name: {
@@ -14,8 +13,8 @@ const InventorySchema = new mongoose.Schema(
             trim: true
         }
     },
-    { 
-        collection: "inventory_list" 
+    {
+        collection: "inventory_list"
     }
 );
 

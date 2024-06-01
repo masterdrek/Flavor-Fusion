@@ -62,7 +62,9 @@
     border-radius: 25px;
     cursor: pointer;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: background 0.3s, transform 0.3s;
+    transition:
+        background 0.3s,
+        transform 0.3s;
 }
 
 /* Styling for the delete button when it is disabled */
@@ -91,7 +93,9 @@
     border-radius: 25px;
     cursor: pointer;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: background 0.3s, transform 0.3s;
+    transition:
+        background 0.3s,
+        transform 0.3s;
 }
 
 .add-bar button:hover {
@@ -146,7 +150,9 @@
     margin: 0 5px;
     cursor: pointer;
     border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s;
+    transition:
+        background-color 0.3s,
+        color 0.3s;
 }
 
 .rdt_Pagination-Button:hover {

@@ -1,89 +1,89 @@
 .recipe-section {
-  width: 90%;
-  display: flex;
-  flex-direction: column;
-  align-content: space-evenly;
-  padding-left: 10%;
-  margin-bottom: 2%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-content: space-evenly;
+    padding-left: 10%;
+    margin-bottom: 2%;
 }
 
-.recipe-name{
-  width: 90%;
-  padding-left: 10%;
-  font-size: 60px;
-  margin-bottom: 0%;
+.recipe-name {
+    width: 90%;
+    padding-left: 10%;
+    font-size: 60px;
+    margin-bottom: 0%;
 }
 
-.recipe-creator{
-  width: 88%;
-  padding-left: 12%;
-  margin-top: 0%;
+.recipe-creator {
+    width: 88%;
+    padding-left: 12%;
+    margin-top: 0%;
 }
-.save-button{
-  width: fit-content;
-  margin-left: 10%;
-  margin-bottom: 1%;
-  border-radius: 8px;
-  border-style: solid;
-  font-size: medium;
-  border-color: black;
+.save-button {
+    width: fit-content;
+    margin-left: 10%;
+    margin-bottom: 1%;
+    border-radius: 8px;
+    border-style: solid;
+    font-size: medium;
+    border-color: black;
 }
-.save{
-  background-color: white;
+.save {
+    background-color: white;
 }
-.unsave{
-  background-color: lightblue;
+.unsave {
+    background-color: lightblue;
 }
-.divider{
-  width: 100%;
-  display: flex;
-  flex-direction: row;
+.divider {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
 }
-.divider-end{
-  width: 5%;
+.divider-end {
+    width: 5%;
 }
-.divider-border{
-  width: 90%;
-  border-bottom: 1px solid black;
+.divider-border {
+    width: 90%;
+    border-bottom: 1px solid black;
 }
-.recipe-ingredient-table{
-  padding-left: 1%;
-  width: 20%;
+.recipe-ingredient-table {
+    padding-left: 1%;
+    width: 20%;
 }
-.recipe-cookware-table{
-  padding-left: 1%;
-  width: 20%;
+.recipe-cookware-table {
+    padding-left: 1%;
+    width: 20%;
 }
-.recipe-instructions-table{
-  padding-left: 1%;
-  width: 100%;
+.recipe-instructions-table {
+    padding-left: 1%;
+    width: 100%;
 }
-.recipe-pair-name{
-  text-align: left;
-  width: 50%;
-}
-
-.recipe-pair-quantity{
-  text-align: left;
-  width: 50%;
+.recipe-pair-name {
+    text-align: left;
+    width: 50%;
 }
 
-.recipe-pair-index{
-  text-align: left;
-  width: 3%;
+.recipe-pair-quantity {
+    text-align: left;
+    width: 50%;
 }
 
-.recipe-pair-instruction{
-  text-align: left;
-  width: 97%;
+.recipe-pair-index {
+    text-align: left;
+    width: 3%;
 }
-.recipe-page{
-  display: flex;
-  width: 97%;
-  height: 90%;
-  margin: 0%;
-  flex-direction: column;
-  align-items: left;
-  overflow-y: auto;
-  position: relative;
+
+.recipe-pair-instruction {
+    text-align: left;
+    width: 97%;
+}
+.recipe-page {
+    display: flex;
+    width: 97%;
+    height: 90%;
+    margin: 0%;
+    flex-direction: column;
+    align-items: left;
+    overflow-y: auto;
+    position: relative;
 }

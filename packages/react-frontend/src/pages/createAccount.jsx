@@ -1,7 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom"
-import SignupForm from './../components/SignupForm.jsx'
-import './../styles/signup.css'
+import { Link } from "react-router-dom";
+import SignupForm from "./../components/SignupForm.jsx";
+import "./../styles/signup.css";
 
 function createAccount() {
     return (
@@ -19,8 +19,7 @@ function createAccount() {
                 <button className="login-btn">Already have an account?</button>
             </Link>
         </div>
-    )
+    );
 }
-
 
 export default createAccount;

@@ -25,11 +25,10 @@ function deleteRecipeById(id) {
     return recipeModel.findOneAndDelete({ _id: id }).exec();
 }
 
-
 export default {
     getRecipes,
     getUserMadeRecipes,
     createRecipe,
     getRecipeById,
-    deleteRecipeById,
+    deleteRecipeById
 };

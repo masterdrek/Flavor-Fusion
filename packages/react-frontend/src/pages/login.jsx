@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import TextBox from "../components/Textbox";
 import "../styles/login.css";
-function Login(){
+function Login() {
     return (
         <div className="login-page">
             <div>
@@ -27,7 +27,9 @@ function Login(){
 
             <div className="">
                 <Link to="/signup">
-                    <button className="create-account-btn-login">Create Account</button>
+                    <button className="create-account-btn-login">
+                        Create Account
+                    </button>
                 </Link>
             </div>
         </div>
