@@ -64,3 +64,33 @@
     text-decoration: none;
     /* Remove underline on hover */
 }
+
+.login-btn {
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: underline;
+    padding: 0;
+    /* Remove padding */
+    /* Remove margin */
+}
+
+.login-btn {
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: underline;
+    padding: 0;
+    /* Remove padding */
+    /* Remove margin */
+}
+
+.login-btn:hover {
+    color: #0056b3;
+    text-decoration: none;
+    /* Remove underline on hover */
+}
