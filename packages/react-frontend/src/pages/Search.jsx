@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../styles/Search.css";
 import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
+import { fetchInventory } from "../api/inventoryApi";
 
 const Search = () => {
     const [query, setQuery] = useState(""); // State to hold the search query entered by the user
@@ -43,22 +44,6 @@ const Search = () => {
     // useEffect to fetch inventory when the component mounts
     useEffect(() => {
         // Function to fetch inventory from the server
-        async function fetchInventory() {
-            try {
-                const response = await fetch("http://localhost:8000/inventory"); // Make a GET request to the server to fetch inventory
-                if (!response.ok) {
-                    throw new Error(
-                        `Error fetching data: ${response.statusText}`
-                    );
-                }
-                const data = await response.json();
-                return data;
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        }
-
-        // Call the fetch function and update state
         fetchInventory().then((json) => {
             console.log("Fetched Inventory:", json); // Log the fetched data for debugging
             setInventory(
@@ -76,14 +61,14 @@ const Search = () => {
             item.name.toLowerCase()
         );
 
-        let filtered = recipes.filter(
+        let filteredByInventory = recipes.filter(
             (recipe) =>
                 recipe.name.toLowerCase().includes(lowerCaseQuery) && // Filter recipes whose names include the search query
                 (filter === "All" || recipe.category === filter) // Also filter recipes based on the selected category
         );
 
         if (filter === "Inventory") {
-            filtered = recipes.filter((recipe) =>
+            filteredByInventory = recipes.filter((recipe) =>
                 // Check if all of the recipe's ingredients exists in the User's inventory
                 recipe.ingredients.every((ingredient) => {
                     return inventoryIngredients.includes(
@@ -93,7 +78,12 @@ const Search = () => {
             );
         }
 
-        setFilteredRecipes(filtered); // Update the filteredRecipes state with the filtered recipes
+        // Apply search query to the filtered recipes
+        let finalFilteredRecipes = filteredByInventory.filter((recipe) =>
+            recipe.name.toLowerCase().includes(lowerCaseQuery)
+        );
+
+        setFilteredRecipes(finalFilteredRecipes); // Update the filteredRecipes state with the filtered recipes
     }, [query, recipes, filter, inventory]); // This effect runs whenever the query, recipes, filter, or inventory state changes
 
     return (
