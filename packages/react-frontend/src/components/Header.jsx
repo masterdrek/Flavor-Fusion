@@ -1,7 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import "../styles/Header.css";
-import { CgLogOut } from "react-icons/cg";
 
 function Header({ NavbarData, isSelected, setIsSelected }) {
     const selectedItem = NavbarData[isSelected];

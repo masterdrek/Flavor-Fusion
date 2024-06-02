@@ -1,4 +1,4 @@
-.Navbar{
+.Navbar {
     display: flex;
     flex-direction: column;
     position: relative;
@@ -6,7 +6,7 @@
     transition: all 300ms ease;
 }
 
-.logo{
+.logo {
     display: flex;
     height: 5rem;
     font-weight: bold;
@@ -16,25 +16,25 @@
     top: 4%;
 }
 
-.logo>img{
+.logo > img {
     width: 3rem;
     height: 3rem;
 }
 
-.logo>span>span{
-    color: var(--pink)
+.logo > span > span {
+    color: var(--pink);
 }
 
 /* menu */
 
-.menu{
+.menu {
     margin-top: 2.5rem;
     display: flex;
     flex-direction: column;
     gap: 2rem;
 }
 
-.menuItem{
+.menuItem {
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -46,27 +46,25 @@
     border-radius: 0.7rem;
 }
 
-.menuItem:hover{
+.menuItem:hover {
     cursor: pointer;
 }
 
-.active{
+.active {
     background: var(--activeItem);
     margin-left: 0;
 }
 
-.active::before{
-    content: '';
+.active::before {
+    content: "";
     width: 8px;
     height: 100%;
     background: var(--pink);
     margin-right: calc(1rem - 8px);
-
 }
 
-.menu .menuItem:last-child{
+.menu .menuItem:last-child {
     position: fixed;
     bottom: 5rem;
     font-size: 25px;
-    
 }

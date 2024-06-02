@@ -1,19 +1,14 @@
 import React from "react";
 import "./App.css";
 import { NavbarData } from "./Data/Data";
-import {
-    BrowserRouter as Router,
-    Routes,
-    Route,
-    useLocation
-} from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { useState } from "react";
 import Recipes from "./pages/Recipes";
 import Inventory from "./pages/Inventory";
 import Search from "./pages/Search";
 import AddRecipe from "./pages/addRecipe";
 import MaybeShowNavBar from "./components/Toggle/MaybeShowNavBar";
-import CreateAccount from "./pages/createAccount";
+import Signup from "./pages/Signup";
 import Login from "./pages/login";
 import Recipe from "./pages/Recipe";
 
@@ -53,7 +48,7 @@ function App() {
 
             <Routes>
                 <Route path="/add_recipe" element={<AddRecipe />} />
-                <Route path="/signup" element={<CreateAccount />} />
+                <Route path="/signup" element={<Signup />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/recipe/:recipeId" element={<Recipe />} />
             </Routes>

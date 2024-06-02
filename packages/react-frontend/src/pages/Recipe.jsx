@@ -5,9 +5,10 @@ import RecipeCookware from "../components/RecipeCookware";
 import "../styles/Recipe.css";
 import RecipeInstructions from "../components/RecipeInstructions";
 import Divider from "../components/Divider";
+import { FaArrowLeft } from "react-icons/fa";
 
 function Recipe() {
-    const [saveStatus, setSaveStatus] = useState("save");
+    const [saveStatus, setSaveStatus] = useState("Save");
     const [recipe, setRecipe] = useState({
         name: "",
         creator: "",
@@ -39,22 +40,36 @@ function Recipe() {
 
     const changeSavedStatus = () => {
         console.log("clicked, current: ", saveStatus);
-        saveStatus === "save" ? setSaveStatus("unsave") : setSaveStatus("save");
+        saveStatus === "Save" ? setSaveStatus("Unsave") : setSaveStatus("Save");
     };
     return (
         <div className="recipe-page">
-            <h1 className="recipe-name">{recipe["name"]}</h1>
+            <div className="recipe-header">
+                <div className="backarrow">
+                    <Link to="/">
+                        <FaArrowLeft className="back-arrow-icon"/>
+                    </Link>
+                </div>
+                <h1 className="recipe-name">{recipe["name"]}</h1>
+                <button
+                    className={"save-button " + saveStatus}
+                    onClick={changeSavedStatus}
+                >
+                    {saveStatus}
+                </button>
+            </div>
             <h3 className="recipe-creator">created by: {recipe["creator"]}</h3>
-            <button
-                className={"save-button " + saveStatus}
-                onClick={changeSavedStatus}
-            >
-                {saveStatus}
-            </button>
+
             <Divider />
-            <RecipeIngredients ingredients={recipe["ingredients"]} />
-            <RecipeCookware cookware={recipe["cookware"]} />
-            <RecipeInstructions instructions={recipe["instructions"]} />
+            <div className="details">
+                <div className="ingr-cook-needed">
+                    <RecipeIngredients ingredients={recipe["ingredients"]} />
+                    <RecipeCookware cookware={recipe["cookware"]} />
+                </div>
+                <div className="instructions">
+                    <RecipeInstructions instructions={recipe["instructions"]} />
+                </div>
+            </div>
         </div>
     );
 }

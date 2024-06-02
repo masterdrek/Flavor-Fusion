@@ -4,8 +4,9 @@ import cors from "cors";
 import recipeServices from "./services/recipe-services.js";
 import inventoryServices from "./services/inventory-services.js";
 import userServices from "./services/user-services.js";
-import { loginUser, registerUser, authenticateUser } from "./auth/auth.js";
-import Recipe from "./models/recipe-schema.js";
+import ingredientReferenceServices from "./services/ingredient-reference-services.js";
+import { loginUser, registerUser, authenticateUser } from "./auth/auth.js"
+import Recipe from "./models/recipe-schema.js"
 
 const app = express();
 const port = process.env.PORT;
@@ -137,6 +138,18 @@ app.patch("/recipe/remove/:username/:recipeId", async (req, res) => {
     }
 });
 
+app.get("/recipes/saved/:username", async (req, res) => {
+    const { username } = req.params;
+    console.log(username);
+    try {
+        const result = await userServices.getSavedRecipes(username);
+        res.send({ saved_recipes: result });
+    } catch (error) {
+        console.log(error);
+        res.status(404).send("Resource not found.");
+    }
+});
+
 app.post("/recipes", async (req, res) => {
     const { name, ingredients, cookware, instructions, creator } = req.body;
 
@@ -168,6 +181,62 @@ app.delete("/recipes/:recipeId", async (req, res) => {
         res.status(404).send("Resource not found.");
     }
 });
+
+
+
+// for the ingredient references
+app.get("/ingredient-references", async (req, res) => {
+    const result = await ingredientReferenceServices.getAll()
+    if (!result.length) {
+        return res.status(400).json({ message: "References not found" })
+    }
+    return res.json(result)
+})
+
+app.post("/ingredient-references", async (req, res) => {
+    const { name } = req.body
+    if (!name) {
+        return res.status(400).json({ message: "Needs name field" })
+    }
+
+    const duplicate = await ingredientReferenceServices.getByName({ name })
+    if (duplicate) {
+        return res.status(400).json({ message: "Duplicate ingredient found" })
+    }
+
+    const result = await ingredientReferenceServices.add({ name })
+    if (!result) {
+        return res.status(400).json({ message: "Could not add ingredient" })
+    }
+    return res.status(201).json({ message: "Ingredient reference added" })
+})
+
+app.patch("/ingredient-references", async (req, res) => {
+    const { id, name } = req.body
+    if (!id || !name) {
+        return res.status(400).json({ message: "Needs old reference 'id' and new 'name fields" })
+    }
+
+    const result = await ingredientReferenceServices.update({ id, name })
+    if (!result) {
+        return res.status(400).json({ message: "Could not update ingredient" })
+    }
+    return res.status(200).json({ message: "Ingredient reference updated" })
+})
+
+app.delete("/ingredient-references", async (req, res) => {
+    const { id } = req.body
+    if (!id) {
+        return res.status(400).json({ message: "Needs id" })
+    }
+
+    const result = await ingredientReferenceServices.remove({ id })
+    if (!result) {
+        return res.status(400).json({ message: "Ingredient not found" })
+    }
+    return res.status(200).json({ message: "Ingredient reference deleted" })
+})
+
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);

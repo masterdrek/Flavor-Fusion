@@ -1,4 +1,4 @@
-.singup-page{
+.signup-page{
     z-index: 1;
     position: absolute;
     display: flex;
@@ -8,6 +8,7 @@
 }
 
 .signup-title {
+    padding: 10px;
     padding: 10px;
 }
 

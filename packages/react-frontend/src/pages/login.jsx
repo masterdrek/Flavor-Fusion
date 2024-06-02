@@ -1,8 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import TextBox from "../components/Textbox";
-import "../styles/login.css";
-function Login(){
+import { Link } from "react-router-dom"
+import LoginForm from '../components/LoginForm.jsx'
+import './../styles/login.css'
+
+function Login() {
     return (
         <div className="login-page">
             <div>
@@ -12,26 +13,14 @@ function Login(){
                 <h2> Login to your Flavor Fusion Account</h2>
             </div>
 
-            <div className="Textboxes">
-                <h3>Username</h3>
-                <TextBox />
-                <h3>Password</h3>
-                <TextBox type="password" />
-            </div>
+            <LoginForm />
 
-            <div className="login-txt">
-                <Link to="/home">
-                    <button className="sign-in-btn-login">Sign In</button>
-                </Link>
-            </div>
-
-            <div className="">
-                <Link to="/signup">
-                    <button className="create-account-btn-login">Create Account</button>
-                </Link>
-            </div>
+            <Link to="/signup">
+                <button className="login-btn">Don't have an account?</button>
+            </Link>
         </div>
-    );
+    )
 }
+
 
 export default Login;

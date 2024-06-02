@@ -11,24 +11,27 @@ const UserSchema = new mongoose.Schema(
             type: String,
             trim: true,
             required: true,
-            unique: true,
+            unique: true
         },
         hashedPassword: {
             type: String,
-            required: true,
-        }
-        ,
-        inventory: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Inventory"
-        }],
-        saved_recipes: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Recipe"
-        }]
+            required: true
+        },
+        inventory: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Inventory"
+            }
+        ],
+        saved_recipes: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Recipe"
+            }
+        ]
     },
-    { 
-        collection: "user_list" 
+    {
+        collection: "user_list"
     }
 );
 
