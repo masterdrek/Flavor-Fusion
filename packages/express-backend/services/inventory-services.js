@@ -1,4 +1,4 @@
-import inventoryModel from "../models/inventory-schema.js";
+import inventoryModel from "../models/inventory.js";
 import connect from "../mongoSetup.js";
 
 connect();

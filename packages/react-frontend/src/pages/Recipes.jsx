@@ -43,17 +43,6 @@ function Recipes() {
         return data;
     }
 
-    // Function to handle recipe selection (for visual feedback)
-    const handleSelectRecipe = (recipeId) => {
-        setSelectedRecipes((prevSelected) => {
-            if (prevSelected.includes(recipeId)) {
-                return prevSelected.filter((id) => id !== recipeId);
-            } else {
-                return [...prevSelected, recipeId];
-            }
-        });
-    };
-
     // Function to toggle the dropdown menu for each recipe card
     const handleDropdownToggle = (recipeId) => {
         // Toggle the dropdown menu for the specific recipe
@@ -115,13 +104,7 @@ function Recipes() {
                                     to={`/recipe/${recipe._id}`}
                                     className="recipe-link"
                                 >
-                                    <div
-                                        onClick={() =>
-                                            handleSelectRecipe(recipe._id)
-                                        }
-                                    >
-                                        {recipe.name}
-                                    </div>
+                                    <div>{recipe.name}</div>
                                 </Link>
                                 <div
                                     className="dropdown-container"

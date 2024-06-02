@@ -1,36 +1,36 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { API_URL } from './../api/api.js'
+import { API_URL } from "./../api/api.js";
 import "../styles/signup.css";
 
 function SignupForm() {
-
     // navigate to home on success
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     // state variables for user input
-    const [firstName, setFirstName] = useState('')
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
-    const [rePassword, setRePassword] = useState('')
-    const userObj = { name: firstName, username, password }
+    const [firstName, setFirstName] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [rePassword, setRePassword] = useState("");
+    const userObj = { name: firstName, username, password };
 
     // checks if inputs follow criteria
-    const [validUsername, setValidUsername] = useState(false)
-    const [validPassword, setValidPassword] = useState(false)
-    const [matchPassword, setMatchPassword] = useState(true)
+    const [validUsername, setValidUsername] = useState(false);
+    const [validPassword, setValidPassword] = useState(false);
+    const [matchPassword, setMatchPassword] = useState(true);
 
     // shows message on incorrect input
-    const [message, setMessage] = useState('')
+    const [message, setMessage] = useState("");
 
     // to test inputs / txt box message
-    const USERNAME_RGX = /^[0-9a-zA-Z_.]{5,15}$/
-    const PASSWORD_RGX = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,25}$/
-    const PASSWORD_TXT = "Must contain at least one number, one uppercase and lowercase letter, and at least 8 - 25 characters"
+    const USERNAME_RGX = /^[0-9a-zA-Z_.]{5,15}$/;
+    const PASSWORD_RGX = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,25}$/;
+    const PASSWORD_TXT =
+        "Must contain at least one number, one uppercase and lowercase letter, and at least 8 - 25 characters";
 
     // navigates to home on success = true
-    const [success, setSuccess] = useState(false)
-    
+    const [success, setSuccess] = useState(false);
+
     // sends user to home page on success
     useEffect(() => {
         if (success) {
@@ -76,8 +76,7 @@ function SignupForm() {
 
             // get token from response and set value in sessionStorage
             const { token } = await response.json();
-            sessionStorage.setItem("token", token)
-
+            sessionStorage.setItem("token", token);
         } catch (error) {
             console.error("Error in createUser:", error);
         }

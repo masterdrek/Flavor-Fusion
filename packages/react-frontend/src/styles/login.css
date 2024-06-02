@@ -47,10 +47,6 @@
     /* Ensure the button has the correct display */
 }
 
-.login-btn:hover {
-    background: linear-gradient(45deg, #ec5dbc, #4cdc6b);
-}
-
 .login-btn {
     background: none;
     border: none;

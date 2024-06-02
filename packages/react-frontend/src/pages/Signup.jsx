@@ -1,7 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom"
-import SignupForm from '../components/SignupForm.jsx'
-import './../styles/signup.css'
+import { Link } from "react-router-dom";
+import SignupForm from "../components/SignupForm.jsx";
+import "./../styles/signup.css";
 
 function Signup() {
     return (
@@ -21,6 +21,5 @@ function Signup() {
         </div>
     );
 }
-
 
 export default Signup;

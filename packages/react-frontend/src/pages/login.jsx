@@ -1,7 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom"
-import LoginForm from '../components/LoginForm.jsx'
-import './../styles/login.css'
+import { Link } from "react-router-dom";
+import LoginForm from "../components/LoginForm.jsx";
+import "./../styles/login.css";
 
 function Login() {
     return (
@@ -16,7 +16,9 @@ function Login() {
             <LoginForm />
 
             <Link to="/signup">
-                <button className="login-btn">Don't have an account?</button>
+                <button className="login-btn">
+                    Don't have an account?
+                </button>
             </Link>
         </div>
     )
