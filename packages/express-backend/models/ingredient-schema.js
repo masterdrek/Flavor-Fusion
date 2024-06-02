@@ -2,9 +2,8 @@ import mongoose from "mongoose";
 
 export const IngredientSchema = new mongoose.Schema(
     {
-        ingredientReference: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'IngredientReference',
+        name: {
+            type: String,
             required: true
         },
         quantity: {
