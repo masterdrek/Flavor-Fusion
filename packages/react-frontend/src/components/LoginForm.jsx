@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../api/api.js";
-import "../styles/Login.css";
+import "../styles/login.css";
 
 function LoginForm() {
     // to navigate on submission
