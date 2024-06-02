@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import SignupForm from "../components/SignupForm.jsx";
-import "./../styles/Signup.css";
+import "./../styles/signup.css";
 
 function Signup() {
     return (
