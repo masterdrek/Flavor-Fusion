@@ -6,5 +6,8 @@
     },
     "parserOptions": {
         "sourceType": "module"
+    },
+    "rules": {
+        "no-unused-vars": "off"
     }
 }

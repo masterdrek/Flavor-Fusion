@@ -8,11 +8,14 @@ export const IngredientReferenceSchema = new mongoose.Schema(
             trim: true
         }
     },
-    { 
-        collection: "IngredientReference_list" 
+    {
+        collection: "IngredientReference_list"
     }
 );
 
-const IngredientReference = mongoose.model("IngredientReference", IngredientReferenceSchema);
+const IngredientReference = mongoose.model(
+    "IngredientReference",
+    IngredientReferenceSchema
+);
 
 export default IngredientReference;

@@ -8,8 +8,8 @@ async function getAll() {
 }
 
 async function getByName(info) {
-    const { name } = info
-    return IngredientReference.find({ name: name }).lean().exec()
+    const { name } = info;
+    return IngredientReference.find({ name: name }).lean().exec();
 }
 
 async function add(newItem) {
@@ -18,20 +18,19 @@ async function add(newItem) {
         const promise = await itemToAdd.save();
         return promise;
     } catch (error) {
-        console.error("Error saving item: ", error)
+        console.error("Error saving item: ", error);
     }
 }
 
-
 async function update(id, updateData) {
-    const result = await IngredientReference
-        .findByIdAndUpdate(id, updateData, { new: true })
-        .exec();
+    const result = await IngredientReference.findByIdAndUpdate(id, updateData, {
+        new: true
+    }).exec();
     return result;
 }
 
 function remove(info) {
-    const { id } = info
+    const { id } = info;
     return IngredientReference.findOneAndDelete({ _id: id });
 }
 
