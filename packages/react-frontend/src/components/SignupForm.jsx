@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "./../api/api.js";
-import "../styles/Signup.css";
+import "../styles/signup.css";
 
 function SignupForm() {
     // navigate to home on success
