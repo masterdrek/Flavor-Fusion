@@ -4,8 +4,8 @@ import cors from "cors";
 import recipeServices from "./services/recipe-services.js";
 import inventoryServices from "./services/inventory-services.js";
 import userServices from "./services/user-services.js";
-import { loginUser, registerUser, authenticateUser } from "./auth/auth.js"
-import Recipe from "./models/recipe-schema.js"
+import { loginUser, registerUser, authenticateUser } from "./auth/auth.js";
+import Recipe from "./models/recipe.js";
 
 const app = express();
 const port = process.env.PORT;
@@ -168,7 +168,6 @@ app.delete("/recipes/:recipeId", async (req, res) => {
         res.status(404).send("Resource not found.");
     }
 });
-
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
