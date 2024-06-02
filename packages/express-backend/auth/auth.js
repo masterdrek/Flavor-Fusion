@@ -49,17 +49,17 @@ export const loginUser = async (req, res) => {
 
     if (!user) {
         // invalid username
-        res.status(401).send("Unauthorized");
+        res.status(401).json({ message: "Wrong username" });
     } else {
         bcrypt
             .compare(password, user.hashedPassword)
             .then((matched) => {
                 if (matched) {
                     generateAccessToken(username).then((token) => {
-                        res.status(200).send({ token: token });
+                        res.status(201).json({ token: token });
                     });
                 } else {
-                    res.status(401).send("Unauthorized");
+                    res.status(401).send({ message: "Wrong password" });
                 }
             })
             .catch(() => {

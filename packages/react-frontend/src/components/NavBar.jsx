@@ -10,7 +10,12 @@ function NavBar({ NavbarData, isSelected, setIsSelected }) {
 
     const handleLogout = () => {
         // Perform any logout logic here (e.g., clearing tokens, user data)
-        navigate("/login"); // Redirect to the login page
+        if (sessionStorage.getItem("token")) {
+            sessionStorage.removeItem("token")
+            navigate("/login"); // Redirect to the login page
+        } else {
+            navigate("/signup")
+        }
     };
     return (
         <div className="Navbar">

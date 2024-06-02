@@ -51,7 +51,7 @@
     background: linear-gradient(45deg, #ec5dbc, #4cdc6b);
 }
 
-.login-btn {
+.signup-btn {
     background: none;
     border: none;
     color: #007bff;
@@ -63,7 +63,7 @@
     /* Remove margin */
 }
 
-.login-btn:hover {
+.signup-btn:hover {
     color: #0056b3;
     text-decoration: none;
     /* Remove underline on hover */
