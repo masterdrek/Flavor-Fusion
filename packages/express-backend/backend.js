@@ -4,9 +4,8 @@ import cors from "cors";
 import recipeServices from "./services/recipe-services.js";
 import inventoryServices from "./services/inventory-services.js";
 import userServices from "./services/user-services.js";
-import ingredientReferenceServices from "./services/ingredient-reference-services.js";
 import { loginUser, registerUser, authenticateUser } from "./auth/auth.js";
-import Recipe from "./models/recipe-schema.js";
+import Recipe from "./models/recipe.js";
 
 const app = express();
 const port = process.env.PORT;
