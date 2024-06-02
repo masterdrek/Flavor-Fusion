@@ -1,4 +1,4 @@
-import recipeModel from "../models/recipe-schema.js";
+import recipeModel from "../models/recipe.js";
 import connect from "../mongoSetup.js";
 
 connect();
