@@ -6,12 +6,18 @@
     background-color: #f8f9fa;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
 
 .toolbar {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
+    position: sticky;
+    top: 0;
+    background-color: #f8f9fa;
+    z-index: 1;
+    padding: 10px 0;
 }
 
 .search-bar {
@@ -101,6 +107,11 @@
 .add-bar button:hover {
     background: linear-gradient(45deg, #ff4c4c, #c62828);
     transform: translateY(-2px);
+}
+
+.table-wrapper {
+    max-height: 60vh;
+    overflow-y: auto;
 }
 
 .rdt_Table {

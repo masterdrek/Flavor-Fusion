@@ -295,7 +295,6 @@
     border: none;
     border-radius: 25px;
     /* More rounded corners */
-    background: linear-gradient(45deg, #ec645d, #724cdc);
     color: white;
     font-size: 18px;
     /* Slightly larger font size */
@@ -306,7 +305,6 @@
 }
 
 .save-button:hover {
-    background: linear-gradient(45deg, #ec5dbc, #4cdc6b);
     transform: translateY(-2px);
     /* Slight lift effect */
 }

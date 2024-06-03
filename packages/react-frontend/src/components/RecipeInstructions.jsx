@@ -3,7 +3,6 @@ import "../styles/Recipe.css";
 function RecipeInstructions(props) {
     return (
         <div className="recipe-section">
-            <h2>Instructions</h2>
             <table className="recipe-instructions-table">
                 <tbody>
                     {props.instructions.map((row, index) => (
