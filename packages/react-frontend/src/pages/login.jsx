@@ -16,13 +16,10 @@ function Login() {
             <LoginForm />
 
             <Link to="/signup">
-                <button className="login-btn">
-                    Don't have an account?
-                </button>
+                <button className="login-btn">Don't have an account?</button>
             </Link>
         </div>
-    )
+    );
 }
-
 
 export default Login;
