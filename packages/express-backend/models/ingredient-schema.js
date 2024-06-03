@@ -15,4 +15,3 @@ export const IngredientSchema = new mongoose.Schema(
     { collection: "ingredient_list" }
 );
 
-export default IngredientSchema;
