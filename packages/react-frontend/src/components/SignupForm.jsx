@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "./../api/api.js";
-import "../styles/signup.css";
+import "../styles/SignupForm.css"; // Import the CSS file
 
 function SignupForm() {
     // navigate to home on success

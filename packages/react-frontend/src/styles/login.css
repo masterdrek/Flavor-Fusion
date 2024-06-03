@@ -1,22 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
 .login-page {
-    z-index: 1;
-    position: absolute;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
     width: 100%;
+    height: 100%;
+    z-index: 2;
+    position: relative;
+    background: linear-gradient(106.37deg,
+            #ffe1bc 29.63%,
+            #ffcfd1 51.55%,
+            #f3c6f1 90.85%);
 }
 
-.login-title {
-    padding: 10px;
-    padding: 10px;
+.login-container {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 30px 40px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 450px;
+    width: 100%;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.login-header h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #333;
+    animation: slideDown 1s ease-in-out;
+}
+
+.login-title h2 {
+    font-size: 1.25em;
+    margin-bottom: 30px;
+    color: #666;
+    animation: slideUp 1s ease-in-out;
 }
 
 .text-container {
     display: flex;
-    justify-content: left;
+    justify-content: center;
     flex-direction: column;
-    width: 350px;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto 20px auto;
 }
 
 .textbox {
@@ -25,72 +54,78 @@
     border-radius: 4px;
     font-size: 16px;
     width: 100%;
-    max-width: 320px;
+    margin-bottom: 20px;
 }
 
 .login-txt {
     margin-top: 10px;
+    text-align: left;
+    color: #555;
+}
+
+.signup-link {
+    margin-top: 20px;
+}
+
+.signup-link a {
+    color: #007bff;
+    font-size: 16px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: color 0.3s;
+}
+
+.signup-link a:hover {
+    color: #0056b3;
 }
 
 .login-btn {
     padding: 10px 20px;
     border: none;
-    border-radius: 4px;
+    border-radius: 25px;
     background: linear-gradient(45deg, #ec645d, #724cdc);
     color: white;
     font-size: 16px;
     cursor: pointer;
     text-decoration: none;
-    /* Remove underline from link */
     display: inline-block;
-    min-width: 100%;
-    /* Ensure the button has the correct display */
-}
-
-.login-btn {
-    background: none;
-    border: none;
-    color: #007bff;
-    cursor: pointer;
-    font-size: 16px;
-    text-decoration: underline;
-    padding: 0;
-    /* Remove padding */
-    /* Remove margin */
+    transition: background 0.3s, transform 0.3s;
+    margin-top: 20px;
+    width: 90px;
+    margin-left: 15vh;
 }
 
 .login-btn:hover {
-    color: #0056b3;
-    text-decoration: none;
-    /* Remove underline on hover */
+    background: linear-gradient(45deg, #d35454, #5d39b8);
+    transform: translateY(-2px);
 }
 
-.login-btn {
-    background: none;
-    border: none;
-    color: #007bff;
-    cursor: pointer;
-    font-size: 16px;
-    text-decoration: underline;
-    padding: 0;
-    /* Remove padding */
-    /* Remove margin */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
-.login-btn {
-    background: none;
-    border: none;
-    color: #007bff;
-    cursor: pointer;
-    font-size: 16px;
-    text-decoration: underline;
-    padding: 0;
-    /* Remove padding */
-    /* Remove margin */
+@keyframes slideDown {
+    from {
+        transform: translateY(-20px);
+    }
+
+    to {
+        transform: translateY(0);
+    }
 }
 
-.login-btn:hover {
-    color: #0056b3;
-    text-decoration: none;
-    /* Remove underline on hover */
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+    }
+
+    to {
+        transform: translateY(0);
+    }
 }
