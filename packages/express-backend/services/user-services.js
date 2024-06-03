@@ -68,11 +68,24 @@ function removeSavedRecipe(username, recipeId) {
         }
     });
 }
+
+async function getSavedRecipes(username) {
+    const user = await User.findOne({ username: username })
+        .populate("saved_recipes")
+        .exec();
+    if (!user) {
+        return null;
+    }
+    return user.saved_recipes;
+}
+
 export default {
     getUsers,
     getUserByUsername,
     addUser,
     addSavedRecipe,
     removeSavedRecipe,
-    isRecipeSaved
+    isRecipeSaved,
+    getSavedRecipes
 };
+

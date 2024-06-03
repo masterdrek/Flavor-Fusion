@@ -17,11 +17,12 @@ function Login() {
 
             <Link to="/signup">
                 <button className="login-btn">
-                    Don&apos;t have an account?
+                    Don't have an account?
                 </button>
             </Link>
         </div>
-    );
+    )
 }
+
 
 export default Login;

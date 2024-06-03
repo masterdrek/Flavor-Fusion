@@ -137,6 +137,18 @@ app.patch("/recipe/remove/:username/:recipeId", async (req, res) => {
     }
 });
 
+app.get("/recipes/saved/:username", async (req, res) => {
+    const { username } = req.params;
+    console.log(username);
+    try {
+        const result = await userServices.getSavedRecipes(username);
+        res.send({ saved_recipes: result });
+    } catch (error) {
+        console.log(error);
+        res.status(404).send("Resource not found.");
+    }
+});
+
 app.post("/recipes", async (req, res) => {
     const { name, ingredients, cookware, instructions, creator } = req.body;
 

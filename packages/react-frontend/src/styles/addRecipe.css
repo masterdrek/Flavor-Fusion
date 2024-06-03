@@ -37,7 +37,7 @@
 }
 
 .back-button {
-    background: linear-gradient(45deg, #5d88ec, #4cdcb6);
+    background: linear-gradient(45deg, #ec645d, #724cdc);
     color: white;
     padding: 10px 20px;
     /* Increased padding */
@@ -129,7 +129,9 @@
     border-radius: 25px;
     cursor: pointer;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: background 0.3s, transform 0.3s;
+    transition:
+        background 0.3s,
+        transform 0.3s;
 }
 
 .actions-bar-two button:disabled {
@@ -156,7 +158,9 @@
     border-radius: 25px;
     cursor: pointer;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: background 0.3s, transform 0.3s;
+    transition:
+        background 0.3s,
+        transform 0.3s;
 }
 
 .add-bar-two button:hover {
@@ -211,7 +215,9 @@
     margin: 0 5px;
     cursor: pointer;
     border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s;
+    transition:
+        background-color 0.3s,
+        color 0.3s;
 }
 
 .rdt_Pagination-Button:hover {

@@ -2,10 +2,10 @@ import mongoose from "mongoose";
 
 export const IngredientSchema = new mongoose.Schema(
     {
-        name: {
-            type: String,
-            required: true,
-            trim: true
+        ingredientReference: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'IngredientReference',
+            required: true
         },
         quantity: {
             type: Number,
