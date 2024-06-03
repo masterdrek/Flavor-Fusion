@@ -4,7 +4,7 @@ export const IngredientSchema = new mongoose.Schema(
     {
         ingredientReference: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'IngredientReference',
+            ref: "IngredientReference",
             required: true
         },
         quantity: {
