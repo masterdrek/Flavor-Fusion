@@ -8,23 +8,23 @@ function LoginForm() {
     const navigate = useNavigate();
 
     // states to save input
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
-    const userObj = { username, password }
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const userObj = { username, password };
 
     // checks if inputs follow criteria
-    const [validUsername, setValidUsername] = useState(false)
-    const [validPassword, setValidPassword] = useState(false)
+    const [validUsername, setValidUsername] = useState(false);
+    const [validPassword, setValidPassword] = useState(false);
 
     // to test inputs / txt box message
-    const USERNAME_RGX = /^[0-9a-zA-Z_.]{5,15}$/
-    const PASSWORD_RGX = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,25}$/
+    const USERNAME_RGX = /^[0-9a-zA-Z_.]{5,15}$/;
+    const PASSWORD_RGX = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,25}$/;
 
     // message to display on err
     const [message, setMessage] = useState("");
 
     // sets if success for navigate
-    const [success, setSuccess] = useState(false)
+    const [success, setSuccess] = useState(false);
 
     // checks for valid username regex
     useEffect(() => {
@@ -33,11 +33,9 @@ function LoginForm() {
 
     // checks if inputs follow patterns and passwords are equivalent
     useEffect(() => {
-        setValidPassword(
-            PASSWORD_RGX.test(password)
-        );
+        setValidPassword(PASSWORD_RGX.test(password));
     }, [password]);
-    
+
     // sends user to home page on success
     useEffect(() => {
         if (success) {
@@ -57,24 +55,27 @@ function LoginForm() {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(userCreds)
-            })
-            const json = await response.json()
+            });
+            const json = await response.json();
 
-            if ((response.status == 401) &&  json.message.includes('username')) {
-                setMessage("Username was incorrect")
-                return null
-            }  else if ((response.status == 401) && json.message.includes('password')) {
-                setMessage("Password was incorrect")
-                return null
+            if (response.status == 401 && json.message.includes("username")) {
+                setMessage("Username was incorrect");
+                return null;
+            } else if (
+                response.status == 401 &&
+                json.message.includes("password")
+            ) {
+                setMessage("Password was incorrect");
+                return null;
             } else if (response.status !== 201) {
-                setMessage("Error logging in")
+                setMessage("Error logging in");
             }
 
             // get token from response and set value in sessionStorage
-            const { token } = json
+            const { token } = json;
             if (token) {
-                sessionStorage.setItem("token", token)
-                return token
+                sessionStorage.setItem("token", token);
+                return token;
             }
         } catch (error) {
             console.error("Error in loginUser:", error);
@@ -86,15 +87,15 @@ function LoginForm() {
         e.preventDefault();
 
         // authorizes user and recieves new token
-        const loginSuccess = await loginUser(userObj)
+        const loginSuccess = await loginUser(userObj);
         if (!loginSuccess) {
-            return null
+            return null;
         }
 
-        // successfully created, triggers useEffect surrounding navigate to go to Home 
+        // successfully created, triggers useEffect surrounding navigate to go to Home
         if (sessionStorage.getItem("token")) {
-            setSuccess(() => true)
-            setMessage("User logged in")
+            setSuccess(() => true);
+            setMessage("User logged in");
         } else {
             setMessage("Token not recieved from server");
         }

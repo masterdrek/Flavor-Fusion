@@ -7,16 +7,16 @@ import { RiLogoutBoxRFill } from "react-icons/ri";
 
 function NavBar({ NavbarData, isSelected, setIsSelected }) {
     const navigate = useNavigate();
-    const [message, setMessage] = useState('')
+    const [message, setMessage] = useState("");
 
     const handleLogout = () => {
         // Perform any logout logic here (e.g., clearing tokens, user data)
         if (sessionStorage.getItem("token")) {
-            sessionStorage.removeItem("token")
-            console.log("User logged out")
+            sessionStorage.removeItem("token");
+            console.log("User logged out");
             navigate("/login"); // Redirect to the login page
         } else {
-            navigate("/signup")
+            navigate("/signup");
         }
     };
     return (

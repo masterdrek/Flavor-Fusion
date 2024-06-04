@@ -15,7 +15,7 @@ function Login() {
                 </div>
                 <LoginForm />
                 <div className="signup-link">
-                    <Link to="/signup">Don't have an account?</Link>
+                    <Link to="/signup">Dont have an account?</Link>
                 </div>
             </div>
         </div>

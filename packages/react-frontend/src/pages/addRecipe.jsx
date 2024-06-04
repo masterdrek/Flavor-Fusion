@@ -46,10 +46,10 @@ function AddRecipe() {
     const handleButtonClick = () => {
         // makes sure there is a recipe name and sets err message if not
         if (!recipeName) {
-            setMessage("Recipe name needed")
+            setMessage("Recipe name needed");
         } else {
             handleSaveRecipe(); // Save the recipe\
-            navigate('/');
+            navigate("/");
             setTimeout(() => {
                 handleRefresh(); // Refresh the page after saving
             }, 0);
