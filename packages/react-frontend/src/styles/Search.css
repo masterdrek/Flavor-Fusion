@@ -100,7 +100,9 @@ h2 {
     /* Rounded corners */
     padding: 20px;
     box-sizing: border-box;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s;
     /* Smooth transitions */
 }
 

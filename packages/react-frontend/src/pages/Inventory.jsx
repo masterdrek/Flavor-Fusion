@@ -3,6 +3,7 @@ import DataTable from "react-data-table-component";
 import Modal from "../components/Modal";
 import { BsFillPencilFill } from "react-icons/bs";
 import "../styles/Inventory.css";
+import { jwtDecode } from "jwt-decode";
 import {
     fetchInventory,
     patchInventory,
@@ -16,21 +17,37 @@ function Inventory() {
     const [modalOpen, setModalOpen] = useState(false); // Controls the visibility of the modal
     const [isEditing, setIsEditing] = useState(false); // Indicates if we are editing an existing item
     const [data, setData] = useState([]); // Initial empty data array
+    const [username, setUsername] = useState("");
+    const [isNew, setIsNew] = useState(false);
 
     useEffect(() => {
-        fetchInventory()
-            .then((json) => {
-                console.log("Fetched Data:", json);
-                setData(
-                    Array.isArray(json.inventory_list)
-                        ? json.inventory_list
-                        : []
-                );
-            })
-            .catch((error) => {
-                console.error("Error fetching data:", error);
-            });
+        setUsername(jwtDecode(sessionStorage.getItem("token")).username);
     }, []);
+    const getInventory = (username, setData) => {
+        if (username !== "") {
+            fetchInventory(username)
+                .then((json) => {
+                    console.log("Fetched Data:", json);
+                    setData(
+                        Array.isArray(
+                            json.inventory.ingredients.concat(
+                                json.inventory.cookware
+                            )
+                        )
+                            ? json.inventory.ingredients.concat(
+                                  json.inventory.cookware
+                              )
+                            : []
+                    );
+                })
+                .catch((error) => {
+                    console.error("Error fetching data:", error);
+                });
+        }
+    };
+    useEffect(() => {
+        getInventory(username, setData);
+    }, [username]);
 
     const columns = [
         {
@@ -60,7 +77,7 @@ function Inventory() {
             : []; // Filter out selected rows
         selectedRows.forEach((row) => {
             console.log(row._id);
-            fetch(`http://localhost:8000/inventory/${row._id}`, {
+            fetch(`http://localhost:8000/inventory/${username}/${row._id}`, {
                 method: "DELETE"
             }).catch((error) => console.error("Error deleting item:", error));
         });
@@ -93,15 +110,18 @@ function Inventory() {
     const editInventory = (editedItem) => {
         // copying all properties from one object to another and adding an id property
         const itemToUpdate = { ...editedItem, _id: editItem._id };
-        patchInventory(itemToUpdate)
+        patchInventory(username, itemToUpdate)
             .then((updatedItem) => {
                 if (updatedItem) {
-                    const updatedData = Array.isArray(data)
-                        ? data.map((item) =>
-                              item._id === updatedItem._id ? updatedItem : item
-                          )
-                        : [];
-                    setData(updatedData); // Update the data state with the edited item
+                    setData(
+                        Array.isArray(
+                            updatedItem.ingredients.concat(updatedItem.cookware)
+                        )
+                            ? updatedItem.ingredients.concat(
+                                  updatedItem.cookware
+                              )
+                            : []
+                    );
                     setModalOpen(false); // Close the modal
                     setEditItem(null); // Clear the edit item state
                     setIsEditing(false); // Reset editing mode
@@ -117,11 +137,24 @@ function Inventory() {
         setModalOpen(false); // Close the modal
         setEditItem(null); // Clear the edit item state
         setIsEditing(false); // Reset editing mode
+        setIsNew(false);
     };
 
     // Handle adding a new item
     const handleAdd = (newItem) => {
-        addToInventory(newItem, setData, setModalOpen);
+        console.log(newItem);
+        const type = newItem.type;
+
+        delete newItem.type;
+        console.log(type);
+        addToInventory(
+            username,
+            newItem,
+            type,
+            setData,
+            setModalOpen,
+            getInventory
+        );
     };
 
     return (
@@ -147,7 +180,14 @@ function Inventory() {
                     </button>
                 </div>
                 <div className="add-bar">
-                    <button onClick={() => setModalOpen(true)}>Add + </button>
+                    <button
+                        onClick={() => {
+                            setModalOpen(true);
+                            setIsNew(true);
+                        }}
+                    >
+                        Add +{" "}
+                    </button>
                 </div>
             </div>
             <div className="table-wrapper">
@@ -167,6 +207,7 @@ function Inventory() {
                     initialQuantity={
                         isEditing && editItem ? editItem.quantity : ""
                     } // Initial value for the quantity input field
+                    isNew={isNew}
                 />
             )}
         </div>

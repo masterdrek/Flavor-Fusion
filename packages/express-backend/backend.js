@@ -54,30 +54,53 @@ app.get("/inventory", async (req, res) => {
     res.send({ inventory_list: result });
 });
 
-// add ingredient to inventory
-app.post("/inventory", async (req, res) => {
+// get inventory by usernmae
+app.get("/inventory/:username", async (req, res) => {
+    const { username } = req.params;
+    const result = await userServices.getInventory(username);
+    res.send({ inventory: result });
+});
+
+// add ingredient to inventory by username
+app.post("/inventory/ingredient/:username", async (req, res) => {
+    const { username } = req.params;
     const newItem = req.body;
-    const result = await inventoryServices.addNewInventoryItem(newItem);
+    const result = await userServices.addNewIngredientToInventory(
+        username,
+        newItem
+    );
+    res.status(201).send(result);
+});
+
+// add cookware to inventory by username
+app.post("/inventory/cookware/:username", async (req, res) => {
+    const { username } = req.params;
+    const newItem = req.body;
+    const result = await userServices.addNewCookwareToInventory(
+        username,
+        newItem
+    );
     res.status(201).send(result);
 });
 
 // delete item in inventory by id
-app.delete("/inventory/:id", async (req, res) => {
-    const id = req.params.id;
-    const result = await inventoryServices.deleteUserById(id);
+app.delete("/inventory/:username/:id", async (req, res) => {
+    const { username, id } = req.params;
+    const result = await userServices.deleteInventoryItemById(username, id);
     res.send({ inventory_list: result });
 });
 
-app.patch("/inventory/:id", async (req, res) => {
-    // get the item id from the URL path
-    const itemId = req.params.id;
-    // get and access data the user is passing in
+app.patch("/inventory/:username/:id", async (req, res) => {
+    const { username, id } = req.params;
+
     const updateData = req.body;
     try {
-        const result = await inventoryServices.updateInventoryItem(
-            itemId,
+        const result = await userServices.updateInventoryItem(
+            username,
+            id,
             updateData
         );
+
         if (result) {
             res.status(200).send(result);
         } else {

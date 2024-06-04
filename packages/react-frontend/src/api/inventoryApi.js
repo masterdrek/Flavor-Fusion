@@ -1,7 +1,7 @@
 import { API_URL } from "./api.js";
 
-export async function fetchInventory() {
-    const response = await fetch(API_URL + "/inventory");
+export async function fetchInventory(username) {
+    const response = await fetch(API_URL + "/inventory/" + username);
     if (!response.ok) {
         throw new Error(`Error fetching data: ${response.statusText}`);
     }
@@ -9,16 +9,44 @@ export async function fetchInventory() {
     return data;
 }
 
-export async function postInventory(item) {
+export async function postIngredientInventory(username, item) {
     console.log("Posting item:", item);
     try {
-        const response = await fetch(API_URL + "/inventory", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(item)
-        });
+        const response = await fetch(
+            API_URL + "/inventory/ingredient/" + username,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(item)
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error(`Error posting data: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log("Posted data:", data);
+        return data;
+    } catch (error) {
+        console.error("Error in postInventory:", error);
+    }
+}
+export async function postCookwareInventory(username, item) {
+    console.log("Posting item:", item);
+    try {
+        const response = await fetch(
+            API_URL + "/inventory/cookware/" + username,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(item)
+            }
+        );
 
         if (!response.ok) {
             throw new Error(`Error posting data: ${response.statusText}`);
@@ -32,15 +60,18 @@ export async function postInventory(item) {
     }
 }
 
-export async function patchInventory(item) {
+export async function patchInventory(username, item) {
     try {
-        const response = await fetch(API_URL + `/inventory/${item._id}`, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(item)
-        });
+        const response = await fetch(
+            API_URL + `/inventory/${username}/${item._id}`,
+            {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(item)
+            }
+        );
 
         if (!response.ok) {
             throw new Error(`Error updating data: ${response.statusText}`);
@@ -54,17 +85,29 @@ export async function patchInventory(item) {
     }
 }
 
-export async function addToInventory(item, setData, setModalOpen) {
-    postInventory(item)
-        .then((newItem) => {
-            if (newItem) {
-                setData((prevData) =>
-                    Array.isArray(prevData) ? [...prevData, newItem] : [newItem]
-                );
-                setModalOpen(false);
-            }
-        })
-        .catch((error) => {
-            console.error("Error updating list:", error);
-        });
+export async function addToInventory(
+    username,
+    item,
+    type,
+    setData,
+    setModalOpen,
+    getInventory
+) {
+    console.log(username, item, type);
+    type === "ingredient"
+        ? postIngredientInventory(username, item)
+              .then(() => {
+                  getInventory(username, setData);
+              })
+              .catch((error) => {
+                  console.error("Error updating list:", error);
+              })
+        : postCookwareInventory(username, item)
+              .then(() => {
+                  getInventory(username, setData);
+              })
+              .catch((error) => {
+                  console.error("Error updating list:", error);
+              });
+    setModalOpen(false);
 }

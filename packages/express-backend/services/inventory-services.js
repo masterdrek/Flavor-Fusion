@@ -25,14 +25,9 @@ async function updateInventoryItem(id, updateData) {
     return result;
 }
 
-function deleteUserById(id) {
-    return inventoryModel.findOneAndDelete({ _id: id }).exec();
-}
-
 export default {
     addNewInventoryItem,
     addInventory,
     getInventories,
-    updateInventoryItem,
-    deleteUserById
+    updateInventoryItem
 };
