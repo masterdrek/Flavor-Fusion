@@ -13,7 +13,8 @@ function NavBar({ NavbarData, isSelected, setIsSelected }) {
         // Perform any logout logic here (e.g., clearing tokens, user data)
         if (sessionStorage.getItem("token")) {
             sessionStorage.removeItem("token")
-            setMessage('User Logged Out')
+            console.log("User logged out")
+            navigate("/login"); // Redirect to the login page
         } else {
             navigate("/signup")
         }
