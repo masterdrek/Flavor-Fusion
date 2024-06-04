@@ -3,7 +3,7 @@ import DataTable from "react-data-table-component";
 import Modal from "../components/Modal";
 import { BsFillPencilFill } from "react-icons/bs";
 import "../styles/Inventory.css";
-import { jwtDecode } from "jwt-decode";
+import jwt_decode from "jwt-decode";
 import {
     fetchInventory,
     patchInventory,
@@ -21,8 +21,9 @@ function Inventory() {
     const [isNew, setIsNew] = useState(false);
 
     useEffect(() => {
-        setUsername(jwtDecode(sessionStorage.getItem("token")).username);
+        setUsername(jwt_decode(sessionStorage.getItem("token")).username);
     }, []);
+
     const getInventory = (username, setData) => {
         if (username !== "") {
             fetchInventory(username)
