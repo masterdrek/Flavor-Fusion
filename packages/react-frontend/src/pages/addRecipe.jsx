@@ -9,6 +9,9 @@ function AddRecipe() {
     // State for recipe name
     const [recipeName, setRecipeName] = useState("");
 
+    // State for err on submit message
+    const [message, setMessage] = useState("");
+
     // State for ingredients
     const [ingredientFilterText, setIngredientFilterText] = useState("");
     const [ingredientSelectedRows, setIngredientSelectedRows] = useState([]);
@@ -41,10 +44,16 @@ function AddRecipe() {
     };
 
     const handleButtonClick = () => {
-        handleSaveRecipe(); // Save the recipe
-        setTimeout(() => {
-            handleRefresh(); // Refresh the page after saving
-        }, 0);
+        // makes sure there is a recipe name and sets err message if not
+        if (!recipeName) {
+            setMessage("Recipe name needed");
+        } else {
+            handleSaveRecipe(); // Save the recipe\
+            navigate("/");
+            setTimeout(() => {
+                handleRefresh(); // Refresh the page after saving
+            }, 0);
+        }
     };
 
     // Ingredient columns for DataTable
@@ -507,11 +516,10 @@ function AddRecipe() {
             </div>
 
             <div className="save-recipe-button">
-                <Link to="/">
-                    <button className="save-button" onClick={handleButtonClick}>
-                        Save Recipe
-                    </button>
-                </Link>
+                <p>{message}</p>
+                <button className="save-button" onClick={handleButtonClick}>
+                    Save Recipe
+                </button>
             </div>
         </div>
     );

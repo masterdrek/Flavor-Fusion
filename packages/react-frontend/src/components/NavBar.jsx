@@ -7,10 +7,17 @@ import { RiLogoutBoxRFill } from "react-icons/ri";
 
 function NavBar({ NavbarData, isSelected, setIsSelected }) {
     const navigate = useNavigate();
+    const [message, setMessage] = useState("");
 
     const handleLogout = () => {
         // Perform any logout logic here (e.g., clearing tokens, user data)
-        navigate("/login"); // Redirect to the login page
+        if (sessionStorage.getItem("token")) {
+            sessionStorage.removeItem("token");
+            console.log("User logged out");
+            navigate("/login"); // Redirect to the login page
+        } else {
+            navigate("/signup");
+        }
     };
     return (
         <div className="Navbar">
@@ -43,6 +50,7 @@ function NavBar({ NavbarData, isSelected, setIsSelected }) {
                 <div className="menuItem" onClick={handleLogout}>
                     <RiLogoutBoxRFill />
                 </div>
+                <p>{message}</p>
             </div>
         </div>
     );
