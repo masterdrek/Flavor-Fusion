@@ -34,6 +34,7 @@ export const registerUser = async (req, res) => {
             .genSalt(10)
             .then((salt) => bcrypt.hash(password, salt)) // hashes pwd
             .then((hashedPwd) => {
+                console.log("hashed: " + hashedPwd);
                 generateAccessToken(username).then((token) => {
                     const newUser = [name.toUpperCase(), username, hashedPwd];
                     userServieces.addUser(...newUser); // add new user

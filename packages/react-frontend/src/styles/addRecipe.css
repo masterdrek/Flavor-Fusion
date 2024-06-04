@@ -26,7 +26,9 @@
     border: 2px solid #ccc;
     border-radius: 10px;
     outline: none;
-    transition: border-color 0.3s, box-shadow 0.3s;
+    transition:
+        border-color 0.3s,
+        box-shadow 0.3s;
     background-color: #f9f9f9;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -49,7 +51,9 @@
     /* More rounded corners */
     font-size: 18px;
     /* Reduced font size */
-    transition: background 0.3s, transform 0.3s;
+    transition:
+        background 0.3s,
+        transform 0.3s;
     /* Smooth transition */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     /* Subtle shadow */
@@ -301,7 +305,9 @@
     cursor: pointer;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     /* Subtle shadow */
-    transition: background 0.3s, transform 0.3s;
+    transition:
+        background 0.3s,
+        transform 0.3s;
 }
 
 .save-button:hover {

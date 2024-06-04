@@ -16,4 +16,3 @@ export const CookwareSchema = new mongoose.Schema(
         collection: "cookware_list"
     }
 );
-

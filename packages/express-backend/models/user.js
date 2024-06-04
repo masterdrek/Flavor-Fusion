@@ -15,7 +15,7 @@ const UserSchema = new mongoose.Schema(
         },
         hashedPassword: {
             type: String,
-            required: true,
+            required: true
         },
         inventory: {
             type: mongoose.Schema.Types.ObjectId,

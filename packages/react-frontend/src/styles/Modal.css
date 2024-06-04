@@ -12,6 +12,33 @@
     z-index: 1000;
 }
 
+.type-options {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+.type-button {
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    transition: background-color 0.3s;
+    border-color: black;
+    margin: 1%;
+}
+.cookware-ingredient {
+    background-color: white;
+}
+.cookware-cookware {
+    background-color: black;
+}
+.ingredient-cookware {
+    background-color: white;
+}
+.ingredient-ingredient {
+    background-color: black;
+}
 /* Modal Box */
 .modal {
     background-color: #fff;
@@ -63,7 +90,9 @@
     border-radius: 8px;
     font-size: 18px;
     box-sizing: border-box;
-    transition: border-color 0.3s, box-shadow 0.3s;
+    transition:
+        border-color 0.3s,
+        box-shadow 0.3s;
 }
 
 .form-group input:focus {
@@ -88,7 +117,9 @@
     border-radius: 8px;
     font-size: 18px;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
+    transition:
+        background-color 0.3s,
+        transform 0.3s;
     flex: 1;
     margin: 0 5px;
 }
@@ -113,7 +144,9 @@
     color: #007bff;
     cursor: pointer;
     margin-left: 10px;
-    transition: color 0.3s, transform 0.3s;
+    transition:
+        color 0.3s,
+        transform 0.3s;
 }
 
 .edit-icon:hover {

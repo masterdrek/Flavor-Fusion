@@ -1,6 +1,7 @@
-import Inventory from "../models/inventory.js";
 import User from "../models/user.js";
 import connect from "../mongoSetup.js";
+import inventoryServices from "./inventory-services.js";
+import inventoryModel from "../models/inventory.js";
 
 connect();
 
@@ -84,6 +85,100 @@ async function getSavedRecipes(username) {
     return user.saved_recipes;
 }
 
+async function getInventory(username) {
+    const user = await User.findOne({ username: username })
+        .populate("inventory")
+        .exec();
+    if (!user) {
+        return null;
+    }
+    return user.inventory;
+}
+
+async function addNewIngredientToInventory(username, item) {
+    const inventory = (await User.findOne({ username: username })).inventory;
+    if (!inventory) {
+        return null;
+    }
+    const inventoryId = inventory._id;
+    return inventoryModel.findById(inventoryId).then((oldInventory) => {
+        return inventoryModel.updateOne(
+            { _id: inventory._id },
+            { $set: { ingredients: [...oldInventory.ingredients, item] } }
+        );
+    });
+}
+
+async function addNewCookwareToInventory(username, item) {
+    const inventory = (await User.findOne({ username: username })).inventory;
+    if (!inventory) {
+        return null;
+    }
+    const inventoryId = inventory._id;
+    return inventoryModel.findById(inventoryId).then((oldInventory) => {
+        return inventoryModel.updateOne(
+            { _id: inventory._id },
+            { $set: { cookware: [...oldInventory.cookware, item] } }
+        );
+    });
+}
+
+async function updateInventoryItem(username, itemId, newItem) {
+    const user = await User.findOne({ username: username }).populate(
+        "inventory"
+    );
+    if (!user || !user.inventory) {
+        return null;
+    }
+    const inventoryId = user.inventory._id;
+
+    const ingredientIndex = user.inventory.ingredients.findIndex(
+        (item) => item._id.toString() === itemId
+    );
+    const cookwareIndex = user.inventory.cookware.findIndex(
+        (item) => item._id.toString() === itemId
+    );
+
+    let updatePath;
+    if (ingredientIndex !== -1) {
+        updatePath = `ingredients.${ingredientIndex}`;
+    } else if (cookwareIndex !== -1) {
+        updatePath = `cookware.${cookwareIndex}`;
+    } else {
+        return null;
+    }
+    const update = {};
+    update[updatePath] = newItem;
+
+    const result = await inventoryModel.findByIdAndUpdate(
+        inventoryId,
+        { $set: update },
+        { new: true }
+    );
+
+    return result;
+}
+async function deleteInventoryItemById(username, itemId) {
+    const user = await User.findOne({ username: username }).populate(
+        "inventory"
+    );
+    if (!user || !user.inventory) {
+        return null;
+    }
+    const inventoryId = user.inventory._id;
+    const result = await inventoryModel.findByIdAndUpdate(
+        inventoryId,
+        {
+            $pull: {
+                ingredients: { _id: itemId },
+                cookware: { _id: itemId }
+            }
+        },
+        { new: true }
+    );
+    return result;
+}
+
 export default {
     getUsers,
     getUserByUsername,
@@ -91,5 +186,10 @@ export default {
     addSavedRecipe,
     removeSavedRecipe,
     isRecipeSaved,
-    getSavedRecipes
+    getSavedRecipes,
+    getInventory,
+    addNewIngredientToInventory,
+    addNewCookwareToInventory,
+    deleteInventoryItemById,
+    updateInventoryItem
 };

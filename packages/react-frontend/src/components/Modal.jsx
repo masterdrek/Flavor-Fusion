@@ -7,10 +7,22 @@ function Modal({
     initialName = "",
     initialQuantity = "",
     showQuantity = true,
-    isStep = false
+    isStep = false,
+    isNew = false
 }) {
+    const [itemType, setItemType] = useState("cookware");
     const [itemName, setItemName] = useState(initialName);
     const [itemQuantity, setItemQuantity] = useState(initialQuantity);
+
+    const setTypeCookware = (e) => {
+        e.preventDefault();
+        setItemType("cookware");
+    };
+
+    const setTypeIngredient = (e) => {
+        e.preventDefault();
+        setItemType("ingredient");
+    };
 
     useEffect(() => {
         setItemName(initialName);
@@ -19,7 +31,13 @@ function Modal({
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSubmit({ name: itemName, quantity: itemQuantity });
+        isNew
+            ? onSubmit({
+                  name: itemName,
+                  quantity: itemQuantity,
+                  type: itemType
+              })
+            : onSubmit({ name: itemName, quantity: itemQuantity });
         onClose();
     };
 
@@ -49,6 +67,20 @@ function Modal({
                                     setItemQuantity(e.target.value)
                                 }
                             />
+                        </div>
+                    )}
+                    {isNew && (
+                        <div className="type-options">
+                            <span className="type-text">cookware</span>
+                            <button
+                                className={"type-button cookware-" + itemType}
+                                onClick={setTypeCookware}
+                            />
+                            <button
+                                className={"type-button ingredient-" + itemType}
+                                onClick={setTypeIngredient}
+                            />
+                            <span> ingredient</span>
                         </div>
                     )}
                     <div className="button-group">

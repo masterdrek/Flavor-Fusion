@@ -145,13 +145,16 @@ function AddRecipe() {
         console.log("Recipe data to be posted:", recipeData);
 
         try {
-            const response = await fetch("http://localhost:8000/recipes", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(recipeData)
-            });
+            const response = await fetch(
+                "https://flavorfusion.azurewebsites.net/recipes",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(recipeData)
+                }
+            );
 
             console.log(JSON.stringify(recipeData));
 
