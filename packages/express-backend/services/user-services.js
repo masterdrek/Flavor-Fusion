@@ -1,3 +1,4 @@
+import Inventory from "../models/inventory.js";
 import User from "../models/user.js";
 import connect from "../mongoSetup.js";
 
@@ -18,11 +19,15 @@ async function getUserByUsername(user) {
 }
 
 async function addUser(newName, newUsername, newHashedPwd) {
+    const newInventory = await inventoryServices.addInventory({
+        ingredients: [],
+        cookware: []
+    });
     const newUser = {
         name: newName,
         username: newUsername,
         hashedPassword: newHashedPwd,
-        inventory: [],
+        inventory: newInventory._id,
         saved_recipes: []
     };
 
@@ -68,11 +73,23 @@ function removeSavedRecipe(username, recipeId) {
         }
     });
 }
+
+async function getSavedRecipes(username) {
+    const user = await User.findOne({ username: username })
+        .populate("saved_recipes")
+        .exec();
+    if (!user) {
+        return null;
+    }
+    return user.saved_recipes;
+}
+
 export default {
     getUsers,
     getUserByUsername,
     addUser,
     addSavedRecipe,
     removeSavedRecipe,
-    isRecipeSaved
+    isRecipeSaved,
+    getSavedRecipes
 };

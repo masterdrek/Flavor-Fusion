@@ -1,89 +1,203 @@
-.recipe-section {
-    width: 90%;
+/* Define CSS variables for dynamic color changes */
+:root {
+    --primary-color: #600a71;
+    /* Default primary color */
+    --secondary-color: rgb(182, 25, 202);
+    /* Default secondary color */
+    --button-color-save: white;
+    /* Button color for save state */
+    --button-color-unsave: lightblue;
+    /* Button color for unsave state */
+    --button-border-color: #600a71;
+    /* Default button border color */
+    --button-text-color: #600a71;
+    /* Default button text color */
+}
+
+.recipe-page {
     display: flex;
     flex-direction: column;
-    align-content: space-evenly;
-    padding-left: 10%;
-    margin-bottom: 2%;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+    overflow-y: auto;
+    z-index: 2;
+    animation: fadeIn 0.5s ease-in-out;
+    /* Fade-in animation for the page */
+}
+
+.recipe-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+    animation: slideDown 0.5s ease-in-out;
+    /* Slide-down animation for the header */
 }
 
 .recipe-name {
-    width: 90%;
-    padding-left: 10%;
-    font-size: 60px;
-    margin-bottom: 0%;
+    flex-grow: 1;
+    font-size: 2.5rem;
+    text-align: center;
+    margin: 0 20px;
+    color: var(--primary-color);
+    /* Use CSS variable for color */
+    animation: fadeIn 1s ease-in-out;
+    /* Fade-in animation for the recipe name */
+}
+
+.backarrow {
+    flex-shrink: 0;
+}
+
+.back-arrow-icon {
+    font-size: 2rem;
+    color: var(--primary-color);
+    /* Use CSS variable for color */
+    transition: color 0.3s;
+    /* Smooth color transition */
+}
+
+.back-arrow-icon:hover {
+    color: var(--secondary-color);
+    /* Change color on hover using CSS variable */
 }
 
 .recipe-creator {
-    width: 88%;
-    padding-left: 12%;
-    margin-top: 0%;
+    width: 100%;
+    text-align: center;
+    margin-top: 0;
+    font-size: 1.2rem;
+    color: #555;
+    animation: fadeIn 1s ease-in-out;
+    /* Fade-in animation for the creator text */
 }
+
 .save-button {
-    width: fit-content;
-    margin-left: 10%;
-    margin-bottom: 1%;
+    flex-shrink: 0;
+    width: 100px;
     border-radius: 8px;
-    border-style: solid;
+    border: 2px solid var(--button-border-color);
+    /* Use CSS variable for border color */
     font-size: medium;
-    border-color: black;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    /* Smooth transition for background and text color */
+    animation: popIn 0.5s ease-in-out;
+    /* Pop-in animation for the button */
 }
+
 .save {
-    background-color: white;
+    background-color: var(--button-color-save);
+    /* Use CSS variable for save state background color */
+    color: var(--button-text-color);
+    /* Use CSS variable for text color */
 }
+
 .unsave {
-    background-color: lightblue;
+    background-color: var(--button-color-unsave);
+    /* Use CSS variable for unsave state background color */
+    color: #fff;
 }
+
+.save-button:hover {
+    background-color: var(--button-border-color);
+    /* Change background color on hover using CSS variable */
+    color: white;
+}
+
 .divider {
     width: 100%;
     display: flex;
-    flex-direction: row;
+    justify-content: center;
+    margin: 20px 0;
 }
-.divider-end {
-    width: 5%;
-}
+
 .divider-border {
     width: 90%;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #ddd;
 }
-.recipe-ingredient-table {
-    padding-left: 1%;
-    width: 20%;
+
+.details {
+    font-size: 20px;
+    width: 100%;
+    max-width: 800px;
 }
+
+.section-header {
+    font-size: 1.5rem;
+    margin: 20px 0 10px;
+    color: #333;
+    border-bottom: 2px solid var(--primary-color);
+    /* Use CSS variable for border color */
+    padding-bottom: 5px;
+}
+
+.ingr-cook-needed,
+.instructions {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    animation: fadeIn 1.5s ease-in-out;
+    /* Fade-in animation for ingredients and instructions */
+}
+
+@media (min-width: 768px) {
+    .ingr-cook-needed {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+
+.recipe-ingredient-table,
 .recipe-cookware-table {
-    padding-left: 1%;
-    width: 20%;
-}
-.recipe-instructions-table {
-    padding-left: 1%;
     width: 100%;
 }
-.recipe-pair-name {
-    text-align: left;
-    width: 50%;
-}
 
+.recipe-pair-name,
 .recipe-pair-quantity {
     text-align: left;
-    width: 50%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.recipe-pair-index {
-    text-align: left;
-    width: 3%;
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
-.recipe-pair-instruction {
-    text-align: left;
-    width: 97%;
+@keyframes slideDown {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
-.recipe-page {
-    display: flex;
-    width: 97%;
-    height: 90%;
-    margin: 0%;
-    flex-direction: column;
-    align-items: left;
-    overflow-y: auto;
-    position: relative;
+
+@keyframes popIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
 }

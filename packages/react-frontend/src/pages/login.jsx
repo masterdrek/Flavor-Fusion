@@ -6,11 +6,17 @@ import "./../styles/login.css";
 function Login() {
     return (
         <div className="login-page">
-            <div>
-                <h1> Flavor Fusion</h1>
-            </div>
-            <div className="login-title">
-                <h2> Login to your Flavor Fusion Account</h2>
+            <div className="login-container">
+                <div className="login-header">
+                    <h1>Flavor Fusion</h1>
+                </div>
+                <div className="login-title">
+                    <h2>Login to your Flavor Fusion Account</h2>
+                </div>
+                <LoginForm />
+                <div className="signup-link">
+                    <Link to="/signup">Don&apos;t have an account?</Link>
+                </div>
             </div>
 
             <LoginForm />

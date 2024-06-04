@@ -8,11 +8,10 @@ export const IngredientSchema = new mongoose.Schema(
             trim: true
         },
         quantity: {
-            type: Number,
+            type: String,
             required: true
         }
     },
     { collection: "ingredient_list" }
 );
 
-export default IngredientSchema;

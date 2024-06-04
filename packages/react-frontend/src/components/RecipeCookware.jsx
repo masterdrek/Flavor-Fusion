@@ -1,24 +1,20 @@
+// RecipeCookware.js
 import "../styles/Recipe.css";
 
-function RecipeIngredients(props) {
+function RecipeCookware(props) {
     return (
         <div className="recipe-section">
             <h2>Cookware Needed</h2>
-            <table className="recipe-cookware-table">
-                <tbody>
-                    {props.cookware &&
-                        props.cookware.map((row, index) => (
-                            <tr key={index}>
-                                <td className="recipe-pair-name">{row.name}</td>
-                                <td className="recipe-pair-quantity">
-                                    ({row.quantity})
-                                </td>
-                            </tr>
-                        ))}
-                </tbody>
-            </table>
+            <ul className="recipe-cookware-list">
+                {props.cookware &&
+                    props.cookware.map((row, index) => (
+                        <li key={index} className="recipe-pair-item">
+                            {row.name} ({row.quantity})
+                        </li>
+                    ))}
+            </ul>
         </div>
     );
 }
 
-export default RecipeIngredients;
+export default RecipeCookware;

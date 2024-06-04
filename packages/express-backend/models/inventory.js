@@ -1,16 +1,18 @@
 import mongoose from "mongoose";
+import { CookwareSchema } from "./cookware-schema.js";
+import { IngredientSchema } from "./ingredient-schema.js";
 
 const InventorySchema = new mongoose.Schema(
     {
-        name: {
-            type: String,
-            required: true,
-            trim: true
+        ingredients: {
+            type: [IngredientSchema],
+            default: undefined,
+            required: true
         },
-        quantity: {
-            type: String,
-            required: true,
-            trim: true
+        cookware: {
+            type: [CookwareSchema],
+            default: undefined,
+            required: true
         }
     },
     { collection: "inventory_list" }

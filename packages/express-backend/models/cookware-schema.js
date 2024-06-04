@@ -17,6 +17,3 @@ export const CookwareSchema = new mongoose.Schema(
     }
 );
 
-const Cookware = mongoose.model("Cookware", CookwareSchema);
-
-export default Cookware;

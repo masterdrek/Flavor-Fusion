@@ -150,14 +150,14 @@ function Inventory() {
                     <button onClick={() => setModalOpen(true)}>Add + </button>
                 </div>
             </div>
-
-            <DataTable
-                columns={columns} // Define table columns
-                data={filteredData || data} // Use filtered data or original data if filteredData is undefined
-                selectableRows // Enable row selection
-                onSelectedRowsChange={handleRowSelected} // Handle row selection changes
-                pagination // Enable pagination
-            />
+            <div className="table-wrapper">
+                <DataTable
+                    columns={columns} // Define table columns
+                    data={filteredData || data} // Use filtered data or original data if filteredData is undefined
+                    selectableRows // Enable row selection
+                    onSelectedRowsChange={handleRowSelected} // Handle row selection changes
+                />
+            </div>
 
             {modalOpen && ( // Render the modal conditionally based on modalOpen state
                 <Modal
