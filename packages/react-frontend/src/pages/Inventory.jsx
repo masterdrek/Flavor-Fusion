@@ -21,7 +21,12 @@ function Inventory() {
     const [isNew, setIsNew] = useState(false);
 
     useEffect(() => {
-        setUsername(jwtDecode(sessionStorage.getItem("token")).username);
+        const token = sessionStorage.getItem("token")
+        if (token) {
+            setUsername(jwtDecode(token)?.username);
+        } else {
+            setUsername('Guest_User')
+        }
     }, []);
     const getInventory = (username, setData) => {
         if (username !== "") {
