@@ -4,9 +4,11 @@ import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.png";
 import "../styles/Navbar.css";
 import { RiLogoutBoxRFill } from "react-icons/ri";
+import { jwtDecode } from "jwt-decode";
 
 function NavBar({ NavbarData, isSelected, setIsSelected }) {
     const navigate = useNavigate();
+    console.log(sessionStorage.getItem("token"));
 
     const handleLogout = () => {
         // Perform any logout logic here (e.g., clearing tokens, user data)
@@ -39,7 +41,6 @@ function NavBar({ NavbarData, isSelected, setIsSelected }) {
                         </div>
                     );
                 })}
-
                 <div className="menuItem" onClick={handleLogout}>
                     <RiLogoutBoxRFill />
                 </div>
