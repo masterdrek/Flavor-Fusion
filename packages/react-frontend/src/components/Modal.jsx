@@ -40,7 +40,7 @@ function Modal({
             : onSubmit({ name: itemName, quantity: itemQuantity });
         onClose();
     };
-
+    //test
     return (
         <div className="modal-container">
             <div className="modal">
