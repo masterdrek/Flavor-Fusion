@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.png";
 import "../styles/Navbar.css";
 import { RiLogoutBoxRFill } from "react-icons/ri";
-import { jwtDecode } from "jwt-decode";
 
 function NavBar({ NavbarData, isSelected, setIsSelected }) {
     const navigate = useNavigate();
@@ -20,6 +19,7 @@ function NavBar({ NavbarData, isSelected, setIsSelected }) {
             navigate("/signup");
         }
     };
+
     return (
         <div className="Navbar">
             {/* Logo */}
