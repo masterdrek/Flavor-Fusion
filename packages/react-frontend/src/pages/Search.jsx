@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import { getInventory, fetchInventory } from "../api/inventoryApi";
 import { getUsernameFromToken } from "../utils/utils";
+import { API_URL } from "../api/api";
 
 const Search = () => {
     const [query, setQuery] = useState(""); // State to hold the search query entered by the user
@@ -26,7 +27,7 @@ const Search = () => {
         // Function to fetch recipes from the server
         async function fetchSearchResult() {
             try {
-                const response = await fetch("http://localhost:8000/recipes"); // Make a GET request to the server to fetch recipes
+                const response = await fetch(API_URL + "/recipes"); // Make a GET request to the server to fetch recipes
                 if (!response.ok) {
                     throw new Error(
                         `Error fetching data: ${response.statusText}`

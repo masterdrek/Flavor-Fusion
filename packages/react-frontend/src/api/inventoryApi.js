@@ -121,7 +121,7 @@ export const handleDelete = (
         : []; // Filter out selected rows
     selectedRows.forEach((row) => {
         console.log(row._id);
-        fetch(`http://localhost:8000/inventory/${username}/${row._id}`, {
+        fetch(`${API_URL}/inventory/${username}/${row._id}`, {
             method: "DELETE"
         }).catch((error) => console.error("Error deleting item:", error));
     });

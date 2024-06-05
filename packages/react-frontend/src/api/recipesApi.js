@@ -28,7 +28,7 @@ export const getPersonalRecipes = (username, setData) => {
 export const handleDeleteSingleRecipe = async (recipeId, data, setData) => {
     try {
         const response = await fetch(
-            `http://localhost:8000/recipes/${recipeId}`,
+            `${API_URL}/recipes/${recipeId}`,
             {
                 method: "DELETE",
                 headers: {

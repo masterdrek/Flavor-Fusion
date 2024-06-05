@@ -13,6 +13,7 @@ import {
     removeFromSavedRecipes,
     checkIfSaved
 } from "../api/savedRecipeApi";
+import { API_URL } from "../api/api";
 
 function Recipe() {
     const [saveStatus, setSaveStatus] = useState("Save");
@@ -45,7 +46,7 @@ function Recipe() {
     }, []); // want it to do it once only
 
     async function fetchRecipe() {
-        const promise = await fetch(`http://localhost:8000/recipe/${recipeId}`);
+        const promise = await fetch(`${API_URL}/recipe/${recipeId}`);
         if (!promise.ok) {
             throw new Error(`Error fetching data: ${promise.statusText}`);
         }
