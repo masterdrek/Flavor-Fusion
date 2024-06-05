@@ -28,6 +28,7 @@ function Inventory() {
             setUsername("Guest_User");
         }
     }, []);
+    
     const getInventory = (username, setData) => {
         if (username !== "") {
             fetchInventory(username)

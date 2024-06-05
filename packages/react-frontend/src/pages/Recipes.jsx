@@ -2,12 +2,16 @@ import React, { useState, useEffect, useRef } from "react";
 import "../styles/Recipes.css";
 import { Link } from "react-router-dom";
 import { FaEllipsisV } from "react-icons/fa"; // Importing the three-dots icon from react-icons
+import { jwtDecode } from "jwt-decode";
+import {
+    fetchSavedRecipes
+} from "../api/savedRecipeApi";
+
 
 function Recipes() {
-    const savedRecipes = [];
 
     const [personalRecipes, setPersonalRecipes] = useState([]); // State to store personal recipes
-    const [selectedRecipes, setSelectedRecipes] = useState([]); // State for selected recipes
+    const [selectedRecipes, setSelectedRecipes] = useState([]); // State for selected recipes 
     const [showDropdown, setShowDropdown] = useState(null); // State for showing dropdown menu
 
     const dropMenu = useRef(null);
@@ -18,6 +22,39 @@ function Recipes() {
     };
 
     document.addEventListener("mousedown", closeDropdown);
+
+
+    // Get the Username and the Saved Recipes of the User
+    const [username, setUsername] = useState("");
+    const [savedRecipes, setSavedRecipes] = useState([]); // Initial empty data array
+    useEffect(() => {
+        const token = sessionStorage.getItem("token");
+        if (token) {
+            setUsername(jwtDecode(token)?.username);
+        } else {
+            setUsername("Guest_User");
+        }
+    }, []);
+
+    const getSavedRecipe = (username, savedRecipes) => {
+        if (username !== "" && username !== "Guest_User") {
+            fetchSavedRecipes(username)
+                .then((json) => {
+                    console.log("Fetched GetSavedRecipe Data:", json);
+                    setSavedRecipes(
+                        Array.isArray(json.saved_recipes)
+                            ? json.saved_recipes
+                            : []
+                    );
+                })
+                .catch((error) => {
+                    console.error("Error fetching data:", error);
+                });
+        }
+    };
+    useEffect(() => {
+        getSavedRecipe(username, savedRecipes);
+    }, [username]);
 
     // Fetch recipes when the component mounts
     useEffect(() => {
@@ -154,7 +191,12 @@ function Recipes() {
                     <div className="recipe-list">
                         {savedRecipes.map((recipe) => (
                             <div key={recipe.id} className="recipe-card">
-                                {recipe.name}
+                                <Link
+                                    to={`/recipe/${recipe._id}`}
+                                    className="recipe-link"
+                                >
+                                    <div>{recipe.name}</div>
+                                </Link>
                             </div>
                         ))}
                     </div>

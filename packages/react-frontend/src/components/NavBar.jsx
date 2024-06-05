@@ -19,6 +19,7 @@ function NavBar({ NavbarData, isSelected, setIsSelected }) {
             navigate("/signup");
         }
     };
+
     return (
         <div className="Navbar">
             {/* Logo */}
@@ -46,7 +47,6 @@ function NavBar({ NavbarData, isSelected, setIsSelected }) {
                         </div>
                     );
                 })}
-
                 <div className="menuItem" onClick={handleLogout}>
                     <RiLogoutBoxRFill />
                 </div>
