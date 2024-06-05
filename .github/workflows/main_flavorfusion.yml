@@ -23,20 +23,16 @@ jobs:
 
       - name: npm install, build, and test
         run: |
-          npm install --workspaces=false
-          npm run -w express-backend build --if-present
-          npm run -w express-backend test --if-present
-        working-directory: packages/express-backend
-
+          npm install
+          npm run build --if-present
+          npm run test --if-present
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
-        working-directory: packages/express-backend
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: node-app
-
           path: release.zip
 
   deploy:
@@ -46,15 +42,17 @@ jobs:
       name: "Production"
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write # This is required for requesting the JWT
+      id-token: write #This is required for requesting the JWT
 
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
           name: node-app
+
       - name: Unzip artifact for deployment
         run: unzip release.zip
+
       - name: Login to Azure
         uses: azure/login@v1
         with:
@@ -62,7 +60,7 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_333DBFC7B21042B5B9D5D765AD0D795C }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_FEF1B0AAC73A4A8E86FBA12A85C1BD5E }}
 
-      - name: Deploy to Azure Web App
+      - name: "Deploy to Azure Web App"
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
