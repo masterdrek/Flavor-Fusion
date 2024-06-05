@@ -25,7 +25,8 @@ function App() {
         if (
             !token &&
             location.pathname !== "/login" &&
-            location.pathname !== "/signup"
+            location.pathname !== "/signup" &&
+            !location.pathname.includes("/recipe")
         ) {
             navigate("/login");
         } else if (
