@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import RecipeIngredients from "../components/RecipeIngredients";
 import RecipeCookware from "../components/RecipeCookware";
 import "../styles/Recipe.css";
@@ -25,6 +25,7 @@ function Recipe() {
         instructions: [],
         cookware: []
     });
+    const navigate = useNavigate();
 
     const { recipeId } = useParams();
 
@@ -50,7 +51,9 @@ function Recipe() {
         }
         return promise;
     }
-
+    const handleButtonClick = () => {
+        username === "Guest_User" ? navigate("/login") : changeSavedStatus();
+    };
     const changeSavedStatus = () => {
         if (saveStatus === "Save") {
             addSavedRecipe(username, recipeId);
@@ -121,9 +124,7 @@ function Recipe() {
         if (username && recipeId) {
             checkIfSaved(username, recipeId)
                 .then((data) => {
-                    if (data) {
-                        setSaveStatus(data.isSaved ? "Unsave" : "Save");
-                    }
+                    setSaveStatus(data ? "Unsave" : "Save");
                 })
                 .catch((error) => {
                     console.error("Error checking if recipe is saved:", error);
@@ -198,9 +199,9 @@ function Recipe() {
                 <h1 className="recipe-name">{recipe.name}</h1>
                 <button
                     className={`save-button ${saveStatus.toLowerCase()}`}
-                    onClick={changeSavedStatus}
+                    onClick={handleButtonClick}
                 >
-                    {saveStatus}
+                    {username === "Guest_User" ? "login to save" : saveStatus}
                 </button>
             </div>
             <h3 className="recipe-creator">Created by: {recipe.creator}</h3>
