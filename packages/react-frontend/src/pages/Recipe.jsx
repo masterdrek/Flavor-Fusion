@@ -6,9 +6,18 @@ import "../styles/Recipe.css";
 import RecipeInstructions from "../components/RecipeInstructions";
 import Divider from "../components/Divider";
 import { FaArrowLeft } from "react-icons/fa";
+import { jwtDecode } from "jwt-decode";
+import {
+    fetchSavedRecipes,
+    addToSavedRecipes,
+    removeFromSavedRecipes,
+    checkIfSaved
+} from "../api/savedRecipeApi";
 
 function Recipe() {
     const [saveStatus, setSaveStatus] = useState("Save");
+    const [username, setUsername] = useState("");
+    const [data, setData] = useState([]); // Initial empty data array
     const [recipe, setRecipe] = useState({
         name: "",
         creator: "",
@@ -43,6 +52,11 @@ function Recipe() {
     }
 
     const changeSavedStatus = () => {
+        if (saveStatus === "Save") {
+            addSavedRecipe(username, recipeId);
+        } else {
+            removeSavedRecipe(username, recipeId);
+        }
         setSaveStatus(saveStatus === "Save" ? "Unsave" : "Save");
     };
 
@@ -89,6 +103,88 @@ function Recipe() {
             "--button-text-color",
             randomColor.primary
         );
+    };
+
+    // ---------------- Add To User Recipe List ------------------------ //
+
+    // Get the token
+    useEffect(() => {
+        const token = sessionStorage.getItem("token");
+        if (token) {
+            setUsername(jwtDecode(token)?.username);
+        } else {
+            setUsername("Guest_User");
+        }
+    }, []);
+
+    useEffect(() => {
+        if (username && recipeId) {
+            checkIfSaved(username, recipeId)
+                .then((data) => {
+                    if (data) {
+                        setSaveStatus(data.isSaved ? "Unsave" : "Save");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error checking if recipe is saved:", error);
+                });
+        }
+    }, [username, recipeId]);
+
+    // Fetches all the saved recipes based on Username
+    const getSavedRecipe = (username, setData) => {
+        if (username !== "" && username !== "Guest_User") {
+            fetchSavedRecipes(username)
+                .then((json) => {
+                    console.log("Fetched GetSavedRecipe Data:", json);
+                    setData(
+                        Array.isArray(json.saved_recipes)
+                            ? json.saved_recipes
+                            : []
+                    );
+                })
+                .catch((error) => {
+                    console.error("Error fetching data:", error);
+                });
+        }
+    };
+
+    useEffect(() => {
+        getSavedRecipe(username, setData);
+    }, [username]);
+
+    // Add Recipe ID to the Saved Recipe of the users
+    const addSavedRecipe = (username, recipeId) => {
+        if (username !== "" && username !== "Guest_User" && recipeId !== "") {
+            addToSavedRecipes(username, recipeId)
+                .then((json) => {
+                    console.log("Fetched addSavedRecipe Data:", json);
+                    if (json) {
+                        setData((prevData) => [...prevData, recipeId]);
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error Adding Saved Recipe List:", error);
+                });
+        }
+    };
+
+    // Remove Recipe ID to the Saved Recipe of the users
+    const removeSavedRecipe = (username, recipeId) => {
+        if (username !== "" && username !== "Guest_User" && recipeId !== "") {
+            removeFromSavedRecipes(username, recipeId)
+                .then((json) => {
+                    console.log("Fetched removeSavedRecipe Data:", json);
+                    if (json) {
+                        setData((prevData) =>
+                            prevData.filter((recipe) => recipe !== recipeId)
+                        );
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error Removing Saved Recipe List:", error);
+                });
+        }
     };
 
     return (

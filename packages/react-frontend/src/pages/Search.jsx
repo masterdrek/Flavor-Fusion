@@ -41,7 +41,7 @@ const Search = () => {
 
         // Call the fetch function and update state
         fetchSearchResult().then((json) => {
-            console.log("Fetched Data:", json); // Log the fetched data for debugging
+            console.log("Fetched Recipes:", json); // Log the fetched data for debugging
             setRecipes(
                 Array.isArray(json.recipes_list) ? json.recipes_list : []
             ); // Update the recipes state with the fetched data
@@ -49,18 +49,7 @@ const Search = () => {
                 Array.isArray(json.recipes_list) ? json.recipes_list : []
             ); // Also update the filteredRecipes state with the fetched data initially
         });
-    }, []); // Empty dependency array means this effect runs only once when the component mounts
-
-    // useEffect to fetch inventory when the component mounts
-    useEffect(() => {
-        // Function to fetch inventory from the server
-        fetchInventory().then((json) => {
-            console.log("Fetched Inventory:", json); // Log the fetched data for debugging
-            setInventory(
-                Array.isArray(json.inventory_list) ? json.inventory_list : []
-            ); // Update the inventory state with the fetched data
-        });
-    }, []); // Empty dependency array means this effect runs only once when the component mounts
+    }, []); // Empty dependency array means this effect runs only once when the component loads
 
     // useEffect to filter recipes based on the search query and selected filter
     useEffect(() => {
@@ -70,6 +59,8 @@ const Search = () => {
         const inventoryIngredients = inventory.map((item) =>
             item.name.toLowerCase()
         );
+
+        console.log(inventoryIngredients);
 
         let filteredByInventory = recipes.filter(
             (recipe) =>

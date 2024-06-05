@@ -135,10 +135,10 @@ app.get("/recipe/saved/:username/:recipeId", async (req, res) => {
         res.status(404).send("Resource not found.");
     }
 });
+
 // add saved recipe to user by id
 app.patch("/recipe/add/:username/:recipeId", async (req, res) => {
     const { username, recipeId } = req.params;
-
     console.log(username, recipeId);
     try {
         const result = await userServices.addSavedRecipe(username, recipeId);
@@ -149,7 +149,7 @@ app.patch("/recipe/add/:username/:recipeId", async (req, res) => {
     }
 });
 
-// add saved recipe to user by idhehe
+// remove saved recipe to user by id
 app.patch("/recipe/remove/:username/:recipeId", async (req, res) => {
     const { username, recipeId } = req.params;
     console.log(username, recipeId);
@@ -162,6 +162,7 @@ app.patch("/recipe/remove/:username/:recipeId", async (req, res) => {
     }
 });
 
+// get saved recipes based on username
 app.get("/recipes/saved/:username", async (req, res) => {
     const { username } = req.params;
     console.log(username);
