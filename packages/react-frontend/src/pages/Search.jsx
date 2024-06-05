@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import "../styles/Search.css";
 import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
-import { fetchInventory } from "../api/inventoryApi";
-import { jwtDecode } from "jwt-decode";
+import { getInventory, fetchInventory } from "../api/inventoryApi";
+import { getUsernameFromToken } from "../utils/utils";
 
 const Search = () => {
     const [query, setQuery] = useState(""); // State to hold the search query entered by the user
@@ -14,36 +14,8 @@ const Search = () => {
     const [username, setUsername] = useState("");
 
     useEffect(() => {
-        const token = sessionStorage.getItem("token");
-        if (token) {
-            setUsername(jwtDecode(token)?.username);
-        } else {
-            setUsername("Guest_User");
-        }
+        setUsername(getUsernameFromToken());
     }, []);
-
-    const getInventory = (username, setData) => {
-        if (username !== "") {
-            fetchInventory(username)
-                .then((json) => {
-                    console.log("Fetched Data:", json);
-                    setData(
-                        Array.isArray(
-                            json.inventory.ingredients.concat(
-                                json.inventory.cookware
-                            )
-                        )
-                            ? json.inventory.ingredients.concat(
-                                  json.inventory.cookware
-                              )
-                            : []
-                    );
-                })
-                .catch((error) => {
-                    console.error("Error fetching data:", error);
-                });
-        }
-    };
 
     useEffect(() => {
         getInventory(username, setInventory);

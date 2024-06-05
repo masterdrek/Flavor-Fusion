@@ -1,0 +1,47 @@
+/* App.css */
+
+.profile-container {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 5px 15px;
+    border-radius: 30px;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.profile-container:hover {
+    
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.user-profile-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #6200ea, #3700b3);
+    /* Gradient background */
+    color: #ffffff;
+    font-size: 20px;
+    border-radius: 50%;
+    font-weight: 800;
+    margin-right: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.user-profile-image:hover {
+    transform: scale(1.1);
+}
+
+.user-info {
+    font-size: 16px;
+    color: #ffffff;
+    font-weight: 600;
+    font-family: 'Roboto', sans-serif;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}

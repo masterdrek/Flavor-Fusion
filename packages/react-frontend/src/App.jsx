@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import "./App.css";
 import { NavbarData } from "./Data/Data";
-import { Routes, Route, useLocation } from "react-router-dom";
-import { useState } from "react";
 import Recipes from "./pages/Recipes";
 import Inventory from "./pages/Inventory";
 import Search from "./pages/Search";
@@ -11,10 +10,41 @@ import MaybeShowNavBar from "./components/Toggle/MaybeShowNavBar";
 import Signup from "./pages/Signup";
 import Login from "./pages/login";
 import Recipe from "./pages/Recipe";
+import ProfileImage from "./components/ProfileImage";
+import { getUsernameFromToken } from "./utils/utils";
 
 function App() {
     const [isSelected, setIsSelected] = useState(0);
+    const [username, setUsername] = useState("");
     const location = useLocation();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        // Check if token exists in session storage
+        const token = sessionStorage.getItem("token");
+        if (
+            !token &&
+            location.pathname !== "/login" &&
+            location.pathname !== "/signup"
+        ) {
+            navigate("/login");
+        } else if (
+            token &&
+            (location.pathname === "/login" || location.pathname === "/signup")
+        ) {
+            navigate("/");
+        }
+    }, [navigate, location.pathname]);
+
+    useEffect(() => {
+        const token = sessionStorage.getItem("token");
+        if (token) {
+            const usernameFromToken = getUsernameFromToken(token);
+            setUsername(usernameFromToken);
+        } else {
+            setUsername("");
+        }
+    }, [location.pathname]);
 
     const RenderComponent = ({ index }) => {
         switch (index) {
@@ -38,6 +68,12 @@ function App() {
     return (
         <div className="App">
             <div className="AppGlass">
+                {username && (
+                    <div className="profile-container">
+                        <ProfileImage name={username} />
+                        <div className="user-info">Logged in as {username}</div>
+                    </div>
+                )}
                 <MaybeShowNavBar
                     NavbarData={NavbarData}
                     isSelected={isSelected}

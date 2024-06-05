@@ -126,10 +126,7 @@ function Recipe() {
                     }
                 })
                 .catch((error) => {
-                    console.error(
-                        "Error checking if recipe is saved:",
-                        error
-                    );
+                    console.error("Error checking if recipe is saved:", error);
                 });
         }
     }, [username, recipeId]);
@@ -158,7 +155,7 @@ function Recipe() {
 
     // Add Recipe ID to the Saved Recipe of the users
     const addSavedRecipe = (username, recipeId) => {
-        if ((username !== "" && username !== "Guest_User") && recipeId !== "") {
+        if (username !== "" && username !== "Guest_User" && recipeId !== "") {
             addToSavedRecipes(username, recipeId)
                 .then((json) => {
                     console.log("Fetched addSavedRecipe Data:", json);
@@ -174,7 +171,7 @@ function Recipe() {
 
     // Remove Recipe ID to the Saved Recipe of the users
     const removeSavedRecipe = (username, recipeId) => {
-        if ((username !== "" && username !== "Guest_User") && recipeId !== "") {
+        if (username !== "" && username !== "Guest_User" && recipeId !== "") {
             removeFromSavedRecipes(username, recipeId)
                 .then((json) => {
                     console.log("Fetched removeSavedRecipe Data:", json);

@@ -48,6 +48,7 @@
     /* Use CSS variable for color */
     animation: fadeIn 1s ease-in-out;
     /* Fade-in animation for the recipe name */
+    margin-left: 4rem;
 }
 
 .backarrow {

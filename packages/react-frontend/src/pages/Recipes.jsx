@@ -2,17 +2,19 @@ import React, { useState, useEffect, useRef } from "react";
 import "../styles/Recipes.css";
 import { Link } from "react-router-dom";
 import { FaEllipsisV } from "react-icons/fa"; // Importing the three-dots icon from react-icons
-import { jwtDecode } from "jwt-decode";
 import {
-    fetchSavedRecipes
-} from "../api/savedRecipeApi";
-
+    getPersonalRecipes,
+    handleDeleteSingleRecipe
+} from "../api/recipesApi";
+import { getUsernameFromToken } from "../utils/utils";
+import { jwtDecode } from "jwt-decode";
+import { fetchSavedRecipes } from "../api/savedRecipeApi";
 
 function Recipes() {
-
     const [personalRecipes, setPersonalRecipes] = useState([]); // State to store personal recipes
-    const [selectedRecipes, setSelectedRecipes] = useState([]); // State for selected recipes 
+    const [selectedRecipes, setSelectedRecipes] = useState([]); // State for selected recipes
     const [showDropdown, setShowDropdown] = useState(null); // State for showing dropdown menu
+    const [username, setUsername] = useState("");
 
     const dropMenu = useRef(null);
     const closeDropdown = (e) => {
@@ -23,9 +25,6 @@ function Recipes() {
 
     document.addEventListener("mousedown", closeDropdown);
 
-
-    // Get the Username and the Saved Recipes of the User
-    const [username, setUsername] = useState("");
     const [savedRecipes, setSavedRecipes] = useState([]); // Initial empty data array
     useEffect(() => {
         const token = sessionStorage.getItem("token");
@@ -58,61 +57,17 @@ function Recipes() {
 
     // Fetch recipes when the component mounts
     useEffect(() => {
-        fetchRecipes()
-            .then((json) => {
-                console.log("Fetched Data:", json);
-                setPersonalRecipes(
-                    Array.isArray(json.recipes_list) ? json.recipes_list : []
-                );
-            })
-            .catch((error) => {
-                console.error("Error fetching data:", error);
-            });
+        setUsername(getUsernameFromToken());
     }, []);
 
-    // Function to fetch recipes from the server
-    async function fetchRecipes() {
-        const response = await fetch("http://localhost:8000/recipes");
-        if (!response.ok) {
-            throw new Error(`Error fetching data: ${response.statusText}`);
-        }
-        const data = await response.json();
-        return data;
-    }
+    useEffect(() => {
+        getPersonalRecipes(username, setPersonalRecipes);
+    }, [username]);
 
     // Function to toggle the dropdown menu for each recipe card
     const handleDropdownToggle = (recipeId) => {
         // Toggle the dropdown menu for the specific recipe
         setShowDropdown((prev) => (prev === recipeId ? null : recipeId));
-    };
-
-    // Function to handle the deletion of a single recipe
-    const handleDeleteSingleRecipe = async (recipeId) => {
-        try {
-            const response = await fetch(
-                `http://localhost:8000/recipes/${recipeId}`,
-                {
-                    method: "DELETE",
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                }
-            );
-
-            if (!response.ok) {
-                throw new Error(`Error deleting data: ${response.statusText}`);
-            }
-
-            // Update the state to remove the deleted recipe
-            const updatedRecipes = personalRecipes.filter(
-                (recipe) => recipe._id !== recipeId
-            );
-            setPersonalRecipes(updatedRecipes);
-
-            console.log(`Recipe with ID ${recipeId} deleted successfully.`);
-        } catch (error) {
-            console.error("Error deleting recipe:", error);
-        }
     };
 
     return (
@@ -170,7 +125,9 @@ function Recipes() {
                                                        like accidently going into the individual recipe page*/
                                                     e.stopPropagation();
                                                     handleDeleteSingleRecipe(
-                                                        recipe._id
+                                                        recipe._id,
+                                                        personalRecipes,
+                                                        setPersonalRecipes
                                                     ); // Handle recipe deletion
                                                     setShowDropdown(null); // Hide dropdown menu after deletion
                                                 }}
