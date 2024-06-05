@@ -8,7 +8,7 @@ const generateAccessToken = (username) => {
     return new Promise((resolve, reject) => {
         jwt.sign(
             { username: username },
-            `${process.send.JWT_KEY}`,
+            process.env.JWT_KEY,
             { expiresIn: "1d" },
             (error, token) => {
                 if (error) {
@@ -77,7 +77,7 @@ export const authenticateUser = (req, res, next) => {
     if (!token) {
         console.log("No token recieved.");
     } else {
-        jwt.verify(token, `${process.env.JWT_KEY}`, async (error, decoded) => {
+        jwt.verify(token, process.env.JWT_KEY, async (error, decoded) => {
             const { username } = decoded;
             const user = await userServieces.getUserByUsername(username);
             if (user) {
