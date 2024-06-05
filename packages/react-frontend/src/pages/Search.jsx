@@ -3,6 +3,7 @@ import "../styles/Search.css";
 import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import { fetchInventory } from "../api/inventoryApi";
+import { jwtDecode } from "jwt-decode";
 
 const Search = () => {
     const [query, setQuery] = useState(""); // State to hold the search query entered by the user
@@ -10,8 +11,45 @@ const Search = () => {
     const [filteredRecipes, setFilteredRecipes] = useState([]); // State to hold the list of recipes filtered based on the search query
     const [filter, setFilter] = useState("All"); // State for selected filter
     const [inventory, setInventory] = useState([]); // State to hold the inventory data
+    const [username, setUsername] = useState("");
 
-    // useEffect to fetch recipes when the component mounts
+    useEffect(() => {
+        const token = sessionStorage.getItem("token");
+        if (token) {
+            setUsername(jwtDecode(token)?.username);
+        } else {
+            setUsername("Guest_User");
+        }
+    }, []);
+
+    const getInventory = (username, setData) => {
+        if (username !== "") {
+            fetchInventory(username)
+                .then((json) => {
+                    console.log("Fetched Data:", json);
+                    setData(
+                        Array.isArray(
+                            json.inventory.ingredients.concat(
+                                json.inventory.cookware
+                            )
+                        )
+                            ? json.inventory.ingredients.concat(
+                                  json.inventory.cookware
+                              )
+                            : []
+                    );
+                })
+                .catch((error) => {
+                    console.error("Error fetching data:", error);
+                });
+        }
+    };
+
+    useEffect(() => {
+        getInventory(username, setInventory);
+    }, [username]);
+
+    // useEffect to fetch recipes when the component loads
     useEffect(() => {
         // Function to fetch recipes from the server
         async function fetchSearchResult() {
@@ -31,7 +69,7 @@ const Search = () => {
 
         // Call the fetch function and update state
         fetchSearchResult().then((json) => {
-            console.log("Fetched Data:", json); // Log the fetched data for debugging
+            console.log("Fetched Recipes:", json); // Log the fetched data for debugging
             setRecipes(
                 Array.isArray(json.recipes_list) ? json.recipes_list : []
             ); // Update the recipes state with the fetched data
@@ -39,18 +77,7 @@ const Search = () => {
                 Array.isArray(json.recipes_list) ? json.recipes_list : []
             ); // Also update the filteredRecipes state with the fetched data initially
         });
-    }, []); // Empty dependency array means this effect runs only once when the component mounts
-
-    // useEffect to fetch inventory when the component mounts
-    useEffect(() => {
-        // Function to fetch inventory from the server
-        fetchInventory().then((json) => {
-            console.log("Fetched Inventory:", json); // Log the fetched data for debugging
-            setInventory(
-                Array.isArray(json.inventory_list) ? json.inventory_list : []
-            ); // Update the inventory state with the fetched data
-        });
-    }, []); // Empty dependency array means this effect runs only once when the component mounts
+    }, []); // Empty dependency array means this effect runs only once when the component loads
 
     // useEffect to filter recipes based on the search query and selected filter
     useEffect(() => {
@@ -60,6 +87,8 @@ const Search = () => {
         const inventoryIngredients = inventory.map((item) =>
             item.name.toLowerCase()
         );
+
+        console.log(inventoryIngredients);
 
         let filteredByInventory = recipes.filter(
             (recipe) =>
