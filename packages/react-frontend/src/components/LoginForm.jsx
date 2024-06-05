@@ -127,7 +127,7 @@ function LoginForm() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <button type="submit" className="login-txt login-btn">
+                <button type="submit" className="login-txt login-btn" onClick={() => handleSubmit()}>
                     Log In
                 </button>
             </div>
