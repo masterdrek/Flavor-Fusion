@@ -27,15 +27,12 @@ export const getPersonalRecipes = (username, setData) => {
 // Function to handle the deletion of a single recipe
 export const handleDeleteSingleRecipe = async (recipeId, data, setData) => {
     try {
-        const response = await fetch(
-            `${API_URL}/recipes/${recipeId}`,
-            {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json"
-                }
+        const response = await fetch(`${API_URL}/recipes/${recipeId}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
             }
-        );
+        });
 
         if (!response.ok) {
             throw new Error(`Error deleting data: ${response.statusText}`);

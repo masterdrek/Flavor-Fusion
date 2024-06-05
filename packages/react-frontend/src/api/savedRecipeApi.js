@@ -57,7 +57,7 @@ export async function removeFromSavedRecipes(username, recipeid) {
     }
 }
 
-export async function checkIfSaved(username, recipeid){
+export async function checkIfSaved(username, recipeid) {
     const response = await fetch(
         API_URL + `/recipe/saved/${username}/${recipeid}`
     );
@@ -66,5 +66,4 @@ export async function checkIfSaved(username, recipeid){
     }
     const data = await response.json();
     return data;
-    
 }

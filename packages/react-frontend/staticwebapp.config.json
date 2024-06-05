@@ -1,6 +1,40 @@
 {
-  "navigationFallback": {
-    "rewrite": "index.html",
-    "exclude": ["/images/*.{png,jpg,gif,ico}", "/*.{css,scss,js}"]
-  }
+    "navigationFallback": {
+        "rewrite": "index.html",
+        "exclude": ["/images/*.{png,jpg,gif,ico}", "/*.{css,scss,js}"]
+    },
+    "routes": [
+        {
+            "route": "/",
+            "serve": "/"
+        },
+        {
+            "route": "/api/*",
+            "serve": "/api/index.html"
+        }
+    ],
+    "authentication": {
+        "enabled": true,
+        "unauthenticatedAction": "login"
+    },
+    "authorization": {
+        "allowedRoles": ["authenticated"]
+    },
+    "fallbackRoutes": [
+        {
+            "route": "/**",
+            "serve": "/index.html"
+        }
+    ],
+    "globalHeaders": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+    },
+    "customMiddleware": [
+        {
+            "path": "/api/*",
+            "handler": "@microsoft/middleware-express"
+        }
+    ]
 }
