@@ -9,6 +9,29 @@ export async function fetchInventory(username) {
     return data;
 }
 
+export const getInventory = (username, setData) => {
+    if (username !== "") {
+        fetchInventory(username)
+            .then((json) => {
+                console.log("Fetched Data:", json);
+                setData(
+                    Array.isArray(
+                        json.inventory.ingredients.concat(
+                            json.inventory.cookware
+                        )
+                    )
+                        ? json.inventory.ingredients.concat(
+                              json.inventory.cookware
+                          )
+                        : []
+                );
+            })
+            .catch((error) => {
+                console.error("Error fetching data:", error);
+            });
+    }
+};
+
 export async function postIngredientInventory(username, item) {
     console.log("Posting item:", item);
     try {
@@ -84,6 +107,27 @@ export async function patchInventory(username, item) {
         console.error("Error in patchInventory:", error);
     }
 }
+
+// Delete selected rows
+export const handleDelete = (
+    selectedRows,
+    username,
+    data,
+    setData,
+    setSelectedRows
+) => {
+    const updatedData = Array.isArray(data)
+        ? data.filter((item) => !selectedRows.includes(item))
+        : []; // Filter out selected rows
+    selectedRows.forEach((row) => {
+        console.log(row._id);
+        fetch(`http://localhost:8000/inventory/${username}/${row._id}`, {
+            method: "DELETE"
+        }).catch((error) => console.error("Error deleting item:", error));
+    });
+    setData(updatedData); // Update the data state
+    setSelectedRows([]); // Clear selected rows
+};
 
 export async function addToInventory(
     username,

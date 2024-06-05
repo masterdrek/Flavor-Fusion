@@ -3,12 +3,13 @@ import DataTable from "react-data-table-component";
 import Modal from "../components/Modal";
 import { BsFillPencilFill } from "react-icons/bs";
 import "../styles/Inventory.css";
-import { jwtDecode } from "jwt-decode";
 import {
-    fetchInventory,
+    getInventory,
     patchInventory,
-    addToInventory
+    addToInventory,
+    handleDelete
 } from "../api/inventoryApi";
+import { getUsernameFromToken } from "../utils/utils";
 
 function Inventory() {
     const [filterText, setFilterText] = useState(""); // For filtering items in the table
@@ -21,35 +22,9 @@ function Inventory() {
     const [isNew, setIsNew] = useState(false);
 
     useEffect(() => {
-        const token = sessionStorage.getItem("token");
-        if (token) {
-            setUsername(jwtDecode(token)?.username);
-        } else {
-            setUsername("Guest_User");
-        }
+        setUsername(getUsernameFromToken());
     }, []);
-    const getInventory = (username, setData) => {
-        if (username !== "") {
-            fetchInventory(username)
-                .then((json) => {
-                    console.log("Fetched Data:", json);
-                    setData(
-                        Array.isArray(
-                            json.inventory.ingredients.concat(
-                                json.inventory.cookware
-                            )
-                        )
-                            ? json.inventory.ingredients.concat(
-                                  json.inventory.cookware
-                              )
-                            : []
-                    );
-                })
-                .catch((error) => {
-                    console.error("Error fetching data:", error);
-                });
-        }
-    };
+
     useEffect(() => {
         getInventory(username, setData);
     }, [username]);
@@ -74,21 +49,6 @@ function Inventory() {
             )
         }
     ];
-
-    // Delete selected rows
-    const handleDelete = () => {
-        const updatedData = Array.isArray(data)
-            ? data.filter((item) => !selectedRows.includes(item))
-            : []; // Filter out selected rows
-        selectedRows.forEach((row) => {
-            console.log(row._id);
-            fetch(`http://localhost:8000/inventory/${username}/${row._id}`, {
-                method: "DELETE"
-            }).catch((error) => console.error("Error deleting item:", error));
-        });
-        setData(updatedData); // Update the data state
-        setSelectedRows([]); // Clear selected rows
-    };
 
     // Update selected rows state when rows are selected or deselected
     const handleRowSelected = (state) => {
@@ -178,7 +138,15 @@ function Inventory() {
                 </div>
                 <div className="actions-bar">
                     <button
-                        onClick={handleDelete}
+                        onClick={() =>
+                            handleDelete(
+                                selectedRows,
+                                username,
+                                data,
+                                setData,
+                                setSelectedRows
+                            )
+                        }
                         disabled={selectedRows.length === 0} // Disable delete button if no rows are selected
                     >
                         Delete Selected

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import "../styles/Search.css";
 import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
-import { fetchInventory } from "../api/inventoryApi";
+import { getInventory, fetchInventory } from "../api/inventoryApi";
+import { getUsernameFromToken } from "../utils/utils";
 
 const Search = () => {
     const [query, setQuery] = useState(""); // State to hold the search query entered by the user
@@ -10,8 +11,17 @@ const Search = () => {
     const [filteredRecipes, setFilteredRecipes] = useState([]); // State to hold the list of recipes filtered based on the search query
     const [filter, setFilter] = useState("All"); // State for selected filter
     const [inventory, setInventory] = useState([]); // State to hold the inventory data
+    const [username, setUsername] = useState("");
 
-    // useEffect to fetch recipes when the component mounts
+    useEffect(() => {
+        setUsername(getUsernameFromToken());
+    }, []);
+
+    useEffect(() => {
+        getInventory(username, setInventory);
+    }, [username]);
+
+    // useEffect to fetch recipes when the component loads
     useEffect(() => {
         // Function to fetch recipes from the server
         async function fetchSearchResult() {

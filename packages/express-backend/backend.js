@@ -31,6 +31,8 @@ app.post("/signup", async (req, res) => {
     await registerUser(req, res);
 });
 
+// get a personal list of recipes made by specific user
+
 // get list of all recipes
 app.get("/recipes", async (req, res) => {
     const result = await recipeServices.getRecipes();

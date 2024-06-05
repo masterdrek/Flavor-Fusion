@@ -4,8 +4,11 @@ import { Link, useNavigate } from "react-router-dom";
 import DataTable from "react-data-table-component";
 import Modal from "../components/Modal";
 import { BsFillPencilFill } from "react-icons/bs";
+import { getUsernameFromToken } from "../utils/utils";
 
 function AddRecipe() {
+    // state for currentUser
+    const [username, setUsername] = useState("");
     // State for recipe name
     const [recipeName, setRecipeName] = useState("");
 
@@ -38,21 +41,14 @@ function AddRecipe() {
 
     const navigate = useNavigate();
 
-    const handleRefresh = () => {
-        navigate("/", { replace: true }); // Navigate to the target path
-        navigate(0); // Refresh the page
-    };
-
-    const handleButtonClick = () => {
+    const handleButtonClick = async () => {
         // makes sure there is a recipe name and sets err message if not
         if (!recipeName) {
             setMessage("Recipe name needed");
         } else {
-            handleSaveRecipe(); // Save the recipe\
             navigate("/");
-            setTimeout(() => {
-                handleRefresh(); // Refresh the page after saving
-            }, 0);
+            await handleSaveRecipe(); // Save the recipe\
+            navigate(0); // Refresh the page
         }
     };
 
@@ -123,6 +119,11 @@ function AddRecipe() {
         }
     ];
 
+    // get currentUser
+    useEffect(() => {
+        setUsername(getUsernameFromToken());
+    }, []);
+
     // UseEffect to log state changes
     useEffect(() => {
         console.log("Recipe Name:", recipeName);
@@ -147,7 +148,7 @@ function AddRecipe() {
             ingredients: ingredientData,
             cookware: cookwareData,
             instructions: stepData.map((step) => step.name),
-            creator: "Andrew"
+            creator: username
         };
 
         // Log state data before POST request
