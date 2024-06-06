@@ -44,12 +44,43 @@ function AddRecipe() {
     const handleButtonClick = async () => {
         // makes sure there is a recipe name and sets err message if not
         if (!recipeName) {
-            setMessage("Recipe name needed");
+            alert("Recipe name is required");
         } else {
             navigate("/");
-            await handleSaveRecipe(); // Save the recipe\
+            await handleSaveRecipe(); // Save the recipe
             navigate(0); // Refresh the page
         }
+    };
+
+    // Filter functions
+    const filterIngredients = () => {
+        return ingredientData.filter(
+            (item) =>
+                item.name
+                    .toLowerCase()
+                    .includes(ingredientFilterText.toLowerCase()) ||
+                item.quantity
+                    .toLowerCase()
+                    .includes(ingredientFilterText.toLowerCase())
+        );
+    };
+
+    const filterCookware = () => {
+        return cookwareData.filter(
+            (item) =>
+                item.name
+                    .toLowerCase()
+                    .includes(cookwareFilterText.toLowerCase()) ||
+                item.quantity
+                    .toLowerCase()
+                    .includes(cookwareFilterText.toLowerCase())
+        );
+    };
+
+    const filterSteps = () => {
+        return stepData.filter((item) =>
+            item.name.toLowerCase().includes(stepFilterText.toLowerCase())
+        );
     };
 
     // Ingredient columns for DataTable
@@ -375,7 +406,7 @@ function AddRecipe() {
 
                 <DataTable
                     columns={ingredientColumns}
-                    data={ingredientData}
+                    data={filterIngredients()}
                     selectableRows
                     onSelectedRowsChange={handleIngredientRowSelected}
                     pagination
@@ -436,7 +467,7 @@ function AddRecipe() {
 
                 <DataTable
                     columns={cookwareColumns}
-                    data={cookwareData}
+                    data={filterCookware()}
                     selectableRows
                     onSelectedRowsChange={handleCookwareRowSelected}
                     pagination
@@ -495,7 +526,7 @@ function AddRecipe() {
 
                 <DataTable
                     columns={stepColumns}
-                    data={stepData}
+                    data={filterSteps()}
                     selectableRows
                     onSelectedRowsChange={handleStepRowSelected}
                     pagination

@@ -93,7 +93,11 @@ function SignupForm() {
                 setSuccess(() => true);
                 setMessage("User created");
             } else {
-                setMessage("Token not recieved");
+                if (!firstName) {
+                    setMessage("Please enter your first name");
+                } else {
+                    setMessage("Username already taken.");
+                }
             }
             // sets messages to display if inputs are invalid
         } else if (!validUsername) {
