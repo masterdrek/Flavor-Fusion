@@ -47,7 +47,6 @@ function LoginForm() {
 
     // function to create user and add token to sessionStorage
     async function loginUser(userCreds) {
-        console.log("Authing user:", userCreds);
         try {
             const response = await fetch(API_URL + "/login", {
                 method: "POST",
@@ -127,7 +126,11 @@ function LoginForm() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <button type="submit" className="login-txt login-btn" onClick={() => handleSubmit()}>
+                <button
+                    type="submit"
+                    className="login-txt login-btn"
+                    onClick={() => handleSubmit()}
+                >
                     Log In
                 </button>
             </div>

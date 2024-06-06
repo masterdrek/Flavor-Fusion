@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1717638132017" clover="3.2.0">
+  <project timestamp="1717638132017" name="All files">
+    <metrics statements="19" coveredstatements="19" conditionals="13" coveredconditionals="13" methods="7" coveredmethods="7" elements="39" coveredelements="39" complexity="0" loc="19" ncloc="19" packages="1" files="1" classes="1"/>
+    <file name="Modal.jsx" path="/Users/haoxianliu/Documents/Flavor-Fusion/packages/react-frontend/src/components/Modal.jsx">
+      <metrics statements="19" coveredstatements="19" conditionals="13" coveredconditionals="13" methods="7" coveredmethods="7"/>
+      <line num="13" count="20" type="stmt"/>
+      <line num="14" count="20" type="stmt"/>
+      <line num="15" count="20" type="stmt"/>
+      <line num="17" count="20" type="stmt"/>
+      <line num="18" count="1" type="stmt"/>
+      <line num="19" count="1" type="stmt"/>
+      <line num="22" count="20" type="stmt"/>
+      <line num="23" count="1" type="stmt"/>
+      <line num="24" count="1" type="stmt"/>
+      <line num="27" count="20" type="stmt"/>
+      <line num="28" count="15" type="stmt"/>
+      <line num="29" count="15" type="stmt"/>
+      <line num="32" count="20" type="stmt"/>
+      <line num="33" count="4" type="stmt"/>
+      <line num="34" count="4" type="cond" truecount="2" falsecount="0"/>
+      <line num="41" count="4" type="stmt"/>
+      <line num="44" count="20" type="stmt"/>
+      <line num="56" count="1" type="stmt"/>
+      <line num="67" count="1" type="stmt"/>
+    </file>
+  </project>
+</coverage>

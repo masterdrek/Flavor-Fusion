@@ -57,7 +57,6 @@ function SignupForm() {
 
     // function to create user and add token to sessionStorage
     async function createUser(user) {
-        console.log("Posting user:", user);
         try {
             const response = await fetch(API_URL + "/signup", {
                 method: "POST",
@@ -66,7 +65,6 @@ function SignupForm() {
                 },
                 body: JSON.stringify(user)
             });
-            console.log(response);
             if (response.status !== 201) {
                 throw new Error(`Error posting data: ${response.statusText}`);
             }
