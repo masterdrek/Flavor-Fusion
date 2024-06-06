@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1717638132017" clover="3.2.0">
-  <project timestamp="1717638132017" name="All files">
+<coverage generated="1717638910281" clover="3.2.0">
+  <project timestamp="1717638910281" name="All files">
     <metrics statements="19" coveredstatements="19" conditionals="13" coveredconditionals="13" methods="7" coveredmethods="7" elements="39" coveredelements="39" complexity="0" loc="19" ncloc="19" packages="1" files="1" classes="1"/>
     <file name="Modal.jsx" path="/Users/haoxianliu/Documents/Flavor-Fusion/packages/react-frontend/src/components/Modal.jsx">
       <metrics statements="19" coveredstatements="19" conditionals="13" coveredconditionals="13" methods="7" coveredmethods="7"/>
