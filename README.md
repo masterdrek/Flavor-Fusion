@@ -3,7 +3,8 @@ This is our project, Flavor Fusion!
 For home cooks of all skill levels who want to maximize their kitchen resources and explore new flavors, Flavor Fusion is a website that enhances the home cooking experience by empowering users to filter recipes based on the ingredients they already have. Our goal is to make cooking more accessible and enjoyable for everyone by providing convenient, personalized recipe suggestions that inspire culinary creativity and make the most of available ingredients.  
 
 UI Prototype (5/10/24): https://www.figma.com/proto/R8QC74MJxwIYJE35ga1zXm/Flavor-Fusion?node-id=7-3&starting-point-node-id=7%3A3&scaling=scale-down    
-UML Class Diagram: https://github.com/masterdrek/Flavor-Fusion/wiki
+UML Class Diagram: https://github.com/masterdrek/Flavor-Fusion/wiki  
+Test coverage and UML are in /data folder
 
 How to setup git environment:
  1. Clone github repository
