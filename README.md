@@ -4,7 +4,7 @@ For home cooks of all skill levels who want to maximize their kitchen resources 
 
 UI Prototype (5/10/24): https://www.figma.com/proto/R8QC74MJxwIYJE35ga1zXm/Flavor-Fusion?node-id=7-3&starting-point-node-id=7%3A3&scaling=scale-down    
 UML Class Diagram: https://github.com/masterdrek/Flavor-Fusion/wiki  
-Test coverage and UML are in /data folder
+Test coverage and UML are in /docs folder
 
 How to setup git environment:
  1. Clone github repository
